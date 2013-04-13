@@ -247,7 +247,8 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 			if (this.isLeaf(node)) {
 				@SuppressWarnings("unchecked")
 				prQuadLeaf leaf = (prQuadLeaf) node;
-				node = (leaf.Elements.get(0).equals(elem)) ? null : node;
+				node = (leaf.Elements.remove(elem)) ? leaf : node;
+				node = (leaf.size() == 0) ? null : node;
 			} else {
 				long midx = (xHi + xLo) / 2;
 				long midy = (yHi + yLo) / 2;
