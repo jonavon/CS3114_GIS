@@ -15,6 +15,12 @@ import edu.vt.jowilcox.cs3114.p4.Direction;
  *            User defined spacial structure.
  */
 public class prQuadtree<T extends Compare2D<? super T>> {
+	
+	public static final int BUCKET_CAPACITY = 4;
+
+	prQuadNode root;
+	long xMin, xMax, yMin, yMax;
+
 
 	/**
 	 * You must use a hierarchy of node types with an abstract base class. You
@@ -176,11 +182,6 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 			return this.Elements.size();
 		}
 	}
-
-	public static final int BUCKET_CAPACITY = 2;
-
-	prQuadNode root;
-	long xMin, xMax, yMin, yMax;
 
 	/**
 	 * Initialize quadtree to empty state, representing the specified region.
@@ -409,50 +410,6 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		int i = items.indexOf(elem);
 		T item = (i >= 0) ? items.get(i) : null;
 		return item;
-
-		/*
-		Vector<T> data = new Vector<>(BUCKET_CAPACITY);
-		if (node != null && elem.inBox(xLo, xHi, yLo, yHi)) {
-			if (this.isLeaf(node)) {
-
-				@SuppressWarnings("unchecked")
-				prQuadLeaf leaf = (prQuadLeaf) node;
-				for (T element : leaf.Elements) {
-					if (element.equals(elem)) {
-						data.add(element);
-					}
-				}
-			} else {
-				long midx = (xHi + xLo) / 2;
-				long midy = (yHi + yLo) / 2;
-
-				@SuppressWarnings("unchecked")
-				prQuadInternal internal = (prQuadInternal) node;
-				Direction quadrant = elem.directionFrom(midx, midy);
-				switch (quadrant) {
-				case NE:
-					data.addAll(this.find(elem, internal.NE, midx, xHi, midy,
-							yHi));
-					break;
-				case NW:
-					data.addAll(this.find(elem, internal.NW, xLo, midx, midy,
-							yHi));
-					break;
-				case SW:
-					data.addAll(this.find(elem, internal.SW, xLo, midx, yLo,
-							midy));
-					break;
-				case SE:
-					data.addAll(this.find(elem, internal.SE, midx, xHi, yLo,
-							midy));
-					break;
-				default:
-				}
-			}
-		}
-		return data;
-		*/
-
 	}
 
 	/**
