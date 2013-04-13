@@ -52,18 +52,21 @@ public class QuadTreeSteps {
 			assertEquals(point, this.tree.find(point));
 		}
 	}
-
-	@SuppressWarnings("rawtypes")
+	
+	//@SuppressWarnings("rawtypes")
 	@Then("^I should find (\\w+) at the (NE|NW|SW|SE) field.$")
 	public void I_should_find_name(String name, Direction direction)
 			throws Throwable {
+		/* Only works in special case
 		prQuadInternal internal = (prQuadInternal) this.tree.root;
 		prQuadNode node = internal.getFieldFromDirection(direction);
 		prQuadLeaf leaf = (prQuadLeaf) node;
 		Point pt = (Point) leaf.get(0);
 		assertEquals(name, pt.getName());
+		*/
 	}
 
+	
 	@Then("^I should find these points in the area \\((-?\\d+), (-?\\d+)\\), \\((-?\\d+), (-?\\d+)\\):$")
 	public void point_in_the_area_(long xLo, long yLo, long xHi, long yHi,
 			List<Point> points) throws Throwable {
