@@ -1,7 +1,7 @@
 package edu.vt.jowilcox.cs3114.p4.point;
 
-import edu.vt.jowilcox.cs3114.p4.Compare2D;
-import edu.vt.jowilcox.cs3114.p4.Direction;
+import edu.vt.jowilcox.cs3114.p4.prquadtree.Compare2D;
+import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
 
 /**
  * Implements the interface Compare2D is intended to supply facilities that are

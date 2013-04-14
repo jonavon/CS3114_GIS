@@ -2,9 +2,9 @@ package edu.vt.jowilcox.cs3114.p4.gis;
 
 import java.util.Date;
 
-import edu.vt.jowilcox.cs3114.p4.Direction;
 import edu.vt.jowilcox.cs3114.p4.USStateAbbreviation;
-import edu.vt.jowilcox.cs3114.p4.Compare2D;
+import edu.vt.jowilcox.cs3114.p4.prquadtree.Compare2D;
+import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
 
 /**
  * Class GISRecord Geographic Information System Record; Contains geographic

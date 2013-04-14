@@ -1,4 +1,4 @@
-package edu.vt.jowilcox.cs3114.p4;
+package edu.vt.jowilcox.cs3114.p4.prquadtree;
 
 // The interface Compare2D is intended to supply facilities that are useful in
 // supporting the the use of a generic spatial structure with a user-defined

@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import edu.vt.jowilcox.cs3114.p4.Direction;
+import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
 
 /**
  * Step definitions for point class.

@@ -2,9 +2,6 @@ package edu.vt.jowilcox.cs3114.p4.prquadtree;
 
 import java.util.Vector;
 
-import edu.vt.jowilcox.cs3114.p4.Compare2D;
-import edu.vt.jowilcox.cs3114.p4.Direction;
-
 /**
  * The test harness will belong to the following package; the quadtree
  * implementation must belong to it as well. In addition, the quadtree

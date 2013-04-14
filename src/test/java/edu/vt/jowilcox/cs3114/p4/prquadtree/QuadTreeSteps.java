@@ -8,11 +8,7 @@ import java.util.Vector;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import edu.vt.jowilcox.cs3114.p4.Direction;
 import edu.vt.jowilcox.cs3114.p4.point.Point;
-import edu.vt.jowilcox.cs3114.p4.prquadtree.prQuadtree.prQuadInternal;
-import edu.vt.jowilcox.cs3114.p4.prquadtree.prQuadtree.prQuadLeaf;
-import edu.vt.jowilcox.cs3114.p4.prquadtree.prQuadtree.prQuadNode;
 
 /**
  * @author jonavon
