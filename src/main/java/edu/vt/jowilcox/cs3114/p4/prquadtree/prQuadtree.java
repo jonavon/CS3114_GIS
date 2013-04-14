@@ -12,12 +12,11 @@ import java.util.Vector;
  *            User defined spacial structure.
  */
 public class prQuadtree<T extends Compare2D<? super T>> {
-	
-	public static final int BUCKET_CAPACITY = 4;
+
+	private static final int BUCKET_CAPACITY = 4;
 
 	prQuadNode root;
 	long xMin, xMax, yMin, yMax;
-
 
 	/**
 	 * You must use a hierarchy of node types with an abstract base class. You
@@ -568,5 +567,80 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		}
 		node.setDimensions(xLo, xHi, yLo, yHi);
 		return (prQuadInternal) node;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	public String toString() {
+		return this.print("ROOT", this.root, "", true);
+	}
+
+	public String print(boolean expanded) {
+		return this.print("ROOT", this.root, "", true, expanded);
+	}
+
+	/**
+	 * @param node
+	 * @param prefix
+	 * @param isLast
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private String print(String descriptor, prQuadNode node, String prefix,
+			boolean isLast, boolean expanded) {
+		if (node == null) {
+			return "";
+		}
+		String n = (!expanded && !this.isLeaf(node)) ? "" : " " + node.toString();
+		n = (expanded && this.isLeaf(node)) ? "" : n;
+		String output = this.print(descriptor + n, prefix, isLast);
+		// Change prefix for traversal
+		prefix = prefix + ((isLast) ? "    " : "│   ");
+		if (this.isLeaf(node)) {
+			if (expanded) {
+				prQuadLeaf leaf = (prQuadLeaf) node;
+				int size = leaf.Elements.size();
+				for (int i = 0; i < size; i++) {
+					T element = leaf.Elements.get(i);
+					output += this.print(element.toString(), prefix, (i == (size - 1)));
+				}
+			}
+		} else {
+			prQuadInternal internal = (prQuadInternal) node;
+			output += this.print("NE", internal.NE, prefix, ((internal.NW == null) && (internal.SW == null) && (internal.SE == null)), expanded);
+			output += this.print("NW", internal.NW, prefix, ((internal.SW == null) && (internal.SE == null)), expanded);
+			output += this.print("SW", internal.SW, prefix, ((internal.SE == null)), expanded);
+			output += this.print("SE", internal.SE, prefix, true, expanded);
+		}
+
+		return output;
+	}
+
+	/**
+	 * @param descriptor
+	 * @param node
+	 * @param prefix
+	 * @param isLast
+	 * @return
+	 */
+	private String print(String descriptor, prQuadNode node, String prefix,
+			boolean isLast) {
+		return this.print(descriptor, node, prefix, isLast, false);
+	}
+
+	/**
+	 * @param element
+	 * @param prefix
+	 * @param isLast
+	 * @return
+	 */
+	private String print(String element, String prefix, boolean isLast) {
+		String output = prefix;
+		output += (isLast) ? "└── " : "├── ";
+		output += element + '\n';
+		return output;
 	}
 }

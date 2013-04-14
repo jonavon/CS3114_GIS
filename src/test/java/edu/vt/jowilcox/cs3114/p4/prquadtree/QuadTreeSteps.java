@@ -44,6 +44,8 @@ public class QuadTreeSteps {
 
 	@Then("^I should find:$")
 	public void I_should_find(List<Point> points) throws Throwable {
+		System.out.print(this.tree.toString());
+		System.out.print("\n\n" + this.tree.print(true));
 		for (Point point : points) {
 			assertEquals(point, this.tree.find(point));
 		}
