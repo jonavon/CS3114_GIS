@@ -3,7 +3,6 @@
  */
 package edu.vt.jowilcox.cs3114.p4;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
@@ -21,17 +20,19 @@ import java.util.concurrent.ConcurrentSkipListSet;
  * 
  */
 public class Hashtable<K, V> implements Map<K, V> {
-	static final int INITIAL_CAPACITY = 31;
 	static final float INITIAL_PORTION = 0.70f;
-	static final Integer[] RESIZE_ARRAY = new Integer[] { 53, 97, 193, 389,
+	static final Integer[] RESIZE_ARRAY = new Integer[] { 31, 53, 97, 193, 389,
 			769, 1019, 2027, 4079, 8123, 16267, 32503, 65011, 130027, 260111,
 			520279, 1040387, 2080763, 4161539, 8323151, 16646323 };
+	static final int INITIAL_CAPACITY = RESIZE_ARRAY[0];
 
 	private Entry<K, V>[] table;
-	private int size;
-	private int limit;
 	private float portion;
-	private int collisions;
+	
+	private transient int size;
+	private transient int limit;
+	private transient int collisions;
+	private transient int capacityIndex = 0;
 
 	/** Only used in debugging a printing */
 	private transient int longestk = 4;
@@ -74,8 +75,9 @@ public class Hashtable<K, V> implements Map<K, V> {
 			return this.value;
 		}
 
-		public void delete() {
+		public Entry<L, W> delete() {
 			this.isTombstone = true;
+			return this;
 		}
 
 		public boolean isTombstone() {
@@ -157,9 +159,10 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
+	@SuppressWarnings("unchecked")
 	public V get(Object key) {
-		// TODO Auto-generated method stub
-		return null;
+		Entry<K, V> item = this.find(key);
+		return (item == null)? null : item.getValue();
 	}
 
 	/*
@@ -174,11 +177,11 @@ public class Hashtable<K, V> implements Map<K, V> {
 		this.collisions = 0;
 
 		// Increase the table if we need to before we put a new entry.
-		if (this.size > this.limit) {
+		if (this.size >= this.limit) {
 			this.increaseCapacity();
 		}
-
-		return this.insert(index, new Entry<>(key, value)).getValue();
+		Map.Entry<K, V> inserted = this.insert(index, new Entry<>(key, value));
+		return (inserted == null)? null : inserted.getValue();
 	}
 
 	/**
@@ -208,9 +211,26 @@ public class Hashtable<K, V> implements Map<K, V> {
 		return this.table[index];
 	}
 
+	@SuppressWarnings("unchecked")
 	private void increaseCapacity() {
-		// TODO Auto-generated method stub
-
+		if(++this.capacityIndex == RESIZE_ARRAY.length) {
+			throw new ArrayIndexOutOfBoundsException("We have reached the maximum size of this hash table.");
+		}
+		Entry<K, V>[] old = this.table;
+		int capacity = RESIZE_ARRAY[this.capacityIndex];
+		// reset
+		this.table = new Entry[capacity];
+		this.size = 0;
+		this.limit = ((int) (capacity * this.portion));
+		
+		for(int i = 0; i < old.length; i++) {
+			if(!(old[i] == null || old[i].isTombstone())) {
+				int hash = this.hash(old[i].getKey());
+				int index = hash % this.table.length;
+				this.collisions = 0;
+				this.insert(index, old[i]);
+			}
+		}
 	}
 
 	/*
@@ -220,7 +240,32 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public V remove(Object key) {
-		// TODO Auto-generated method stub
+		Entry<K, V> removed = this.find(key);
+		return (removed == null)? null : removed.getValue();
+	}
+
+	private Entry<K, V> find(Object key) {
+		int hash;
+		if(this.collisions == 0) {
+			hash = this.hash((K) key);
+		}
+		else {
+			this.collisions--; // corrective decrement
+			hash = this.rehash((K) key);
+		}
+		int index = hash % this.table.length;
+		if(!(this.table[index] == null || this.table[index].isTombstone())) {
+			if(key.equals(this.table[index].getKey())) {
+				this.collisions = 0;
+				return this.table[index];
+			}
+			else {
+				// Increment collisions; Don't check more than number of table rows
+				if(this.collisions++ < this.table.length) {
+					return this.find(key);
+				}
+			}
+		}
 		return null;
 	}
 
@@ -328,13 +373,28 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 * 
 	 */
 	private int rehash(K k) {
-		int n = this.collisions++;
+		int n = ++this.collisions;
 		return this.hash(k) + (n * n + n) >> 2;
 	}
 	
 	public String debug() {
-		return this.print();
+		String output ="";
+		output += "    NUMBER OF ITEMS: "+ this.size() + "\n";
+		output += "     TABLE CAPACITY: "+ this.getCapacity() + "\n";
+		output += "        TABLE LIMIT: "+ this.limit + "\n";
+		output += this.print();
+		return output;
 	}
+	
+	private int getCapacity() {
+		return this.table.length;
+	}
+	/**
+	 * Returns a string that contains a human readable version of the hash
+	 * table.
+	 * 
+	 * @return a human readable table.
+	 */
 	private String print() {
 		int k = this.longestk;
 		int v = this.longestv;
@@ -363,40 +423,26 @@ public class Hashtable<K, V> implements Map<K, V> {
 			output.append("├─"); output.append(this.repeatText('─', 8)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
 		}
 		output.append("└─");output.append(this.repeatText('─', 8)); output.append("─┴─"); output.append(this.repeatText('─', k));          output.append("─┴─"); output.append(this.repeatText('─', v));            output.append("─┘\n");
-		
+
 		return output.toString();
 	}
-	
+
 	private String repeatText(char c, int number) {
 		StringBuilder output = new StringBuilder();
-		for(int i = 0; i < number; i++) {
+		for (int i = 0; i < number; i++) {
 			output.append(c);
 		}
 		return output.toString();
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		/*
-		final int maxLen = 10;
-		StringBuilder builder = new StringBuilder();
-		builder.append("Hashtable [table=");
-		builder.append(table != null ? Arrays.asList(table).subList(0,
-				Math.min(table.length, maxLen)) : null);
-		builder.append(", size=");
-		builder.append(size);
-		builder.append(", limit=");
-		builder.append(limit);
-		builder.append(", portion=");
-		builder.append(portion);
-		builder.append(", collisions=");
-		builder.append(collisions);
-		builder.append("]");
-		return builder.toString();
-		*/
-		return this.print();
+		return this.debug();
 	}
 	
 }
