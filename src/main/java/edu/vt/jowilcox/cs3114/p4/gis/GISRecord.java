@@ -376,8 +376,6 @@ public class GISRecord implements Compare2D<GISRecord> {
 	@Override
 	public Direction directionFrom(long X, long Y) {
 		// TODO Auto-generated method stub
-		int[] a; 
-		a = new int[Integer.MAX_VALUE];
 		return null;
 	}
 
