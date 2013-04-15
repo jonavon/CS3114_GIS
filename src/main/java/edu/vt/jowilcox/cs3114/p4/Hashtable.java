@@ -295,8 +295,11 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		Entry<K, V>[] mesa = this.table;
+		for(int i = 0; i < mesa.length; i++) {
+			mesa[i] = null;
+		}
+		this.size = 0;
 	}
 
 	/*

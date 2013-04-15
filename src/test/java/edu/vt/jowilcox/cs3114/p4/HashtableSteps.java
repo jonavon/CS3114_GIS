@@ -115,6 +115,11 @@ public class HashtableSteps {
 	public void the_table_size_should_be(int expectedSize) throws Throwable {
 		assertEquals(expectedSize, this.table.size());
 	}
+	
+	@When("^clear the table$")
+	public void clear_the_table() throws Throwable {
+		this.table.clear();
+	}
 
 
 }
