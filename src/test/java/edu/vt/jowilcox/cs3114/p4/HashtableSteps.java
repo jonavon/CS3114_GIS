@@ -1,7 +1,6 @@
 package edu.vt.jowilcox.cs3114.p4;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -55,6 +54,10 @@ public class HashtableSteps {
 		public void setValue(Integer value) {
 			this.value = value;
 		}
+		
+		public String toString() {
+			return this.key;
+		}
 	}
 
 	@Given("^I have a hash table$")
@@ -68,6 +71,13 @@ public class HashtableSteps {
 			this.table.put(entry.getKey(), entry.getValue());
 		}
 	}
+	
+	@When("^I remove values:$")
+	public void I_remove_values(List<Entry> entries) throws Throwable {
+		for (Entry entry : entries) {
+			this.table.remove(entry.getKey());
+		}
+	}
 
 	@Then("^I should find these values:$")
 	public void I_should_find_these_values(List<Entry> entries)
@@ -77,6 +87,14 @@ public class HashtableSteps {
 		}
 	}
 
+	@Then("^I should not find these values:$")
+	public void I_should_not_find_these_values(List<Entry> entries)
+			throws Throwable {
+		for (Entry entry : entries) {
+			assertNull(this.table.get(entry.getKey()));
+		}
+	}
+	
 	@When("^when I put a value (\\d+) with key \"([^\"]*)\"$")
 	public void when_I_put_a_value_with_key(int value, String key)
 			throws Throwable {
@@ -92,5 +110,11 @@ public class HashtableSteps {
 
 		assertTrue(current > this.table.INITIAL_CAPACITY);
 	}
+	
+	@Then("^the table size should be (\\d+)$")
+	public void the_table_size_should_be(int expectedSize) throws Throwable {
+		assertEquals(expectedSize, this.table.size());
+	}
+
 
 }

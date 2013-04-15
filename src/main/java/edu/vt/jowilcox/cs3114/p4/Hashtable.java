@@ -241,7 +241,11 @@ public class Hashtable<K, V> implements Map<K, V> {
 	@Override
 	public V remove(Object key) {
 		Entry<K, V> removed = this.find(key);
-		return (removed == null)? null : removed.getValue();
+		if(removed != null) {
+			this.size--;
+			return removed.delete().getValue();
+		}
+		return null;
 	}
 
 	private Entry<K, V> find(Object key) {
@@ -254,8 +258,8 @@ public class Hashtable<K, V> implements Map<K, V> {
 			hash = this.rehash((K) key);
 		}
 		int index = hash % this.table.length;
-		if(!(this.table[index] == null || this.table[index].isTombstone())) {
-			if(key.equals(this.table[index].getKey())) {
+		if((this.table[index] != null)) {
+			if(!this.table[index].isTombstone() && key.equals(this.table[index].getKey())) {
 				this.collisions = 0;
 				return this.table[index];
 			}
@@ -266,6 +270,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 				}
 			}
 		}
+		this.collisions = 0; // reset
 		return null;
 	}
 

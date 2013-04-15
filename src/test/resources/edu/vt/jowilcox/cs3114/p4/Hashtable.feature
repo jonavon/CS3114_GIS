@@ -98,7 +98,7 @@ Scenario: Increase table size.
 		And when I put a value 1 with key "one" 
 	Then the internal table size should increase
 
-Scenario: Remove item from table.
+Scenario: Remove items from table.
 	Given I have a hash table
 	When I put several values:
 		| key           | value |
@@ -123,26 +123,12 @@ Scenario: Remove item from table.
 		| fifty-eight   | 58    |
 		| twenty-five   | 25    |
 		| seventy-one   | 71    |
-		And when I remove  values:
+		And I remove values:
 			| key           | value |
-			| thirty-four   | 34    |
-			| forty         | 40    |
-			| thirty-five   | 35    |
-			| twenty-two    | 22    |
-			| seventy-six   | 76    |
-			| thirty-eight  | 38    |
-			| thirty-nine   | 39    |
-			| thirteen      | 13    |
-			| seventy-seven | 77    |
-			| sixty-five    | 65    |
-			| eighty-nine   | 89    |
-			| nineteen      | 19    |
-			| thirty-seven  | 37    |
-			| twelve        | 12    |
-			| fifty-eight   | 58    |
-			| twenty-five   | 25    |
-			| seventy-one   | 71    |
-	Then the internal table size should increase
+			| thirty-two    | 32    |
+			| eight         | 8     |
+			| thirty-three  | 33    |
+			| nine          | 9     |
 	Then I should not find these values:
 		| key           | value |
 		| thirty-two    | 32    |
@@ -168,6 +154,71 @@ Scenario: Remove item from table.
 			| fifty-eight   | 58    |
 			| twenty-five   | 25    |
 			| seventy-one   | 71    |
+		And the table size should be 17
+
+Scenario: Remove items from table and then add them back.
+	Given I have a hash table
+	When I put several values:
+		| key           | value |
+		| thirty-four   | 34    |
+		| forty         | 40    |
+		| thirty-five   | 35    |
+		| twenty-two    | 22    |
+		| seventy-six   | 76    |
+		| thirty-eight  | 38    |
+		| thirty-two    | 32    |
+		| thirty-nine   | 39    |
+		| nine          | 9     |
+		| thirteen      | 13    |
+		| thirty-three  | 33    |
+		| seventy-seven | 77    |
+		| eight         | 8     |
+		| sixty-five    | 65    |
+		| eighty-nine   | 89    |
+		| nineteen      | 19    |
+		| thirty-seven  | 37    |
+		| twelve        | 12    |
+		| fifty-eight   | 58    |
+		| twenty-five   | 25    |
+		| seventy-one   | 71    |
+		And I remove values:
+			| key           | value |
+			| thirty-two    | 32    |
+			| eight         | 8     |
+			| thirty-three  | 33    |
+			| nine          | 9     |
+	And I put several values:
+		| key           | value |
+		| thirty-two    | 32    |
+		| eight         | 8     |
+		| thirty-three  | 33    |
+		| nine          | 9     |
+	Then I should find these values:
+		| key           | value |
+		| thirty-two    | 32    |
+		| eight         | 8     |
+		| thirty-three  | 33    |
+		| nine          | 9     |
+		And I should find these values:
+			| key           | value |
+			| thirty-four   | 34    |
+			| forty         | 40    |
+			| thirty-five   | 35    |
+			| twenty-two    | 22    |
+			| seventy-six   | 76    |
+			| thirty-eight  | 38    |
+			| thirty-nine   | 39    |
+			| thirteen      | 13    |
+			| seventy-seven | 77    |
+			| sixty-five    | 65    |
+			| eighty-nine   | 89    |
+			| nineteen      | 19    |
+			| thirty-seven  | 37    |
+			| twelve        | 12    |
+			| fifty-eight   | 58    |
+			| twenty-five   | 25    |
+			| seventy-one   | 71    |
+		And the table size should be 21
 
 #  HASH TABLE Display
 #  
