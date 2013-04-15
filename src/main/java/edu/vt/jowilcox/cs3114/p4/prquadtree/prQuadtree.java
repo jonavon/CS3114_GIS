@@ -9,7 +9,7 @@ import java.util.Vector;
  * members so that the test harness may have access to it.
  * 
  * @param <T>
- *            User defined spacial structure.
+ *          User defined spacial structure.
  */
 public class prQuadtree<T extends Compare2D<? super T>> {
 
@@ -19,9 +19,9 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	long xMin, xMax, yMin, yMax;
 
 	/**
-	 * You must use a hierarchy of node types with an abstract base class. You
-	 * may use different names for the node types if you like (change
-	 * displayHelper() accordingly).
+	 * You must use a hierarchy of node types with an abstract base class. You may
+	 * use different names for the node types if you like (change displayHelper()
+	 * accordingly).
 	 */
 	abstract class prQuadNode {
 	}
@@ -39,13 +39,13 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		 * Sets the world dimensions for this internal node.
 		 * 
 		 * @param x
-		 *            abscissa value of the south west corner of the region.
+		 *          abscissa value of the south west corner of the region.
 		 * @param a
-		 *            abscissa value of the north east corner of the region.
+		 *          abscissa value of the north east corner of the region.
 		 * @param y
-		 *            ordinate value of the south west corner of the region.
+		 *          ordinate value of the south west corner of the region.
 		 * @param b
-		 *            ordinate value of the north east corner of the region.
+		 *          ordinate value of the north east corner of the region.
 		 */
 		public void setDimensions(long x, long a, long y, long b) {
 			this.x = x;
@@ -55,8 +55,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		}
 
 		/**
-		 * Returns the world dimensions of this internal node. Used in
-		 * debugging.
+		 * Returns the world dimensions of this internal node. Used in debugging.
 		 * 
 		 * @return String showing the world dimensions.
 		 */
@@ -69,22 +68,22 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		 * Returns a class field based off the direction enum given.
 		 * 
 		 * @param direction
-		 *            Enum value from package {@link Direction}
+		 *          Enum value from package {@link Direction}
 		 * @return prQuadNode a class field.
 		 */
 		public prQuadNode getFieldFromDirection(Direction direction) {
 			switch (direction) {
-			case NE:
-				return this.NE;
-			case NW:
-				return this.NW;
-			case SW:
-				return this.SW;
-			case SE:
-				return this.SE;
-			default:
-				throw new RuntimeException(
-						"No field found for this direction: " + direction);
+				case NE:
+					return this.NE;
+				case NW:
+					return this.NW;
+				case SW:
+					return this.SW;
+				case SE:
+					return this.SE;
+				default:
+					throw new RuntimeException("No field found for this direction: "
+					    + direction);
 			}
 		}
 
@@ -103,8 +102,8 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		}
 
 		/**
-		 * If this node is a candidate for compression, this method will return
-		 * the leaf node to replace it with.
+		 * If this node is a candidate for compression, this method will return the
+		 * leaf node to replace it with.
 		 * 
 		 * @return prQuadNode this node or a single child leaf node.
 		 */
@@ -139,12 +138,10 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		Vector<T> Elements = new Vector<T>(prQuadtree.BUCKET_CAPACITY);
 
 		/**
-		 * Constructor.
-		 * 
-		 * Takes an element and stores it in the field for this object.
+		 * Constructor. Takes an element and stores it in the field for this object.
 		 * 
 		 * @param element
-		 *            The element that will be stored in this leaf node.
+		 *          The element that will be stored in this leaf node.
 		 */
 		public prQuadLeaf(T element) {
 			this.Elements.add(element);
@@ -154,7 +151,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		 * Returns element at specified index of the bucket.
 		 * 
 		 * @param index
-		 *            the index of the element.
+		 *          the index of the element.
 		 * @return the element at specified index.
 		 */
 		public T get(int index) throws ArrayIndexOutOfBoundsException {
@@ -183,13 +180,13 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * Initialize quadtree to empty state, representing the specified region.
 	 * 
 	 * @param xMin
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xMax
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yMin
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yMax
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 */
 	public prQuadtree(long xMin, long xMax, long yMin, long yMax) {
 		this.xMin = xMin;
@@ -203,17 +200,18 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * element occurs in the tree, then that element has been removed.
 	 * 
 	 * @param elem
-	 *            Element to delete.
+	 *          Element to delete.
 	 * @return true iff a matching element has been removed from the tree.
 	 */
 	public boolean delete(T elem) {
 		assert elem != null : "Element is null";
 		boolean deleted;
 		try {
-			this.root = this.delete(elem, this.root, this.xMin, this.xMax,
-					this.yMin, this.yMax);
+			this.root = this.delete(elem, this.root, this.xMin, this.xMax, this.yMin,
+			    this.yMax);
 			deleted = true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			deleted = false;
 		}
 		return deleted;
@@ -224,51 +222,48 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * tree.
 	 * 
 	 * @param elem
-	 *            Element to delete.
+	 *          Element to delete.
 	 * @param node
-	 *            starting node to search for element to delete.
+	 *          starting node to search for element to delete.
 	 * @param xLo
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xHi
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yLo
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yHi
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 * @return node that will replace the deleted element.
 	 */
 	private prQuadNode delete(T elem, prQuadNode node, long xLo, long xHi,
-			long yLo, long yHi) {
+	    long yLo, long yHi) {
 		if (node != null) {
 			if (this.isLeaf(node)) {
 				@SuppressWarnings("unchecked")
 				prQuadLeaf leaf = (prQuadLeaf) node;
 				node = (leaf.Elements.remove(elem)) ? leaf : node;
 				node = (leaf.size() == 0) ? null : node;
-			} else {
+			}
+			else {
 				long midx = (xHi + xLo) / 2;
 				long midy = (yHi + yLo) / 2;
 				@SuppressWarnings("unchecked")
 				prQuadInternal internal = (prQuadInternal) node;
 				Direction quadrant = elem.directionFrom(midx, midy);
 				switch (quadrant) {
-				case NE:
-					internal.NE = this.delete(elem, internal.NE, midx, xHi,
-							midy, yHi);
+					case NE:
+						internal.NE = this.delete(elem, internal.NE, midx, xHi, midy, yHi);
 					break;
-				case NW:
-					internal.NW = this.delete(elem, internal.NW, xLo, midx,
-							midy, yHi);
+					case NW:
+						internal.NW = this.delete(elem, internal.NW, xLo, midx, midy, yHi);
 					break;
-				case SW:
-					internal.SW = this.delete(elem, internal.SW, xLo, midx,
-							yLo, midy);
+					case SW:
+						internal.SW = this.delete(elem, internal.SW, xLo, midx, yLo, midy);
 					break;
-				case SE:
-					internal.SE = this.delete(elem, internal.SE, midx, xHi,
-							yLo, midy);
+					case SE:
+						internal.SE = this.delete(elem, internal.SE, midx, xHi, yLo, midy);
 					break;
-				default:
+					default:
 				}
 				node = internal.compressMe();
 			}
@@ -277,19 +272,19 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	}
 
 	/**
-	 * Pre: xLo, xHi, yLo and yHi define a rectangular region Returns a
-	 * collection of (references to) all elements x such that x is in the tree
-	 * and x lies at coordinates within the defined rectangular region,
-	 * including the boundary of the region.
+	 * Pre: xLo, xHi, yLo and yHi define a rectangular region Returns a collection
+	 * of (references to) all elements x such that x is in the tree and x lies at
+	 * coordinates within the defined rectangular region, including the boundary
+	 * of the region.
 	 * 
 	 * @param xLo
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xHi
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yLo
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yHi
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 * @return Vector<T> list of elements that are within the region.
 	 */
 	public Vector<T> find(long xLo, long xHi, long yLo, long yHi) {
@@ -300,19 +295,18 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * Helper method to recursively search for valid elements after node.
 	 * 
 	 * @param node
-	 *            starting node.
+	 *          starting node.
 	 * @param xLo
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xHi
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yLo
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yHi
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 * @return Vector<T> list of elements that are within the region.
 	 */
-	private Vector<T> find(prQuadNode node, long xLo, long xHi, long yLo,
-			long yHi) {
+	private Vector<T> find(prQuadNode node, long xLo, long xHi, long yLo, long yHi) {
 		Vector<T> results = new Vector<T>();
 		if (node != null) {
 			boolean overlaps = this.overlaps(xLo, xHi, yLo, yHi);
@@ -325,26 +319,23 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 							results.add(item);
 						}
 					}
-				} else {
+				}
+				else {
 					long midx = (xHi + xLo) / 2;
 					long midy = (yHi + yLo) / 2;
 					@SuppressWarnings("unchecked")
 					prQuadInternal internal = (prQuadInternal) node;
 					if (this.overlaps(midx, xHi, midy, yHi)) {
-						results.addAll(this.find(internal.NE, xLo, xHi, yLo,
-								yHi));
+						results.addAll(this.find(internal.NE, xLo, xHi, yLo, yHi));
 					}
 					if (this.overlaps(xLo, midx, midy, yHi)) {
-						results.addAll(this.find(internal.NW, xLo, xHi, yLo,
-								yHi));
+						results.addAll(this.find(internal.NW, xLo, xHi, yLo, yHi));
 					}
 					if (this.overlaps(xLo, midx, yLo, midy)) {
-						results.addAll(this.find(internal.SW, xLo, xHi, yLo,
-								yHi));
+						results.addAll(this.find(internal.SW, xLo, xHi, yLo, yHi));
 					}
 					if (this.overlaps(midx, xHi, yLo, midy)) {
-						results.addAll(this.find(internal.SE, xLo, xHi, yLo,
-								yHi));
+						results.addAll(this.find(internal.SE, xLo, xHi, yLo, yHi));
 					}
 				}
 			}
@@ -356,13 +347,13 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * Checks to see if coordinates overlap this tree's region.
 	 * 
 	 * @param xLo
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xHi
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yLo
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yHi
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 * @return true if regions overlap.
 	 */
 	private boolean overlaps(long xLo, long xHi, long yLo, long yHi) {
@@ -371,38 +362,37 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 
 	/**
 	 * Pre: elem != null Returns reference to an element x within the tree such
-	 * that elem.equals(x)is true, provided such a matching element occurs
-	 * within the tree; returns null otherwise.
+	 * that elem.equals(x)is true, provided such a matching element occurs within
+	 * the tree; returns null otherwise.
 	 * 
 	 * @param elem
-	 *            Element to find within tree.
+	 *          Element to find within tree.
 	 * @return reference to an element x within the tree.
 	 */
 	public T find(T elem) {
 		assert elem != null : "Element cannot be null";
 		return this.find(elem, this.root, this.xMin, this.xMax, this.yMin,
-				this.yMax);
+		    this.yMax);
 	}
 
 	/**
 	 * Helper function to find an element with this tree.
 	 * 
 	 * @param elem
-	 *            Element to find within tree.
+	 *          Element to find within tree.
 	 * @param node
-	 *            Node to start search from.
+	 *          Node to start search from.
 	 * @param xLo
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xHi
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yLo
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yHi
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 * @return reference to an element x within the tree.
 	 */
-	private T find(T elem, prQuadNode node, long xLo, long xHi, long yLo,
-			long yHi) {
+	private T find(T elem, prQuadNode node, long xLo, long xHi, long yLo, long yHi) {
 		Vector<T> items = this.find(node, xLo, xHi, yLo, yHi);
 		int i = items.indexOf(elem);
 		T item = (i >= 0) ? items.get(i) : null;
@@ -410,11 +400,11 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	}
 
 	/**
-	 * Pre: elem != null Post: If elem lies within the tree's region, and elem
-	 * is not already present in the tree, elem has been inserted into the tree.
+	 * Pre: elem != null Post: If elem lies within the tree's region, and elem is
+	 * not already present in the tree, elem has been inserted into the tree.
 	 * 
 	 * @param elem
-	 *            Element to insert within tree.
+	 *          Element to insert within tree.
 	 * @return true iff elem is inserted into the tree.
 	 */
 	public boolean insert(T elem) {
@@ -423,10 +413,11 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		}
 		boolean inserted;
 		try {
-			this.root = this.insert(elem, this.root, this.xMin, this.xMax,
-					this.yMin, this.yMax);
+			this.root = this.insert(elem, this.root, this.xMin, this.xMax, this.yMin,
+			    this.yMax);
 			inserted = true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			inserted = false;
 		}
 		return inserted;
@@ -436,47 +427,51 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * Helper function to insert an element into a tree.
 	 * 
 	 * @param elem
-	 *            Element to insert within tree.
+	 *          Element to insert within tree.
 	 * @param node
-	 *            Node to start search from.
+	 *          Node to start search from.
 	 * @param xLo
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xHi
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yLo
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yHi
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 * @return prQuadNode new root node.
 	 */
 	@SuppressWarnings("unchecked")
 	private prQuadNode insert(T elem, prQuadNode node, long xLo, long xHi,
-			long yLo, long yHi) {
+	    long yLo, long yHi) {
 		// does the element belong?
 		if (elem.inBox(xLo, xHi, yLo, yHi)) {
 			// empty node?
 			if (node == null) {
 				// insert into prQuadLeaf
 				node = new prQuadLeaf(elem);
-			} else {
+			}
+			else {
 				// leaf node?
 				if (this.isLeaf(node)) {
 					prQuadLeaf leaf = ((prQuadLeaf) node);
 					if (leaf.size() < BUCKET_CAPACITY) {
 						leaf.Elements.add(elem);
 						node = leaf;
-					} else {
-						node = this.partitionLeaf(node, xLo, xHi, yLo, yHi);
-						node = this.inserttElementAtInternal(elem,
-								(prQuadInternal) node, xLo, xHi, yLo, yHi);
 					}
-				} else {
+					else {
+						node = this.partitionLeaf(node, xLo, xHi, yLo, yHi);
+						node = this.inserttElementAtInternal(elem, (prQuadInternal) node,
+						    xLo, xHi, yLo, yHi);
+					}
+				}
+				else {
 					// internal node
-					node = this.inserttElementAtInternal(elem,
-							(prQuadInternal) node, xLo, xHi, yLo, yHi);
+					node = this.inserttElementAtInternal(elem, (prQuadInternal) node,
+					    xLo, xHi, yLo, yHi);
 				}
 			}
-		} else {
+		}
+		else {
 			throw new RuntimeException("Element could not be inserted.");
 		}
 		return node;
@@ -486,7 +481,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * Return true if node type is a leaf.
 	 * 
 	 * @param node
-	 *            Node that will be tested.
+	 *          Node that will be tested.
 	 * @return true if node is a leaf.
 	 */
 	private boolean isLeaf(prQuadNode node) {
@@ -497,27 +492,27 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * Helper method that will break a leaf node into an internal node.
 	 * 
 	 * @param node
-	 *            Node to partition.
+	 *          Node to partition.
 	 * @param xLo
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xHi
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yLo
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yHi
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 * @return prQuadInternal new root node.
 	 */
 	private prQuadInternal partitionLeaf(prQuadNode node, long xLo, long xHi,
-			long yLo, long yHi) {
+	    long yLo, long yHi) {
 		assert this.isLeaf(node) : "Node is not a leaf node.";
 
 		@SuppressWarnings("unchecked")
 		prQuadLeaf leaf = (prQuadLeaf) node;
 		prQuadInternal internal = new prQuadInternal();
 		for (T element : leaf.Elements) {
-			internal = this.inserttElementAtInternal(element, internal, xLo,
-					xHi, yLo, yHi);
+			internal = this.inserttElementAtInternal(element, internal, xLo, xHi,
+			    yLo, yHi);
 		}
 		// T element = leaf.Elements.elementAt(0);
 		return internal;
@@ -525,24 +520,24 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 
 	/**
 	 * Helper method that inserts an element into the appropriate position of an
-	 * internal node
+	 * internal node.
 	 * 
 	 * @param elem
-	 *            element to insert.
+	 *          element to insert.
 	 * @param node
-	 *            Node to partition.
+	 *          Node to partition.
 	 * @param xLo
-	 *            abscissa value of the south west corner of the region.
+	 *          abscissa value of the south west corner of the region.
 	 * @param xHi
-	 *            abscissa value of the north east corner of the region.
+	 *          abscissa value of the north east corner of the region.
 	 * @param yLo
-	 *            ordinate value of the south west corner of the region.
+	 *          ordinate value of the south west corner of the region.
 	 * @param yHi
-	 *            ordinate value of the north east corner of the region.
+	 *          ordinate value of the north east corner of the region.
 	 * @return prQuadInternal new root node.
 	 */
-	private prQuadInternal inserttElementAtInternal(T elem,
-			prQuadInternal node, long xLo, long xHi, long yLo, long yHi) {
+	private prQuadInternal inserttElementAtInternal(T elem, prQuadInternal node,
+	    long xLo, long xHi, long yLo, long yHi) {
 		assert !this.isLeaf(node) : "Node is a leaf node.";
 
 		long midx = (xHi + xLo) / 2;
@@ -551,19 +546,19 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		// new internal node that points to leaf
 		Direction quadrant = elem.directionFrom(midx, midy);
 		switch (quadrant) {
-		case NE:
-			node.NE = this.insert(elem, node.NE, midx, xHi, midy, yHi);
+			case NE:
+				node.NE = this.insert(elem, node.NE, midx, xHi, midy, yHi);
 			break;
-		case NW:
-			node.NW = this.insert(elem, node.NW, xLo, midx, midy, yHi);
+			case NW:
+				node.NW = this.insert(elem, node.NW, xLo, midx, midy, yHi);
 			break;
-		case SW:
-			node.SW = this.insert(elem, node.SW, xLo, midx, yLo, midy);
+			case SW:
+				node.SW = this.insert(elem, node.SW, xLo, midx, yLo, midy);
 			break;
-		case SE:
-			node.SE = this.insert(elem, node.SE, midx, xHi, yLo, midy);
+			case SE:
+				node.SE = this.insert(elem, node.SE, midx, xHi, yLo, midy);
 			break;
-		default:
+			default:
 		}
 		node.setDimensions(xLo, xHi, yLo, yHi);
 		return (prQuadInternal) node;
@@ -571,26 +566,34 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		return this.print("ROOT", this.root, "", true);
 	}
 
+	/**
+	 * Print a tree of nodes.
+	 * @param expanded Show more detail if true. 
+	 * @return a String containing the printed tree.
+	 */
 	public String print(boolean expanded) {
 		return this.print("ROOT", this.root, "", true, expanded);
 	}
 
 	/**
-	 * @param node
-	 * @param prefix
-	 * @param isLast
-	 * @return
+	 * Print a tree of nodes.
+	 * @param descriptor Help text to describe item printed.
+	 * @param node Current printed node.
+	 * @param prefix String prefix for this printed item.
+	 * @param isLast true if last item.
+	 * @param expanded Show more detail if true. 
+	 * @return a String containing the printed tree.
 	 */
 	@SuppressWarnings("unchecked")
 	private String print(String descriptor, prQuadNode node, String prefix,
-			boolean isLast, boolean expanded) {
+	    boolean isLast, boolean expanded) {
 		if (node == null) {
 			return "";
 		}
@@ -609,7 +612,8 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 					output.append(this.print(element.toString(), prefix, (i == (size - 1))));
 				}
 			}
-		} else {
+		}
+		else {
 			prQuadInternal internal = (prQuadInternal) node;
 			output.append(this.print("NE", internal.NE, prefix, ((internal.NW == null) && (internal.SW == null) && (internal.SE == null)), expanded));
 			output.append(this.print("NW", internal.NW, prefix, ((internal.SW == null) && (internal.SE == null)), expanded));
@@ -621,22 +625,24 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	}
 
 	/**
-	 * @param descriptor
-	 * @param node
-	 * @param prefix
-	 * @param isLast
-	 * @return
+	 * Print a tree of nodes.
+	 * @param descriptor Help text to describe item printed.
+	 * @param node Current printed node.
+	 * @param prefix String prefix for this printed item.
+	 * @param isLast true if last item.
+	 * @return a String containing the printed tree.
 	 */
 	private String print(String descriptor, prQuadNode node, String prefix,
-			boolean isLast) {
+	    boolean isLast) {
 		return this.print(descriptor, node, prefix, isLast, false);
 	}
-
+	
 	/**
-	 * @param element
-	 * @param prefix
-	 * @param isLast
-	 * @return
+	 * Print a tree of nodes.
+	 * @param element String to print.
+	 * @param prefix String prefix for this printed item.
+	 * @param isLast true if last item.
+	 * @return a String containing the printed row.
 	 */
 	private String print(String element, String prefix, boolean isLast) {
 		String output = prefix;
