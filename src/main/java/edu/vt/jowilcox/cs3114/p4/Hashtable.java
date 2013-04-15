@@ -20,11 +20,16 @@ import java.util.concurrent.ConcurrentSkipListSet;
  *            Value
  * 
  */
+/**
+ * @author "Jonavon Wilcox <jowilcox@vt.edu>"
+ * @param <K>
+ * @param <V>
+ */
 public class Hashtable<K, V> implements Map<K, V> {
 	static final float INITIAL_PORTION = 0.70f;
 	static final Integer[] RESIZE_ARRAY = new Integer[] { 31, 53, 97, 193, 389,
-			769, 1019, 2027, 4079, 8123, 16267, 32503, 65011, 130027, 260111,
-			520279, 1040387, 2080763, 4161539, 8323151, 16646323 };
+	    769, 1019, 2027, 4079, 8123, 16267, 32503, 65011, 130027, 260111, 520279,
+	    1040387, 2080763, 4161539, 8323151, 16646323 };
 	static final int INITIAL_CAPACITY = RESIZE_ARRAY[0];
 
 	private Entry<K, V>[] table;
@@ -35,73 +40,108 @@ public class Hashtable<K, V> implements Map<K, V> {
 	private transient int collisions;
 	private transient int capacityIndex = 0;
 
-	/** Only used in debugging a printing */
+	/** Only used in debugging a printing. */
 	private transient int longestk = 4;
-	/** Only used in debugging a printing */
+	/** Only used in debugging a printing. */
 	private transient int longestv = 6;
 
 	/**
 	 * @author "Jonavon Wilcox <jowilcox@vt.edu>"
-	 * 
 	 * @param <L>
 	 * @param <W>
 	 */
 	private class Entry<L, W> implements Map.Entry<L, W> {
-		private L key;
+		private final L key;
 		private W value;
 		/**
-		 * This object can be allocated to hold a spot after it's values have
-		 * been deleted.
+		 * This object can be allocated to hold a spot after it's values have been
+		 * deleted.
 		 */
 		private boolean isTombstone;
 
+		/**
+		 * Constructor for entry.
+		 * @param key Key for this entry.
+		 * @param value value to be stored along with key.
+		 */
 		public Entry(final L key, W value) {
 			this.key = key;
 			this.setValue(value);
 			this.isTombstone = false;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.util.Map.Entry#getKey()
+		 */
 		@Override
 		public L getKey() {
 			return this.key;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.util.Map.Entry#getValue()
+		 */
 		@Override
 		public W getValue() {
 			return this.value;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.util.Map.Entry#setValue(java.lang.Object)
+		 */
 		@Override
 		public W setValue(W value) {
 			this.value = value;
 			return this.value;
 		}
 
+		/**
+		 * Sets this Entry as a tombstone.
+		 * @return the Entry object.
+		 */
 		public Entry<L, W> delete() {
 			this.isTombstone = true;
 			return this;
 		}
 
+		/**
+		 * Determine if object has been deleted.
+		 * @return boolean True of object has been deleted.
+		 */
 		public boolean isTombstone() {
 			return this.isTombstone;
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Object#toString()
+		 */
+		@Override
 		public String toString() {
 			return this.getKey().toString();
 		}
 	}
 
 	/**
-	 * 
+	 * Constructor; generate hash table with the default capacity and default load
+	 * factor.
 	 */
 	public Hashtable() {
 		this(INITIAL_CAPACITY);
 	}
 
+	/**
+	 * Constructor; generate hash table with specified capacity and default load factor.
+	 * @param capacity Initial capacity.
+	 */
 	public Hashtable(int capacity) {
 		this(capacity, INITIAL_PORTION);
 	}
 
+	/**
+	 * Generate hash table.
+	 * @param capacity initial capacity.
+	 * @param portion default load factor.
+	 */
 	@SuppressWarnings("unchecked")
 	public Hashtable(int capacity, float portion) {
 		capacity = (capacity < INITIAL_CAPACITY) ? INITIAL_CAPACITY : capacity;
@@ -112,7 +152,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#size()
 	 */
 	@Override
@@ -122,7 +161,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#isEmpty()
 	 */
 	@Override
@@ -132,7 +170,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#containsKey(java.lang.Object)
 	 */
 	@Override
@@ -142,7 +179,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#containsValue(java.lang.Object)
 	 */
 	@Override
@@ -157,7 +193,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
@@ -168,7 +203,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#put(java.lang.Object, java.lang.Object)
 	 */
 	@Override
@@ -186,9 +220,10 @@ public class Hashtable<K, V> implements Map<K, V> {
 	}
 
 	/**
-	 * @param index
-	 * @param entry
-	 * @return
+	 * Insert entry into the table.
+	 * @param index position to insert the entry.
+	 * @param entry Entry to be inserted.
+	 * @return The entry that is inserted or null if failed.
 	 */
 	private Map.Entry<K, V> insert(int index, Entry<K, V> entry) {
 		if (this.table[index] == null || this.table[index].isTombstone()) {
@@ -199,12 +234,14 @@ public class Hashtable<K, V> implements Map<K, V> {
 			this.longestv = (m > this.longestv) ? m : this.longestv;
 			this.size++;
 			this.collisions = 0;
-		} else {
+		}
+		else {
 			int hash = this.rehash(entry.getKey());
 			int idx = hash % this.table.length;
 			if (this.collisions < this.table.length) {
 				return this.insert(idx, entry);
-			} else {
+			}
+			else {
 				// Hash table is full
 				return null;
 			}
@@ -212,11 +249,14 @@ public class Hashtable<K, V> implements Map<K, V> {
 		return this.table[index];
 	}
 
+	/**
+	 * Increase the size of the internal array based on {@link #RESIZE_ARRAY}.
+	 */
 	@SuppressWarnings("unchecked")
 	private void increaseCapacity() {
 		if (++this.capacityIndex == RESIZE_ARRAY.length) {
 			throw new ArrayIndexOutOfBoundsException(
-					"We have reached the maximum size of this hash table.");
+			    "We have reached the maximum size of this hash table.");
 		}
 		Entry<K, V>[] old = this.table;
 		int capacity = RESIZE_ARRAY[this.capacityIndex];
@@ -237,7 +277,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#remove(java.lang.Object)
 	 */
 	@Override
@@ -250,22 +289,29 @@ public class Hashtable<K, V> implements Map<K, V> {
 		return null;
 	}
 
+	/**
+	 * Find an Entry based on key.
+	 * @param key key to search with.
+	 * @return the Entry found or null if failed.
+	 */
 	@SuppressWarnings("unchecked")
 	private Entry<K, V> find(Object key) {
 		int hash;
 		if (this.collisions == 0) {
 			hash = this.hash((K) key);
-		} else {
+		}
+		else {
 			this.collisions--; // corrective decrement
 			hash = this.rehash((K) key);
 		}
 		int index = hash % this.table.length;
 		if ((this.table[index] != null)) {
 			if (!this.table[index].isTombstone()
-					&& key.equals(this.table[index].getKey())) {
+			    && key.equals(this.table[index].getKey())) {
 				this.collisions = 0; // reset
 				return this.table[index];
-			} else {
+			}
+			else {
 				// Increment collisions; Don't check more than number of table
 				// rows
 				if (this.collisions++ < this.table.length) {
@@ -279,7 +325,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#putAll(java.util.Map)
 	 */
 	@Override
@@ -291,13 +336,12 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#clear()
 	 */
 	@Override
 	public void clear() {
 		Entry<K, V>[] mesa = this.table;
-		for(int i = 0; i < mesa.length; i++) {
+		for (int i = 0; i < mesa.length; i++) {
 			mesa[i] = null;
 		}
 		this.size = 0;
@@ -305,24 +349,22 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#keySet()
 	 */
 	@Override
 	public Set<K> keySet() {
 		Set<K> keys = new HashSet<K>();
-		for(int i = 0; i < this.getCapacity(); i++) {
-			if(this.table[i] != null) {
+		for (int i = 0; i < this.getCapacity(); i++) {
+			if (this.table[i] != null) {
 				keys.add(this.table[i].getKey());
 			}
 		}
-		
+
 		return keys;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#values()
 	 */
 	@Override
@@ -338,7 +380,6 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.util.Map#entrySet()
 	 */
 	@Override
@@ -353,15 +394,17 @@ public class Hashtable<K, V> implements Map<K, V> {
 	}
 
 	/**
-	 * @param k
-	 * @return
+	 * Generate hash using key.
+	 * @param k key to hash with.
+	 * @return int a hash value.
 	 */
 	private int hash(K k) {
 		int hash = 0;
 		if (k != null) {
 			if (k instanceof String) {
 				hash = this.elfhash((String) k);
-			} else {
+			}
+			else {
 				// not sure if this would work on 64 bit
 				hash = (~k.hashCode() + 1) & 0x7FFFFFFF;
 
@@ -371,8 +414,11 @@ public class Hashtable<K, V> implements Map<K, V> {
 	}
 
 	/**
+	 * Return a hash based on a string.
+	 * 
 	 * @param k
-	 * @return
+	 *          key should be a string.
+	 * @return a hash number.
 	 */
 	private int elfhash(String k) {
 		int elf = 0;
@@ -388,13 +434,32 @@ public class Hashtable<K, V> implements Map<K, V> {
 	}
 
 	/**
+	 * Rehash a key.
 	 * 
+	 * @param k
+	 *          Key.
+	 * @return int new hash.
 	 */
 	private int rehash(K k) {
 		int n = ++this.collisions;
 		return this.hash(k) + (n * n + n) >> 2;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.debug();
+	}
+
+	/**
+	 * Create a string containing interal data.
+	 *
+	 * @return String internal data.
+	 * @formatter:off
+	 */
 	public String debug() {
 		String output ="";
 		output += "    NUMBER OF ITEMS: "+ this.size() + "\n";
@@ -404,11 +469,15 @@ public class Hashtable<K, V> implements Map<K, V> {
 		return output;
 	}
 	
+	/**
+	 * Return the length of the internal array.
+	 * @return int current capacity of table.
+	 */
 	private int getCapacity() {
 		return this.table.length;
 	}
 	/**
-	 * Returns a string that contains a human readable version of the hash
+	 * Return a string that contains a human readable version of the hash
 	 * table.
 	 * 
 	 * @return a human readable table.
@@ -423,7 +492,20 @@ public class Hashtable<K, V> implements Map<K, V> {
 		output.append("┗━");output.append(this.repeatText('━', 8)); output.append("━┻━"); output.append(this.repeatText('━', k));          output.append("━┻━"); output.append(this.repeatText('━', v));            output.append("━┛\n");
 		
 		// Table rows
-		output.append("┌─");output.append(this.repeatText('─', 8)); output.append("─┬─"); output.append(this.repeatText('─', k));          output.append("─┬─"); output.append(this.repeatText('─', v));            output.append("─┐\n");
+		printRows(k, v, output);
+
+		return output.toString();
+	}
+
+	/**
+	 * Appends row information to a {@link StringBuilder}.
+	 * 
+	 * @param k width of key column.
+	 * @param v width of value column.
+	 * @param output StringBuilder object to append.
+	 */
+	private void printRows(int k, int v, StringBuilder output) {
+	  output.append("┌─");output.append(this.repeatText('─', 8)); output.append("─┬─"); output.append(this.repeatText('─', k));          output.append("─┬─"); output.append(this.repeatText('─', v));            output.append("─┐\n");
 		for(int i = 0; i < this.table.length; i++) {
 			Entry<K,V> e = this.table[i];
 			String key = (this.table[i] == null)? "": e.getKey().toString();
@@ -437,11 +519,16 @@ public class Hashtable<K, V> implements Map<K, V> {
 			output.append("├─"); output.append(this.repeatText('─', 8)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
 		}
 		output.append("└─");output.append(this.repeatText('─', 8)); output.append("─┴─"); output.append(this.repeatText('─', k));          output.append("─┴─"); output.append(this.repeatText('─', v));            output.append("─┘\n");
+  }
 
-		return output.toString();
-	}
-
+	/**
+	 * Repeats one character a number of times.
+	 * @param c the character to be repeated.
+	 * @param number Number of times to repeat character.
+	 * @return String of repeated text.
+	 */
 	private String repeatText(char c, int number) {
+		assert number >= 0 : "Number must be greater than 0";
 		StringBuilder output = new StringBuilder();
 		for (int i = 0; i < number; i++) {
 			output.append(c);
@@ -449,14 +536,4 @@ public class Hashtable<K, V> implements Map<K, V> {
 		return output.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return this.debug();
-	}
-	
 }
