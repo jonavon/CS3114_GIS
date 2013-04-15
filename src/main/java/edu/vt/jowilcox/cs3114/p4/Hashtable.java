@@ -28,7 +28,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	private Entry<K, V>[] table;
 	private float portion;
-	
+
 	private transient int size;
 	private transient int limit;
 	private transient int collisions;
@@ -38,6 +38,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 	private transient int longestk = 4;
 	/** Only used in debugging a printing */
 	private transient int longestv = 6;
+
 	/**
 	 * @author "Jonavon Wilcox <jowilcox@vt.edu>"
 	 * 
@@ -83,7 +84,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 		public boolean isTombstone() {
 			return this.isTombstone;
 		}
-		
+
 		public String toString() {
 			return this.getKey().toString();
 		}
@@ -159,10 +160,9 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 * @see java.util.Map#get(java.lang.Object)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
 	public V get(Object key) {
 		Entry<K, V> item = this.find(key);
-		return (item == null)? null : item.getValue();
+		return (item == null) ? null : item.getValue();
 	}
 
 	/*
@@ -181,7 +181,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 			this.increaseCapacity();
 		}
 		Map.Entry<K, V> inserted = this.insert(index, new Entry<>(key, value));
-		return (inserted == null)? null : inserted.getValue();
+		return (inserted == null) ? null : inserted.getValue();
 	}
 
 	/**
@@ -193,9 +193,9 @@ public class Hashtable<K, V> implements Map<K, V> {
 		if (this.table[index] == null || this.table[index].isTombstone()) {
 			this.table[index] = entry;
 			int l = entry.getKey().toString().length();
-			this.longestk = ( l > this.longestk ) ? l : this.longestk;
+			this.longestk = (l > this.longestk) ? l : this.longestk;
 			int m = entry.getValue().toString().length();
-			this.longestv = ( m > this.longestv ) ? m : this.longestv;
+			this.longestv = (m > this.longestv) ? m : this.longestv;
 			this.size++;
 			this.collisions = 0;
 		} else {
@@ -213,8 +213,9 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	@SuppressWarnings("unchecked")
 	private void increaseCapacity() {
-		if(++this.capacityIndex == RESIZE_ARRAY.length) {
-			throw new ArrayIndexOutOfBoundsException("We have reached the maximum size of this hash table.");
+		if (++this.capacityIndex == RESIZE_ARRAY.length) {
+			throw new ArrayIndexOutOfBoundsException(
+					"We have reached the maximum size of this hash table.");
 		}
 		Entry<K, V>[] old = this.table;
 		int capacity = RESIZE_ARRAY[this.capacityIndex];
@@ -222,9 +223,9 @@ public class Hashtable<K, V> implements Map<K, V> {
 		this.table = new Entry[capacity];
 		this.size = 0;
 		this.limit = ((int) (capacity * this.portion));
-		
-		for(int i = 0; i < old.length; i++) {
-			if(!(old[i] == null || old[i].isTombstone())) {
+
+		for (int i = 0; i < old.length; i++) {
+			if (!(old[i] == null || old[i].isTombstone())) {
 				int hash = this.hash(old[i].getKey());
 				int index = hash % this.table.length;
 				this.collisions = 0;
@@ -241,31 +242,32 @@ public class Hashtable<K, V> implements Map<K, V> {
 	@Override
 	public V remove(Object key) {
 		Entry<K, V> removed = this.find(key);
-		if(removed != null) {
+		if (removed != null) {
 			this.size--;
 			return removed.delete().getValue();
 		}
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	private Entry<K, V> find(Object key) {
 		int hash;
-		if(this.collisions == 0) {
+		if (this.collisions == 0) {
 			hash = this.hash((K) key);
-		}
-		else {
+		} else {
 			this.collisions--; // corrective decrement
 			hash = this.rehash((K) key);
 		}
 		int index = hash % this.table.length;
-		if((this.table[index] != null)) {
-			if(!this.table[index].isTombstone() && key.equals(this.table[index].getKey())) {
-				this.collisions = 0;
+		if ((this.table[index] != null)) {
+			if (!this.table[index].isTombstone()
+					&& key.equals(this.table[index].getKey())) {
+				this.collisions = 0; // reset
 				return this.table[index];
-			}
-			else {
-				// Increment collisions; Don't check more than number of table rows
-				if(this.collisions++ < this.table.length) {
+			} else {
+				// Increment collisions; Don't check more than number of table
+				// rows
+				if (this.collisions++ < this.table.length) {
 					return this.find(key);
 				}
 			}
