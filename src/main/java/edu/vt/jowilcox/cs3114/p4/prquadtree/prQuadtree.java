@@ -596,7 +596,8 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		}
 		String n = (!expanded && !this.isLeaf(node)) ? "" : " " + node.toString();
 		n = (expanded && this.isLeaf(node)) ? "" : n;
-		String output = this.print(descriptor + n, prefix, isLast);
+		StringBuilder output = new StringBuilder();
+		output.append(this.print(descriptor + n, prefix, isLast));
 		// Change prefix for traversal
 		prefix = prefix + ((isLast) ? "    " : "│   ");
 		if (this.isLeaf(node)) {
@@ -605,18 +606,18 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 				int size = leaf.Elements.size();
 				for (int i = 0; i < size; i++) {
 					T element = leaf.Elements.get(i);
-					output += this.print(element.toString(), prefix, (i == (size - 1)));
+					output.append(this.print(element.toString(), prefix, (i == (size - 1))));
 				}
 			}
 		} else {
 			prQuadInternal internal = (prQuadInternal) node;
-			output += this.print("NE", internal.NE, prefix, ((internal.NW == null) && (internal.SW == null) && (internal.SE == null)), expanded);
-			output += this.print("NW", internal.NW, prefix, ((internal.SW == null) && (internal.SE == null)), expanded);
-			output += this.print("SW", internal.SW, prefix, ((internal.SE == null)), expanded);
-			output += this.print("SE", internal.SE, prefix, true, expanded);
+			output.append(this.print("NE", internal.NE, prefix, ((internal.NW == null) && (internal.SW == null) && (internal.SE == null)), expanded));
+			output.append(this.print("NW", internal.NW, prefix, ((internal.SW == null) && (internal.SE == null)), expanded));
+			output.append(this.print("SW", internal.SW, prefix, ((internal.SE == null)), expanded));
+			output.append(this.print("SE", internal.SE, prefix, true, expanded));
 		}
 
-		return output;
+		return output.toString();
 	}
 
 	/**
