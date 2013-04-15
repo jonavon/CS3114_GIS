@@ -4,6 +4,7 @@
 package edu.vt.jowilcox.cs3114.p4;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -309,8 +310,14 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public Set<K> keySet() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<K> keys = new HashSet<K>();
+		for(int i = 0; i < this.getCapacity(); i++) {
+			if(this.table[i] != null) {
+				keys.add(this.table[i].getKey());
+			}
+		}
+		
+		return keys;
 	}
 
 	/*
@@ -410,16 +417,12 @@ public class Hashtable<K, V> implements Map<K, V> {
 		int k = this.longestk;
 		int v = this.longestv;
 		StringBuilder output = new StringBuilder();
+		// Header row
 		output.append("┏━");output.append(this.repeatText('━', 8)); output.append("━┳━"); output.append(this.repeatText('━', k));          output.append("━┳━"); output.append(this.repeatText('━', v));            output.append("━┓\n");
 		output.append("┃ ");output.append(String.format("%-8s", "INDEX")); output.append(" ┃ "); output.append(String.format("%-"+k+"s", "KEY")); output.append(" ┃ "); output.append(String.format("%"+v+"s", "VALUES")); output.append(" ┃\n");
 		output.append("┗━");output.append(this.repeatText('━', 8)); output.append("━┻━"); output.append(this.repeatText('━', k));          output.append("━┻━"); output.append(this.repeatText('━', v));            output.append("━┛\n");
 		
-		/*
-		output.append("  ");output.append(this.repeatText(' ', 8)); output.append(" ┏━"); output.append(this.repeatText('━', k));          output.append("━┳━"); output.append(this.repeatText('━', v));            output.append("━┓\n");
-		output.append("  ");output.append(this.repeatText(' ', 8)); output.append(" ┃ "); output.append(String.format("%-"+k+"s", "KEY")); output.append(" ┃ "); output.append(String.format("%"+v+"s", "VALUES")); output.append(" ┃\n");
-		output.append("  ");output.append(this.repeatText(' ', 8)); output.append(" ┗━"); output.append(this.repeatText('━', k));          output.append("━┻━"); output.append(this.repeatText('━', v));            output.append("━┛\n");
-		*/
-		
+		// Table rows
 		output.append("┌─");output.append(this.repeatText('─', 8)); output.append("─┬─"); output.append(this.repeatText('─', k));          output.append("─┬─"); output.append(this.repeatText('─', v));            output.append("─┐\n");
 		for(int i = 0; i < this.table.length; i++) {
 			Entry<K,V> e = this.table[i];
