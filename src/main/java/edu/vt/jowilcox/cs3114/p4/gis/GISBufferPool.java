@@ -37,7 +37,7 @@ public class GISBufferPool<T extends Buffer> implements Serializable {
   	this.pool = new ArrayList<>(size);
   }
   
-  public synchronized void get () { }
+  public synchronized void get() { }
   
   public synchronized void put(T data) { }
   
