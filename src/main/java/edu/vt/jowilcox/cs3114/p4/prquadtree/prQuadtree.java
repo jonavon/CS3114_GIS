@@ -13,10 +13,11 @@ import java.util.Vector;
  */
 public class prQuadtree<T extends Compare2D<? super T>> {
 
-	private static final int BUCKET_CAPACITY = 4;
+	private static final int DEFAULT_BUCKET_CAPACITY = 4;
 
 	prQuadNode root;
 	long xMin, xMax, yMin, yMax;
+	final int bucketSize;
 
 	/**
 	 * You must use a hierarchy of node types with an abstract base class. You may
@@ -53,6 +54,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 			this.a = a;
 			this.b = b;
 		}
+		
 
 		/**
 		 * Returns the world dimensions of this internal node. Used in debugging.
@@ -132,10 +134,10 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 
 	/**
 	 * prQuadLeaf is a concrete prQuadNode that only holds elements of size.
-	 * {@link prQuadtree#BUCKET_CAPACITY}.
+	 * {@link prQuadtree#bucketSize}.
 	 */
 	class prQuadLeaf extends prQuadNode {
-		Vector<T> Elements = new Vector<T>(prQuadtree.BUCKET_CAPACITY);
+		Vector<T> Elements = new Vector<T>(prQuadtree.this.bucketSize);
 
 		/**
 		 * Constructor. Takes an element and stores it in the field for this object.
@@ -187,14 +189,33 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 *          ordinate value of the south west corner of the region.
 	 * @param yMax
 	 *          ordinate value of the north east corner of the region.
+	 * @param bucketSize
+	 *          size of the bucket in each leaf node.
 	 */
-	public prQuadtree(long xMin, long xMax, long yMin, long yMax) {
+	public prQuadtree(long xMin, long xMax, long yMin, long yMax, int bucketSize) {
 		this.xMin = xMin;
 		this.xMax = xMax;
 		this.yMin = yMin;
 		this.yMax = yMax;
+		this.bucketSize = bucketSize;
 	}
 
+	/**
+	 * Initialize quadtree to empty state, representing the specified region.
+	 * 
+	 * @param xMin
+	 *          abscissa value of the south west corner of the region.
+	 * @param xMax
+	 *          abscissa value of the north east corner of the region.
+	 * @param yMin
+	 *          ordinate value of the south west corner of the region.
+	 * @param yMax
+	 *          ordinate value of the north east corner of the region.
+	 */
+	public prQuadtree(long xMin, long xMax, long yMin, long yMax) {
+		this(xMin, xMax, yMin, yMax, DEFAULT_BUCKET_CAPACITY);
+	}
+	
 	/**
 	 * Pre: elem != null Post: If elem lies in the tree's region, and a matching
 	 * element occurs in the tree, then that element has been removed.
@@ -454,7 +475,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 				// leaf node?
 				if (this.isLeaf(node)) {
 					prQuadLeaf leaf = ((prQuadLeaf) node);
-					if (leaf.size() < BUCKET_CAPACITY) {
+					if (leaf.size() < this.bucketSize) {
 						leaf.Elements.add(elem);
 						node = leaf;
 					}
