@@ -44,8 +44,6 @@ public class QuadTreeSteps {
 
 	@Then("^I should find:$")
 	public void I_should_find(List<Point> points) throws Throwable {
-		System.out.print(this.tree.toString());
-		System.out.print("\n\n" + this.tree.print(true));
 		for (Point point : points) {
 			assertEquals(point, this.tree.find(point));
 		}
@@ -91,9 +89,7 @@ public class QuadTreeSteps {
 	public void I_should_be_able_to_delete_them_all(List<Point> points)
 			throws Throwable {
 		for (Point point : points) {
-			System.out.println("Deleting " + point);
 			assertTrue(this.tree.delete(point));
-			System.out.println("Finding " + point);
 			assertNull(this.tree.find(point));
 		}
 	}
