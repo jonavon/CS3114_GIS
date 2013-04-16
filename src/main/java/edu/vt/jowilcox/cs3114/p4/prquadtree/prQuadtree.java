@@ -615,10 +615,10 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		}
 		else {
 			prQuadInternal internal = (prQuadInternal) node;
-			output.append(this.print("NE", internal.NE, prefix, ((internal.NW == null) && (internal.SW == null) && (internal.SE == null)), expanded));
-			output.append(this.print("NW", internal.NW, prefix, ((internal.SW == null) && (internal.SE == null)), expanded));
-			output.append(this.print("SW", internal.SW, prefix, ((internal.SE == null)), expanded));
-			output.append(this.print("SE", internal.SE, prefix, true, expanded));
+			output.append(this.print("SW", internal.SW, prefix, ((internal.SE == null) && (internal.NW == null) && (internal.NE == null)), expanded));
+			output.append(this.print("SE", internal.SE, prefix, ((internal.NW == null) && (internal.NE == null)), expanded));
+			output.append(this.print("NW", internal.NW, prefix, ((internal.NE == null)), expanded));
+			output.append(this.print("NE", internal.NE, prefix, true, expanded));
 		}
 
 		return output.toString();
