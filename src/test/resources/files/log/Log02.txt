@@ -1,0 +1,287 @@
+; Script 2
+;
+; Very basic testing of the region search commands with a tiny DB.
+;
+; Specify boundaries of coordinate space:
+world	0794130W	0792630W	381500N	383000N
+
+GIS Program
+
+dbFile:     db02.txt
+script:     Script02.txt
+log:        Log02.txt
+Start time: Tue Mar 26 17:49:35 EDT 2013
+Quadtree children are printed in the order SW  SE  NE  NW
+--------------------------------------------------------------------------------
+
+Latitude/longitude values in index entries are shown as signed integers, in total seconds.
+
+World boundaries are set to:
+              138600
+   -286890                -285990
+              137700
+--------------------------------------------------------------------------------
+;
+; Import some data:
+Command 1:  import	VA_Monterey.txt
+
+Imported Features by name: 63
+Longest probe sequence:    1
+Imported Locations:        63
+--------------------------------------------------------------------------------
+;
+; Check the location indices:
+Command 2:  debug	quad
+
+      *
+      [(-286627, 137860), 2346] [(-286628, 137896), 7435] 
+   @
+      [(-286479, 137945), 2612] [(-286502, 138023), 3037] [(-286523, 138047), 7309] [(-286562, 138080), 8654] 
+      *
+         [(-286433, 137756), 953] [(-286358, 137773), 1201] [(-286376, 137772), 6560] [(-286356, 137772), 8081] 
+         [(-286314, 137725), 2877] [(-286224, 137708), 3720] 
+      @
+            [(-286304, 137827), 1361] [(-286311, 137845), 4128] 
+            *
+         @
+            [(-286253, 137904), 1513] [(-286219, 137891), 5669] [(-286229, 137889), 7818] 
+            *
+         *
+      [(-286212, 137722), 4975] [(-286205, 137731), 5259] 
+   @
+      *
+      [(-286438, 137942), 675] [(-286269, 138108), 3593] [(-286231, 138105), 4530] [(-286374, 138012), 6434] 
+@
+         *
+         [(-286273, 138193), 6693] 
+      @
+         *
+            [(-286416, 138293), 7069] 
+            [(-286345, 138312), 4696] [(-286337, 138287), 8513] 
+         @
+            [(-286353, 138352), 7188] 
+            [(-286392, 138367), 265] [(-286393, 138370), 5991] 
+      [(-286213, 138302), 4409] 
+   @
+      *
+         [(-286329, 138414), 4819] 
+            [(-286301, 138424), 5419] [(-286324, 138413), 5829] 
+            *
+         @
+            [(-286269, 138486), 4256] 
+            [(-286319, 138445), 3438] [(-286321, 138438), 6142] 
+      @
+            [(-286299, 138530), 2100] [(-286316, 138492), 6940] 
+            [(-286231, 138536), 1822, 5102] 
+         @
+            [(-286263, 138580), 2223] 
+            [(-286313, 138576), 1670] 
+            *
+            *
+         @
+            [(-286379, 138600), 387] [(-286342, 138593), 515] [(-286358, 138591), 3162] [(-286383, 138597), 7942] 
+            [(-286403, 138593), 1078] [(-286390, 138593), 1946] [(-286428, 138574), 6811] 
+      *
+         [(-286561, 138234), 6294] 
+         [(-286517, 138257), 7562] 
+      @
+            *
+                  [(-286484, 138266), 2473] [(-286486, 138267), 8225] 
+                  *
+               @
+                  *
+                  [(-286490, 138284), 7682] [(-286486, 138282), 8369] [(-286491, 138282), 8792] 
+               *
+            @
+               [(-286449, 138309), 797] 
+               *
+         @
+            *
+            [(-286500, 138341), 3879] 
+         [(-286638, 138326), 2754] [(-286582, 138315), 4001] 
+   @
+      [(-286612, 138532), 3314] [(-286475, 138508), 5548] 
+      *
+--------------------------------------------------------------------------------
+Command 3:  debug	hash
+
+Format of display is
+Slot number: data record
+Current table size is 1019
+Number of elements in table is 63
+
+4:  [Asbury Church:VA, [265]]
+18:  [Seldom Seen Hollow:VA, [4530]]
+21:  [Meadow Draft:VA, [3720]]
+37:  [Thorny Bottom Church:VA, [5419]]
+44:  [Doe Hill:VA, [6693]]
+65:  [New Salem Church:VA, [4128]]
+88:  [Smith Field:VA, [7818]]
+93:  [Monterey Mountain:VA, [4001]]
+127:  [Blue Grass School (historical):VA, [7942]]
+131:  [Mount Carlyle:VA, [953]]
+132:  [Monterey District:VA, [8654]]
+139:  [Forks of Waters:VA, [1822]]
+152:  [White Run:VA, [5991]]
+170:  [Miracle Ridge:VA, [3879]]
+199:  [Hightown Church:VA, [2754]]
+212:  [Strait Creek:VA, [5102]]
+227:  [Swope Hollow:VA, [5259]]
+228:  [Hannah Field Airport:VA, [6294]]
+237:  [Lantz Mountain:VA, [3314]]
+253:  [Ginseng Mountain:VA, [2100]]
+254:  [Town of Monterey:VA, [8792]]
+256:  [Monterey:VA, [7682]]
+275:  [Central Church:VA, [1078]]
+276:  [West Strait Creek:VA, [5829]]
+297:  [Simmons Run:VA, [4819]]
+323:  [Crab Run:VA, [1361]]
+325:  [Highland High School:VA, [2473]]
+327:  [Trimble:VA, [7435]]
+333:  [Clover Creek Presbyterian Church:VA, [8081]]
+334:  [Seybert Hills:VA, [7188]]
+365:  [Jack Mountain:VA, [3037]]
+391:  [Sounding Knob:VA, [7309]]
+406:  [Union Chapel:VA, [5548]]
+418:  [Burners Run:VA, [797]]
+448:  [Clover Creek:VA, [6560]]
+477:  [Peck Run:VA, [4256]]
+492:  [Laurel Run:VA, [3438]]
+496:  [Gulf Mountain:VA, [2223]]
+500:  [New Hampden:VA, [6811]]
+546:  [Highland Elementary School:VA, [8225]]
+574:  [Possum Trot:VA, [6940]]
+590:  [Highland Wildlife Management Area:VA, [2612]]
+614:  [Hupman Valley:VA, [2877]]
+615:  [Wooden Run:VA, [6142]]
+618:  [Trimble Knob:VA, [7562]]
+652:  [Rich Hills:VA, [7069]]
+663:  [Vance Hollow:VA, [5669]]
+670:  [Monterey Methodist Episcopal Church:VA, [8369]]
+672:  [Seybert Chapel:VA, [4696]]
+677:  [Key Run:VA, [3162]]
+734:  [Little Doe Hill:VA, [3593]]
+775:  [Blue Grass:VA, [387]]
+779:  [Buck Hill:VA, [675]]
+813:  [Frank Run:VA, [1946]]
+856:  [Elk Run:VA, [1670]]
+864:  [Hamilton Chapel:VA, [2346]]
+885:  [Bluegrass Valley:VA, [515]]
+931:  [Southall Chapel:VA, [4975]]
+932:  [Barren Rock:VA, [4409]]
+956:  [Strait Creek School (historical):VA, [8513]]
+981:  [Davis Run:VA, [1513]]
+989:  [Claylick Hollow:VA, [1201]]
+998:  [Bear Mountain:VA, [6434]]
+--------------------------------------------------------------------------------
+;
+; Let's try some variations of a single-match region search with a square region:
+Command 4:  what_is_in	-c	382148N	0793109W	15	15
+
+1 features were found in (793109W +/- 15, 382148N +/- 15)
+--------------------------------------------------------------------------------
+Command 5:  what_is_in	382148N	0793109W	15	15
+
+   The following 1 features were found in (793109W +/- 15, 382148N +/- 15)
+3593:  Little Doe Hill  VA  382148N  793109W
+--------------------------------------------------------------------------------
+Command 6:  what_is_in	-l	382148N	0793109W	15	15
+
+   The following 1 features were found in (793109W +/- 15, 382148N +/- 15)
+  Feature ID   : 1484896
+  Feature Name : Little Doe Hill
+  Feature Cat  : Summit
+  State        : VA
+  County       : Highland
+  Latitude     : 382148N
+  Longitude    : 793109W
+  Elev in ft   : 3241
+  USGS Quad    : Monterey SE
+  Date created : 09/28/1979
+
+--------------------------------------------------------------------------------
+;
+; Let's check the buffer pool:
+Command 7:  debug	pool
+
+MRU
+ 3593:  1484896|Little Doe Hill|Summit|VA|51|Highland|091|382148N|0793109W|38.3634555|-79.5192122|||||988|3241|Monterey SE|09/28/1979|
+LRU
+--------------------------------------------------------------------------------
+;
+; Let's try increasing the size of the region:
+Command 8:  what_is_in	382148N	0793109W	60	60
+
+   The following 2 features were found in (793109W +/- 60, 382148N +/- 60)
+3593:  Little Doe Hill  VA  382148N  793109W
+4530:  Seldom Seen Hollow  VA  382145N  793031W
+--------------------------------------------------------------------------------
+Command 9:  what_is_in	382148N	0793109W	120	120
+
+   The following 4 features were found in (793109W +/- 120, 382148N +/- 120)
+6693:  Doe Hill  VA  382313N  793113W
+3593:  Little Doe Hill  VA  382148N  793109W
+4530:  Seldom Seen Hollow  VA  382145N  793031W
+6434:  Bear Mountain  VA  382012N  793254W
+--------------------------------------------------------------------------------
+Command 10:  what_is_in	382148N	0793109W	180	180
+
+   The following 6 features were found in (793109W +/- 180, 382148N +/- 180)
+8513:  Strait Creek School (historical)  VA  382447N  793217W
+6693:  Doe Hill  VA  382313N  793113W
+675:  Buck Hill  VA  381902N  793358W
+3593:  Little Doe Hill  VA  382148N  793109W
+4530:  Seldom Seen Hollow  VA  382145N  793031W
+6434:  Bear Mountain  VA  382012N  793254W
+--------------------------------------------------------------------------------
+;
+; Let's check the buffer pool:
+Command 11:  debug	pool
+
+MRU
+ 6434:  1495244|Bear Mountain|Summit|VA|51|Highland|091|382012N|0793254W|38.3367894|-79.5483795|||||1076|3530|Monterey SE|09/28/1979|
+ 4530:  1486995|Seldom Seen Hollow|Valley|VA|51|Highland|091|382145N|0793031W|38.3626223|-79.5086563|382227N|0793004W|38.3741667|-79.5011111|750|2461|Monterey SE|09/28/1979|
+ 3593:  1484896|Little Doe Hill|Summit|VA|51|Highland|091|382148N|0793109W|38.3634555|-79.5192122|||||988|3241|Monterey SE|09/28/1979|
+  675:  1482110|Buck Hill|Summit|VA|51|Highland|091|381902N|0793358W|38.3173452|-79.5661577|||||1003|3291|Monterey SE|09/28/1979|
+ 6693:  1495470|Doe Hill|Summit|VA|51|Highland|091|382313N|0793113W|38.3870661|-79.5203237|||||1210|3970|Monterey|09/28/1979|
+ 8513:  1673781|Strait Creek School (historical)|School|VA|51|Highland|091|382447N|0793217W|38.4131765|-79.5381022|||||935|3068|Monterey|11/13/1995|
+LRU
+--------------------------------------------------------------------------------
+; Now let's try a non-square region:
+Command 12:  what_is_in	382957N	0793303W	240	60
+
+   The following 11 features were found in (793303W +/- 60, 382957N +/- 240)
+1078:  Central Church  VA  382953N  793323W
+1946:  Frank Run  VA  382953N  793310W
+6811:  New Hampden  VA  382934N  793348W
+387:  Blue Grass  VA  383000N  793259W
+515:  Bluegrass Valley  VA  382953N  793222W
+3162:  Key Run  VA  382951N  793238W
+7942:  Blue Grass School (historical)  VA  382957N  793303W
+5829:  West Strait Creek  VA  382653N  793204W
+4819:  Simmons Run  VA  382654N  793209W
+265:  Asbury Church  VA  382607N  793312W
+5991:  White Run  VA  382610N  793313W
+--------------------------------------------------------------------------------
+;
+; And another one:
+Command 13:  what_is_in	382957N	0793303W	60	240
+
+   The following 9 features were found in (793303W +/- 240, 382957N +/- 60)
+1078:  Central Church  VA  382953N  793323W
+1946:  Frank Run  VA  382953N  793310W
+6811:  New Hampden  VA  382934N  793348W
+387:  Blue Grass  VA  383000N  793259W
+515:  Bluegrass Valley  VA  382953N  793222W
+3162:  Key Run  VA  382951N  793238W
+7942:  Blue Grass School (historical)  VA  382957N  793303W
+1670:  Elk Run  VA  382936N  793153W
+2223:  Gulf Mountain  VA  382940N  793103W
+--------------------------------------------------------------------------------
+;
+; Exit
+Command 14:  quit	
+
+Terminating execution of commands.
+End time: Tue Mar 26 17:49:35 EDT 2013
+--------------------------------------------------------------------------------

@@ -1,0 +1,41 @@
+; Script 4
+;
+; General test of searches with a larger database file.
+;
+; Specify boundaries of coordinate space:
+world	0804500W	0800000W	370000N	374500N
+;
+; Import a smallish DB file:
+import	VA_Montgomery.txt
+;
+; Check the location and name/state indices if you dare:
+;debug	quad
+;debug	hash
+;
+; Try a few name/state searches:
+what_is	Paul Derring Hall	VA
+what_is	Holden Hall	VA
+what_is	Sugar Bottom Hollow	VA
+what_is	Blacksburg Quarry	VA
+;
+; And a few location searches:
+what_is_at	371347N	0802514W
+what_is_at	370817N	0802808W
+what_is_at	371105N	0803133W
+;
+; And a few region searches:
+what_is_in	371347N	0802514W	5	5
+what_is_in	371105N	0803133W	5	5
+what_is_in	370822N	0802430W	10	10
+;
+; This one's special because there's nothing at the given coordinates,
+; but there is something within the box centered there:
+what_is_in	372230N	0802230W	120	120	
+;
+; And a few search failures:
+what_is	Monterey	VA
+what_is_at	371347N	0804505W
+what_is_in	372230N	0802230W	10	10	
+;
+; Exit
+quit	

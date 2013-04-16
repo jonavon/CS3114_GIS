@@ -1,0 +1,131 @@
+; Script 4
+;
+; General test of searches with a larger database file.
+;
+; Specify boundaries of coordinate space:
+world	0804500W	0800000W	370000N	374500N
+
+GIS Program
+
+dbFile:     db04.txt
+script:     Script04.txt
+log:        Log04.txt
+Start time: Tue Mar 26 17:57:52 EDT 2013
+Quadtree children are printed in the order SW  SE  NE  NW
+--------------------------------------------------------------------------------
+
+Latitude/longitude values in index entries are shown as signed integers, in total seconds.
+
+World boundaries are set to:
+              135900
+   -290700                -288000
+              133200
+--------------------------------------------------------------------------------
+;
+; Import a smallish DB file:
+Command 1:  import	VA_Montgomery.txt
+
+Imported Features by name: 752
+Longest probe sequence:    12
+Imported Locations:        752
+--------------------------------------------------------------------------------
+;
+; Check the location and name/state indices if you dare:
+;debug	quad
+;debug	hash
+;
+; Try a few name/state searches:
+Command 2:  what_is	Paul Derring Hall	VA
+
+92227:  Montgomery  802533W  371344N
+--------------------------------------------------------------------------------
+Command 3:  what_is	Holden Hall	VA
+
+60465:  Montgomery  802524W  371347N
+--------------------------------------------------------------------------------
+Command 4:  what_is	Sugar Bottom Hollow	VA
+
+32304:  Montgomery  801917W  372010N
+--------------------------------------------------------------------------------
+Command 5:  what_is	Blacksburg Quarry	VA
+
+105190:  Montgomery  802332W  371045N
+--------------------------------------------------------------------------------
+;
+; And a few location searches:
+Command 6:  what_is_at	371347N	0802514W
+
+   The following features were found at 802514W   371347N:
+93317:  Torgersen Hall  Montgomery  VA
+--------------------------------------------------------------------------------
+Command 7:  what_is_at	370817N	0802808W
+
+   The following features were found at 802808W   370817N:
+18623:  Barringer Mountain  Montgomery  VA
+--------------------------------------------------------------------------------
+Command 8:  what_is_at	371105N	0803133W
+
+   The following features were found at 803133W   371105N:
+41632:  Radford AAP Heliport  Montgomery  VA
+--------------------------------------------------------------------------------
+;
+; And a few region searches:
+Command 9:  what_is_in	371347N	0802514W	5	5
+
+   The following 14 features were found in (802514W +/- 5, 371347N +/- 5)
+58561:  Femoyer Hall  VA  371352N  802517W
+92754:  Robert Femoyer Hall  VA  371352N  802517W
+66868:  Major Williams Dormitory  VA  371351N  802515W
+98990:  Major Lloyd W Williams Hall  VA  371352N  802516W
+64863:  Lane Hall  VA  371351N  802511W
+94855:  Arts and Science Administration Building  VA  371352N  802513W
+98020:  James H Lane Hall  VA  371351N  802512W
+78022:  Rasche Hall  VA  371351N  802509W
+93907:  William H "Bosco" Rasche Hall  VA  371350N  802509W
+49514:  Brodie Hall  VA  371348N  802512W
+71827:  Newman Library  VA  371344N  802510W
+93317:  Torgersen Hall  VA  371347N  802514W
+93626:  War Memorial Chapel  VA  371343N  802515W
+67006:  McBryde Hall  VA  371349N  802519W
+--------------------------------------------------------------------------------
+Command 10:  what_is_in	371105N	0803133W	5	5
+
+   The following 1 features were found in (803133W +/- 5, 371105N +/- 5)
+41632:  Radford AAP Heliport  VA  371105N  803133W
+--------------------------------------------------------------------------------
+Command 11:  what_is_in	370822N	0802430W	10	10
+
+   The following 3 features were found in (802430W +/- 10, 370822N +/- 10)
+103165:  Tekoa Community School  VA  370821N  802438W
+20960:  Christiansburg Institute  VA  370822N  802430W
+54011:  Church of God in Christ  VA  370812N  802426W
+--------------------------------------------------------------------------------
+;
+; This one's special because there's nothing at the given coordinates,
+; but there is something within the box centered there:
+Command 12:  what_is_in	372230N	0802230W	120	120	
+
+   The following 1 features were found in (802230W +/- 120, 372230N +/- 120)
+20385:  Bruisers Knob  VA  372111N  802037W
+--------------------------------------------------------------------------------
+;
+; And a few search failures:
+Command 13:  what_is	Monterey	VA
+
+No records match Monterey and VA
+--------------------------------------------------------------------------------
+Command 14:  what_is_at	371347N	0804505W
+
+   Nothing was found at 804505W   371347N
+--------------------------------------------------------------------------------
+Command 15:  what_is_in	372230N	0802230W	10	10	
+
+   Nothing was found in (802230W +/- 10, 372230N +/- 10)
+--------------------------------------------------------------------------------
+;
+; Exit
+Command 16:  quit	
+
+Terminating execution of commands.
+End time: Tue Mar 26 17:57:52 EDT 2013
+--------------------------------------------------------------------------------

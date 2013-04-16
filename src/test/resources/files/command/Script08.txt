@@ -1,0 +1,76 @@
+; Script 8
+;
+; General test with a large dB and multiple imports.
+;
+; Specify boundaries of coordinate space:
+world	1130000W	990000W	300000N	440000N
+;
+; Import a large DB file:
+import	NM_All.txt
+;
+; Check the location and name/state indices if you dare:
+debug	quad
+debug	hash
+;
+; Try a few name/state searches:
+what_is	Clines Corners	NM
+what_is	11476 Water Well	NM
+what_is	Trinity Site	NM
+what_is	Brazos Cliffs	NM
+what_is	Tierra Amarilla	NM
+what_is	Truth or Consequences	NM
+;
+; Let's see what the buffer pool looks like now:
+debug	pool
+;
+; Try a few location searches:
+what_is_at	364201N	1063259W
+;
+; And let's check the pool again; at this point, you might have some records
+; in a different order than I'm showing:
+debug	pool
+;
+what_is_at	351018N	1034330W
+what_is_at	354929N	1055845W
+what_is_at	360337N	1075801W
+;
+; And a few region searches:
+what_is_in	364201N	1063259W	60	60
+what_is_in	351018N	1034330W	15	15
+what_is_in	354929N	1055845W	30	30
+;
+; Let's check the pool again; we should agree on the top four, although they
+; could be in a different order:
+debug	pool
+;
+; Now, let's import some more data:
+import	CO_All.txt
+;
+; And have a look at the indices:
+debug	quad
+debug	hash
+;
+; And some searches; let's see if you're taking the state abbreviation into account:
+what_is	Lincoln	CO
+what_is	Lincoln	NM
+;
+; Let's try spanning the border:
+what_is_in	365800N	1043030W	720	45
+;
+; Let's try a larger region:
+what_is_in	-c	370000N	1040000W	3600	3600
+;
+; And some more or less random searches:
+what_is	Eagle Peak	NM
+what_is	Scott Spring	NM
+what_is	Slab Mill Gulch	CO
+what_is	Oak Canyon	NM
+what_is	Kemper School	CO
+what_is_at	380806N	1073426W
+what_is_at	371010N	1043002W
+what_is_at	402906N	1064954W
+what_is_at	334038N	1062831W
+what_is_at	320727N	1070347W
+;
+; Exit
+quit	
