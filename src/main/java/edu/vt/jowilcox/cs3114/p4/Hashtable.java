@@ -507,16 +507,19 @@ public class Hashtable<K, V> implements Map<K, V> {
 	private void printRows(int k, int v, StringBuilder output) {
 	  output.append("┌─");output.append(this.repeatText('─', 8)); output.append("─┬─"); output.append(this.repeatText('─', k));          output.append("─┬─"); output.append(this.repeatText('─', v));            output.append("─┐\n");
 		for(int i = 0; i < this.table.length; i++) {
-			Entry<K,V> e = this.table[i];
-			String key = (this.table[i] == null)? "": e.getKey().toString();
-			String val = (this.table[i] == null)? "": e.getValue().toString();
-			if(this.table[i] != null && this.table[i].isTombstone()) {
-				output.append("│ "); output.append(String.format("%08d", i)); output.append(" │ "); output.append(this.repeatText('*', k+v+3)); output.append(" │\n");
+			 // Don't print null rows
+			if(this.table[i] != null) {
+				Entry<K,V> e = this.table[i];
+				String key = (this.table[i] == null)? "": e.getKey().toString();
+				String val = (this.table[i] == null)? "": e.getValue().toString();
+				if(this.table[i] != null && this.table[i].isTombstone()) {
+					output.append("│ "); output.append(String.format("%08d", i)); output.append(" │ "); output.append(this.repeatText('*', k+v+3)); output.append(" │\n");
+				}
+				else {
+					output.append("│ "); output.append(String.format("%08d", i)); output.append(" │ "); output.append(String.format("%-"+k+"s", key)); output.append(" │ "); output.append(String.format("%"+v+"s", val)); output.append(" │\n");
+				}
+				output.append("├─"); output.append(this.repeatText('─', 8)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
 			}
-			else {
-				output.append("│ "); output.append(String.format("%08d", i)); output.append(" │ "); output.append(String.format("%-"+k+"s", key)); output.append(" │ "); output.append(String.format("%"+v+"s", val)); output.append(" │\n");
-			}
-			output.append("├─"); output.append(this.repeatText('─', 8)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
 		}
 		output.append("└─");output.append(this.repeatText('─', 8)); output.append("─┴─"); output.append(this.repeatText('─', k));          output.append("─┴─"); output.append(this.repeatText('─', v));            output.append("─┘\n");
   }
