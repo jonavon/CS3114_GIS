@@ -1,11 +1,10 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
-import edu.vt.jowilcox.cs3114.p4.Command;
 
 
 /**
  * Class DebugCommand
  */
-public class DebugCommand implements Command {
+public class DebugCommand implements ICommand {
 
 	//
 	// Fields
@@ -15,7 +14,13 @@ public class DebugCommand implements Command {
 	//
 	// Constructors
 	//
-	public DebugCommand () { };
+	public DebugCommand () { }
+
+	@Override
+  public void execute() {
+	  // TODO Auto-generated method stub
+	  
+  };
   
 	//
 	// Methods

@@ -1,11 +1,10 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
-import edu.vt.jowilcox.cs3114.p4.Command;
 
 
 /**
  * Class WhatIsCommand
  */
-public class WhatIsCommand implements Command {
+public class WhatIsCommand implements ICommand {
 
 	//
 	// Fields
@@ -15,7 +14,13 @@ public class WhatIsCommand implements Command {
 	//
 	// Constructors
 	//
-	public WhatIsCommand () { };
+	public WhatIsCommand () { }
+
+	@Override
+  public void execute() {
+	  // TODO Auto-generated method stub
+	  
+  };
   
 	//
 	// Methods

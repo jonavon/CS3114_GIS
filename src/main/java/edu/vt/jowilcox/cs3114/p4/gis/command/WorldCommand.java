@@ -1,11 +1,10 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
-import edu.vt.jowilcox.cs3114.p4.Command;
 
 
 /**
  * Class WorldCommand
  */
-public class WorldCommand implements Command {
+public class WorldCommand implements ICommand {
 
 	//
 	// Fields
@@ -15,7 +14,13 @@ public class WorldCommand implements Command {
 	//
 	// Constructors
 	//
-	public WorldCommand () { };
+	public WorldCommand () { }
+
+	@Override
+  public void execute() {
+	  // TODO Auto-generated method stub
+	  
+  };
   
 	//
 	// Methods
