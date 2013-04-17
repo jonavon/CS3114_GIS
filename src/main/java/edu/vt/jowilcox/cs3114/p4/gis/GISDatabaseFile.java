@@ -4,12 +4,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import edu.vt.jowilcox.cs3114.p4.Hashtable;
+
 /**
  * GIS record database.
  * 
  * @author "Jonavon Wilcox <jowilcox@vt.edu>"
  */
 public class GISDatabaseFile extends AbstractGISFile {
+	private Hashtable nameindex;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -38,6 +42,11 @@ public class GISDatabaseFile extends AbstractGISFile {
 
 	public void insert(GISRecordsFile document) {
 	  // TODO Auto-generated method stub
+		document.read();
 	  
+  }
+
+	public void truncate() throws IOException {
+		this.file.setLength(0);
   }
 }

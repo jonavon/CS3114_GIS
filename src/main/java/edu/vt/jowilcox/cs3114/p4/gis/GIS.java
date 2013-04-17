@@ -3,7 +3,6 @@
  */
 package edu.vt.jowilcox.cs3114.p4.gis;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import edu.vt.jowilcox.cs3114.p4.gis.command.GISCommandInvoker;
@@ -29,8 +28,11 @@ public class GIS {
 			database = new GISDatabaseFile(args[0]);
 			commands = new CommandsFile(args[1]);
 			logfile = new GISLogFile(args[2]);
+			
+			database.truncate();
+			logfile.truncate();
 		}
-		catch (FileNotFoundException e) {
+		catch (IOException e) {
 			System.err.println(ERR_FILE);
 			System.err.println(e.getMessage());
 		}
