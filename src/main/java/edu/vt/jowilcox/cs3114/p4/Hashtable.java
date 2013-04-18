@@ -27,8 +27,8 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class Hashtable<K, V> implements Map<K, V> {
 	static final float INITIAL_PORTION = 0.70f;
-	static final Integer[] RESIZE_ARRAY = new Integer[] { 31, 53, 97, 193, 389,
-	    769, 1019, 2027, 4079, 8123, 16267, 32503, 65011, 130027, 260111, 520279,
+	static final Integer[] RESIZE_ARRAY = new Integer[] { /*31, 53, 97, 193, 389,
+	    769,*/ 1019, 2027, 4079, 8123, 16267, 32503, 65011, 130027, 260111, 520279,
 	    1040387, 2080763, 4161539, 8323151, 16646323 };
 	static final int INITIAL_CAPACITY = RESIZE_ARRAY[0];
 
