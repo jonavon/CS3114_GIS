@@ -70,3 +70,20 @@ Scenario: Find set of elements
 		| zone | -55    | 80     |
 		| turf | 80     | 80     |
 		| area | 88     | 39     |
+
+Scenario: Insert more than the bucket
+	Given I have an empty quadtree
+	When I insert points:
+		| name  | xcoord | ycoord |
+		| burg  | 100    | 125    |
+		| burg1 | 100    | 125    |
+		| burg3 | 100    | 125    |
+		| burg4 | 100    | 125    |
+		| burg5 | 100    | 125    |
+	Then I should find:
+		| name  | xcoord | ycoord |
+		| burg  | 100    | 125    |
+		| burg1 | 100    | 125    |
+		| burg3 | 100    | 125    |
+		| burg4 | 100    | 125    |
+		| burg5 | 100    | 125    |
