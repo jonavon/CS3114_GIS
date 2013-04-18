@@ -1,5 +1,8 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import edu.vt.jowilcox.cs3114.p4.gis.GISRecordsFile;
 
 /**
@@ -17,12 +20,13 @@ public class ImportCommand extends AbstractCommand {
 	// Constructors
 	//
 	// TODO
-	public ImportCommand(String args) {
+	public ImportCommand(String args) throws FileNotFoundException {
 		this(args.split("\\s"));
 	}
 
 	// TODO
-	public ImportCommand(String... args) {
+	public ImportCommand(String... args) throws FileNotFoundException {
+			this(new GISRecordsFile(args[0]));
 	}
 
 	public ImportCommand(GISRecordsFile document) {
@@ -33,6 +37,15 @@ public class ImportCommand extends AbstractCommand {
 	public void execute() {
 		// TODO Auto-generated method stub
 		System.out.println("Import command executed.");
-		this.database.insert(this.document);
+		try {
+			this.database.configNameIndex();
+	    this.database.insert(this.document);
+	    System.out.println(this.database.getCoordIndex().print(true));
+	    System.out.println(this.database.getNameIndex().toString());
+    }
+    catch (IOException e) {
+			System.err.println("Unable to import document.");
+	    e.printStackTrace();
+    }
 	}
 }
