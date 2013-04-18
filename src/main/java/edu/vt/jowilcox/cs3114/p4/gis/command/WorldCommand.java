@@ -1,5 +1,7 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
 
+import java.io.IOException;
+
 /**
  * Class WorldCommand
  */
@@ -28,8 +30,12 @@ public class WorldCommand extends AbstractCommand {
 	@Override
 	public void execute() {
 		this.database.configCoordIndex(this.xMin, this.xMax, this.yMin, this.yMax);
-		System.out.println("World command executed.");
-		System.out.println(this);
+		try {
+	    this.logfile.log(this.toString());
+    }
+    catch (IOException e) {
+	    e.printStackTrace();
+    }
 	}
 	
 	private long DMStoSeconds(String dms) {
@@ -45,7 +51,7 @@ public class WorldCommand extends AbstractCommand {
 	}
 	
 	public String toString() {
-		String output = "";
+		String output = "\n"; 
 		output += "           " + this.yMax + "\n";
 		output += this.xMin + "               " + this.xMax + "\n";
 		output += "           " + this.yMin + "\n";

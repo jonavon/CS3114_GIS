@@ -143,9 +143,10 @@ public class GISCommandInvoker {
 	 * Run all the command in the queue.
 	 */
 	public void run() {
-		System.out.println(this.commands);
+		int count = 0;
 		for (String cmd : this.commands) {
 			try {
+				this.logfile.log("Command " + count + ":\t" + cmd + "\n\n");
 				this.invoke();
 			}
 			catch (Exception e) {

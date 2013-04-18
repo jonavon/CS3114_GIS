@@ -40,6 +40,11 @@ public class GIS {
 		GISCommandInvoker controller = new GISCommandInvoker(database, logfile);
 		try {
 			controller.enqueue(commands.readAll());
+			StringBuilder sb = new StringBuilder();
+			sb.append("Database File: " + args[0] + "\n");
+			sb.append("Commands File: " + args[1] + "\n");
+			sb.append("     Log File: " + args[2] + "\n");
+			logfile.log(sb.toString());
 			controller.run();
 		}
 		catch (IOException e) {
