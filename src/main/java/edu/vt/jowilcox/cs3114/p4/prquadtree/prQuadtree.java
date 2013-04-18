@@ -1,5 +1,7 @@
 package edu.vt.jowilcox.cs3114.p4.prquadtree;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -137,7 +139,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * {@link prQuadtree#bucketSize}.
 	 */
 	class prQuadLeaf extends prQuadNode {
-		Vector<T> Elements = new Vector<T>(prQuadtree.this.bucketSize);
+		List<T> Elements = new ArrayList<T>(prQuadtree.this.bucketSize);
 
 		/**
 		 * Constructor. Takes an element and stores it in the field for this object.
