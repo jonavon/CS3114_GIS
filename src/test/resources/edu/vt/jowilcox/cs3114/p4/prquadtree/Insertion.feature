@@ -27,7 +27,8 @@ Scenario: Insert duplicate elements
 		And I insert points:
 		| name | xcoord | ycoord |
 		| burg | 100    | 125    |
-	Then inserting the same should fail:
+#	Then inserting the same should fail:
+	Then I should find:
 		| name | xcoord | ycoord |
 		| burg | 100    | 125    |
 	

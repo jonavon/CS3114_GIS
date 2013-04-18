@@ -172,8 +172,8 @@ public class Point implements Compare2D<Point> {
 
 		if ((o.getClass() == Point.class)) {
 			return (((Point) o).getX() == this.getX())
-			    && (((Point) o).getY() == this.getY() 
-			    && (((this.getName().equals(((Point) o).getName())))));
+			    && (((Point) o).getY() == this.getY()); 
+			//    && (((this.getName().equals(((Point) o).getName())))));
 		}
 		return false;
 	}

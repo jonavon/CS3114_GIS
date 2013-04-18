@@ -431,9 +431,11 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 * @return true iff elem is inserted into the tree.
 	 */
 	public boolean insert(T elem) {
+		/**
 		if (elem.equals(this.find(elem))) {
 			return false;
 		}
+		*/
 		boolean inserted;
 		try {
 			this.root = this.insert(elem, this.root, this.xMin, this.xMax, this.yMin,
