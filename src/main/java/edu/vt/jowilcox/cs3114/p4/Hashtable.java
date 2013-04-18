@@ -44,6 +44,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 	private transient int longestk = 4;
 	/** Only used in debugging a printing. */
 	private transient int longestv = 6;
+	private transient int longestProbe = 0;
 
 	/**
 	 * @author "Jonavon Wilcox <jowilcox@vt.edu>"
@@ -233,6 +234,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 			int m = entry.getValue().toString().length();
 			this.longestv = (m > this.longestv) ? m : this.longestv;
 			this.size++;
+			this.longestProbe = (this.longestProbe < this.collisions)? this.collisions : this.longestProbe;
 			this.collisions = 0;
 		}
 		else {
