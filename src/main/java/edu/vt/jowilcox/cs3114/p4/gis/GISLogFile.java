@@ -16,9 +16,8 @@ public class GISLogFile extends AbstractGISFile {
 	public GISLogFile(String filename) throws FileNotFoundException {
 		this.file = new RandomAccessFile(filename, AbstractGISFile.GIS_FILE_READWRITE);
   }
-
 	public void log(String data) throws IOException {
-		this.file.writeChars(data);
+		this.file.write(data.getBytes());
 	}
 	public void truncate() throws IOException {
 		this.file.setLength(0);

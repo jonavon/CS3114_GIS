@@ -38,10 +38,10 @@ public class ImportCommand extends AbstractCommand {
 		// TODO Auto-generated method stub
 		System.out.println("Import command executed.");
 		try {
-			this.database.configNameIndex();
+			this.database.configNameIndex(1019);
 	    this.database.insert(this.document);
-	    System.out.println(this.database.getCoordIndex().print(true));
-	    System.out.println(this.database.getNameIndex().toString());
+	    this.logfile.log(this.database.getCoordIndex().print(true));
+	    this.logfile.log(this.database.getNameIndex().toString());
     }
     catch (IOException e) {
 			System.err.println("Unable to import document.");

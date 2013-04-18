@@ -15,6 +15,7 @@ import cucumber.api.java.en.When;
 /**
  * @author jonavon
  */
+@SuppressWarnings("unused")
 public class CommandSteps {
 	private GISDatabaseFile db;
 	private CommandsFile cmd;
@@ -37,8 +38,8 @@ public class CommandSteps {
 
 	@When("^the system is run$")
 	public void the_system_is_run() throws Throwable {
-//		throw new PendingException();
-		GIS.main(new String[] { DB_FILE_PATH, CMD_FILE_PATH, LOG_FILE_PATH });
+		throw new PendingException();
+	//	GIS.main(new String[] { DB_FILE_PATH, CMD_FILE_PATH, LOG_FILE_PATH });
 	}
 
 	@Then("^the existing (database|log) file should be truncated.$")
