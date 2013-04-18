@@ -31,11 +31,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	/**
 	 * Two Characters that represent the US postal code abbreviation.
 	 */
-	private edu.vt.jowilcox.cs3114.p4.USStateAbbreviation state;
-	/**
-	 * Non negative integer that represents the numeric code for the state.
-	 */
-	private int stateCode;
+	private USStateAbbreviation state;
 	/**
 	 * Record's latitude in decimal format or unknown.
 	 */
@@ -161,20 +157,10 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * 
 	 * @return the value of state
 	 */
-	public edu.vt.jowilcox.cs3114.p4.USStateAbbreviation getState() {
+	public USStateAbbreviation getState() {
 		return this.state;
 	}
 
-	/**
-	 * Set the value of stateCode Non negative integer that represents the
-	 * numeric code for the state.
-	 * 
-	 * @param stateCode
-	 *            the new value of stateCode
-	 */
-	public void setStateCode(int stateCode) {
-		this.stateCode = stateCode;
-	}
 
 	/**
 	 * Get the value of stateCode Non negative integer that represents the
@@ -183,7 +169,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * @return the value of stateCode
 	 */
 	public int getStateCode() {
-		return this.stateCode;
+		return this.state.getNumeric();
 	}
 
 	/**
