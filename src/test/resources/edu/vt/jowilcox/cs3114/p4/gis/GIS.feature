@@ -1,8 +1,10 @@
 Feature: The system will run based on three files. A database file, a commands file, and a log file.
 
 	Background:
-		Given I copy import file from "src/test/resources/files/VA_Monterey.txt"
-			And I copy command file from "src/test/resources/files/command/Script01.txt"
+#		Given I copy import file from "src/test/resources/files/VA_Monterey.txt"
+#		And I copy import file from "src/test/resources/files/CO_All.txt"
+#		And I copy import file from "src/test/resources/files/NM_All.txt"
+		Given I copy command file from "src/test/resources/files/command/Script08.txt"
 		
 	Scenario: Database file should be created as an empty file.
 		Given a database file
