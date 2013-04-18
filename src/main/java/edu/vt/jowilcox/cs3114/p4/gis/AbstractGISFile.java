@@ -37,5 +37,18 @@ public abstract class AbstractGISFile {
 		}
 	}
 
+	/** 
+	 * Not to be confused with the File.exists() method. Implements the
+	 * File.valid method.
+	 * @return boolean if file is open.
+	 */
+	public boolean exists() { 
+		try {
+			return this.file.getFD().valid();
+		} catch
+		(IOException e) {
+			return false;
+		} 
+	}
 
 }
