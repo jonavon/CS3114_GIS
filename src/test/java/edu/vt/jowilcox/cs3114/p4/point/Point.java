@@ -1,5 +1,8 @@
 package edu.vt.jowilcox.cs3114.p4.point;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import edu.vt.jowilcox.cs3114.p4.prquadtree.Compare2D;
 import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
 
@@ -9,13 +12,14 @@ import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
  * user-defined data type.
  */
 public class Point implements Compare2D<Point> {
-
-	/** Represents the human readable name of the object. */
 	private String name;
+	/** Represents the human readable name of the object. */
+	private Set<String> names;
 
 	/** The X and Y coordinates of the object */
 	long xcoord;
 	private long ycoord;
+	private boolean delete;
 
 	/**
 	 * Constructor. Initializes coordinate fields to 0;
@@ -29,8 +33,17 @@ public class Point implements Compare2D<Point> {
 	 * Constructor.
 	 */
 	public Point(long x, long y) {
-		xcoord = x;
-		ycoord = y;
+		this.xcoord = x;
+		this.ycoord = y;
+		this.names = new TreeSet<>();
+		this.delete = false;
+	}
+
+	public Point(String name, long x, long y) {
+		this(x, y);
+		this.addName(this.name);
+		this.name = null;
+		this.addName(name);
 	}
 
 	/**
@@ -53,20 +66,18 @@ public class Point implements Compare2D<Point> {
 
 	/**
 	 * Returns indicator of the direction to the user data object from the
-	 * location (X, Y) specified by the parameters. The indicators are defined
-	 * in the enumeration Direction, and are used as follows:
-	 * 
-	 * NE: vector from (X, Y) to user data object has a direction in the range
-	 * [0, 90) degrees (relative to the positive horizontal axis NW: same as
-	 * above, but direction is in the range [90, 180) SW: same as above, but
-	 * direction is in the range [180, 270) SE: same as above, but direction is
-	 * in the range [270, 360) NOQUADRANT: location of user object is equal to
-	 * (X, Y)
+	 * location (X, Y) specified by the parameters. The indicators are defined in
+	 * the enumeration Direction, and are used as follows: NE: vector from (X, Y)
+	 * to user data object has a direction in the range [0, 90) degrees (relative
+	 * to the positive horizontal axis NW: same as above, but direction is in the
+	 * range [90, 180) SW: same as above, but direction is in the range [180, 270)
+	 * SE: same as above, but direction is in the range [270, 360) NOQUADRANT:
+	 * location of user object is equal to (X, Y)
 	 * 
 	 * @param X
-	 *            x-coordinate origin
+	 *          x-coordinate origin
 	 * @param Y
-	 *            y-coordinate origin
+	 *          y-coordinate origin
 	 */
 	public Direction directionFrom(long X, long Y) {
 		if (this.getX() == X && this.getY() == Y) {
@@ -79,26 +90,24 @@ public class Point implements Compare2D<Point> {
 
 	/**
 	 * Returns indicator of which quadrant of the rectangle specified by the
-	 * parameters that user data object lies in. The indicators are defined in
-	 * the enumeration Direction, and are used as follows, relative to the
-	 * center of the rectangle:
-	 * 
-	 * NE: user data object lies in NE quadrant, including non-negative x-axis,
-	 * but not the positive y-axis NW: user data object lies in the NW quadrant,
-	 * including the positive y-axis, but not the negative x-axis SW: user data
-	 * object lies in the SW quadrant, including the negative x-axis, but not
-	 * the negative y-axis SE: user data object lies in the SE quadrant,
-	 * including the negative y-axis, but not the positive x-axis NOQUADRANT:
-	 * user data object lies outside the specified rectangle
+	 * parameters that user data object lies in. The indicators are defined in the
+	 * enumeration Direction, and are used as follows, relative to the center of
+	 * the rectangle: NE: user data object lies in NE quadrant, including
+	 * non-negative x-axis, but not the positive y-axis NW: user data object lies
+	 * in the NW quadrant, including the positive y-axis, but not the negative
+	 * x-axis SW: user data object lies in the SW quadrant, including the negative
+	 * x-axis, but not the negative y-axis SE: user data object lies in the SE
+	 * quadrant, including the negative y-axis, but not the positive x-axis
+	 * NOQUADRANT: user data object lies outside the specified rectangle
 	 * 
 	 * @param xLo
-	 *            x-coordinate of the low corner of the bounding square.
+	 *          x-coordinate of the low corner of the bounding square.
 	 * @param yLo
-	 *            y-coordinate of the low corner of the bounding square.
+	 *          y-coordinate of the low corner of the bounding square.
 	 * @param yHi
-	 *            y-coordinate of the high corner of the bounding square.
+	 *          y-coordinate of the high corner of the bounding square.
 	 * @param xHi
-	 *            y-coordinate of the high corner of the bounding square.
+	 *          y-coordinate of the high corner of the bounding square.
 	 */
 	public Direction inQuadrant(double xLo, double xHi, double yLo, double yHi) {
 		double midX = (xHi + xLo) / 2;
@@ -129,17 +138,17 @@ public class Point implements Compare2D<Point> {
 	 * the rectangle specified by the parameters.
 	 * 
 	 * @param xLo
-	 *            x-coordinate of the low corner of the bounding square.
+	 *          x-coordinate of the low corner of the bounding square.
 	 * @param yLo
-	 *            y-coordinate of the low corner of the bounding square.
+	 *          y-coordinate of the low corner of the bounding square.
 	 * @param yHi
-	 *            y-coordinate of the high corner of the bounding square.
+	 *          y-coordinate of the high corner of the bounding square.
 	 * @param xHi
-	 *            y-coordinate of the high corner of the bounding square.
+	 *          y-coordinate of the high corner of the bounding square.
 	 */
 	public boolean inBox(double xLo, double xHi, double yLo, double yHi) {
-		return (this.getX() >= xLo) && (this.getX() <= xHi)
-				&& (this.getY() >= yLo) && (this.getY() <= yHi);
+		return (this.getX() >= xLo) && (this.getX() <= xHi) && (this.getY() >= yLo)
+		    && (this.getY() <= yHi);
 	}
 
 	/**
@@ -149,7 +158,7 @@ public class Point implements Compare2D<Point> {
 	 */
 	@Override
 	public String toString() {
-		String point = (this.name == null) ? "" : this.getName();
+		String point = (this.name.isEmpty()) ? "" : this.name;
 		point += "(";
 		point += this.getX();
 		point += ", ";
@@ -160,10 +169,10 @@ public class Point implements Compare2D<Point> {
 
 	/**
 	 * Overrides the user data object's inherited equals() method with an
-	 * appropriate definition; it is necessary to place this in the interface
-	 * that is used as a bound on the type parameter for the generic spatial
-	 * structure, otherwise the compiler will bind to Object.equals(), which
-	 * will almost certainly be inappropriate.
+	 * appropriate definition; it is necessary to place this in the interface that
+	 * is used as a bound on the type parameter for the generic spatial structure,
+	 * otherwise the compiler will bind to Object.equals(), which will almost
+	 * certainly be inappropriate.
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -176,7 +185,8 @@ public class Point implements Compare2D<Point> {
 
 		if ((o.getClass() == Point.class)) {
 			return (((Point) o).getX() == this.getX())
-					&& (((Point) o).getY() == this.getY());
+			    && (((Point) o).getY() == this.getY());
+			// && (((this.getName().equals(((Point) o).getName())))));
 		}
 		return false;
 	}
@@ -184,15 +194,64 @@ public class Point implements Compare2D<Point> {
 	/**
 	 * @return the name
 	 */
-	public String getName() {
-		return name;
+	public Set<String> getNames() {
+		return names;
 	}
 
 	/**
 	 * @param name
-	 *            the name to set
+	 *          the name to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	private void addName(String name) {
+		if (this.names == null) {
+			this.names = new TreeSet<>();
+		}
+		this.names.add(name);
+		this.name = this.implode(" | ", (String[]) this.names.toArray());
+	}
+
+	private String implode(String separator, String... data) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < data.length - 1; i++) {
+			// data.length - 1 => to not add separator at the end
+			if (!data[i].matches(" *")) {// empty string are ""; " "; "  "; and so on
+				sb.append(data[i]);
+				sb.append(separator);
+			}
+		}
+		sb.append(data[data.length - 1]);
+		return sb.toString();
+	}
+	
+	protected String getName() {
+		return this.name;
+	}
+	
+	public void fusion(Point p) {
+		if(this.equals(p)) {
+			if(p.getNames().size() > 0) {
+				this.names.addAll(p.getNames());
+				this.name = this.implode(" | ", (String[]) this.names.toArray());
+			}
+			else {
+				this.addName(p.getName());
+			}
+		}
+	}
+	
+	public void fission(Point p) {
+		if(this.equals(p)) {
+			if(p.getNames() != null && p.getNames().size() > 0) {
+				this.names.removeAll(p.getNames());
+				this.name = this.implode(" | ", (String[]) this.names.toArray());
+			}
+			else {
+				this.delete = true;
+			}
+		}
+	}
+	
+	public boolean isDeleted() {
+		return this.delete;
 	}
 }

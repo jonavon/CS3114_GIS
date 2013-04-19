@@ -1,33 +1,49 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
-import edu.vt.jowilcox.cs3114.p4.Command;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import edu.vt.jowilcox.cs3114.p4.gis.GISRecordsFile;
 
 /**
  * Class ImportCommand
  */
-public class ImportCommand implements Command {
+public class ImportCommand extends AbstractCommand {
 
 	//
 	// Fields
 	//
+	/** Document to be imported */
+	private GISRecordsFile document;
 
-  
 	//
 	// Constructors
 	//
-	public ImportCommand () { };
-  
-	//
-	// Methods
-	//
+	public ImportCommand(String args) throws FileNotFoundException {
+		this(args.split("\\s"));
+	}
 
+	public ImportCommand(String... args) throws FileNotFoundException {
+			this(new GISRecordsFile(args[0]));
+	}
 
-	//
-	// Accessor methods
-	//
+	public ImportCommand(GISRecordsFile document) {
+		this.document = document;
+	}
 
-	//
-	// Other methods
-	//
-
+	@Override
+	public void execute() {
+		System.out.println("Import command executed.");
+		try {
+			this.database.configNameIndex(1019);
+	    this.database.insert(this.document);
+	    this.logfile.log("\n      Total indexed in name index: " + this.database.getNameIndexSize());
+	    this.logfile.log("\n           Longest probe sequence: " + this.database.getNameIndex().getLongestProbe());
+	    this.logfile.log("\nTotal indexed in coordinate index: " + this.database.getCoordIndexSize() + "\n");
+    }
+    catch (IOException e) {
+			System.err.println("Unable to import document.");
+	    e.printStackTrace();
+    }
+	}
 }

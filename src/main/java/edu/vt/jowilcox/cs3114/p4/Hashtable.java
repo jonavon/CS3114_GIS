@@ -27,8 +27,8 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class Hashtable<K, V> implements Map<K, V> {
 	static final float INITIAL_PORTION = 0.70f;
-	static final Integer[] RESIZE_ARRAY = new Integer[] { 31, 53, 97, 193, 389,
-	    769, 1019, 2027, 4079, 8123, 16267, 32503, 65011, 130027, 260111, 520279,
+	static final Integer[] RESIZE_ARRAY = new Integer[] { /*31, 53, 97, 193, 389,
+	    769,*/ 1019, 2027, 4079, 8123, 16267, 32503, 65011, 130027, 260111, 520279,
 	    1040387, 2080763, 4161539, 8323151, 16646323 };
 	static final int INITIAL_CAPACITY = RESIZE_ARRAY[0];
 
@@ -44,6 +44,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 	private transient int longestk = 4;
 	/** Only used in debugging a printing. */
 	private transient int longestv = 6;
+	private transient int longestProbe = 0;
 
 	/**
 	 * @author "Jonavon Wilcox <jowilcox@vt.edu>"
@@ -233,6 +234,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 			int m = entry.getValue().toString().length();
 			this.longestv = (m > this.longestv) ? m : this.longestv;
 			this.size++;
+			this.longestProbe = (this.longestProbe < this.collisions)? this.collisions : this.longestProbe;
 			this.collisions = 0;
 		}
 		else {
@@ -451,7 +453,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public String toString() {
-		return this.debug();
+		return this.print();
 	}
 
 	/**
@@ -465,6 +467,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 		output += "    NUMBER OF ITEMS: "+ this.size() + "\n";
 		output += "     TABLE CAPACITY: "+ this.getCapacity() + "\n";
 		output += "        TABLE LIMIT: "+ this.limit + "\n";
+		output += "      LONGEST PROBE: "+ this.longestProbe + "\n";
 		output += this.print();
 		return output;
 	}
@@ -476,6 +479,13 @@ public class Hashtable<K, V> implements Map<K, V> {
 	private int getCapacity() {
 		return this.table.length;
 	}
+	/**
+	 * @return the longestProbe
+	 */
+	public int getLongestProbe() {
+		return longestProbe;
+	}
+
 	/**
 	 * Return a string that contains a human readable version of the hash
 	 * table.
@@ -507,16 +517,19 @@ public class Hashtable<K, V> implements Map<K, V> {
 	private void printRows(int k, int v, StringBuilder output) {
 	  output.append("┌─");output.append(this.repeatText('─', 8)); output.append("─┬─"); output.append(this.repeatText('─', k));          output.append("─┬─"); output.append(this.repeatText('─', v));            output.append("─┐\n");
 		for(int i = 0; i < this.table.length; i++) {
-			Entry<K,V> e = this.table[i];
-			String key = (this.table[i] == null)? "": e.getKey().toString();
-			String val = (this.table[i] == null)? "": e.getValue().toString();
-			if(this.table[i] != null && this.table[i].isTombstone()) {
-				output.append("│ "); output.append(String.format("%08d", i)); output.append(" │ "); output.append(this.repeatText('*', k+v+3)); output.append(" │\n");
+			 // Don't print null rows
+			if(this.table[i] != null) {
+				Entry<K,V> e = this.table[i];
+				String key = (this.table[i] == null)? "": e.getKey().toString();
+				String val = (this.table[i] == null)? "": e.getValue().toString();
+				if(this.table[i] != null && this.table[i].isTombstone()) {
+					output.append("│ "); output.append(String.format("%08d", i)); output.append(" │ "); output.append(this.repeatText('*', k+v+3)); output.append(" │\n");
+				}
+				else {
+					output.append("│ "); output.append(String.format("%08d", i)); output.append(" │ "); output.append(String.format("%-"+k+"s", key)); output.append(" │ "); output.append(String.format("%"+v+"s", val)); output.append(" │\n");
+				}
+				output.append("├─"); output.append(this.repeatText('─', 8)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
 			}
-			else {
-				output.append("│ "); output.append(String.format("%08d", i)); output.append(" │ "); output.append(String.format("%-"+k+"s", key)); output.append(" │ "); output.append(String.format("%"+v+"s", val)); output.append(" │\n");
-			}
-			output.append("├─"); output.append(this.repeatText('─', 8)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
 		}
 		output.append("└─");output.append(this.repeatText('─', 8)); output.append("─┴─"); output.append(this.repeatText('─', k));          output.append("─┴─"); output.append(this.repeatText('─', v));            output.append("─┘\n");
   }

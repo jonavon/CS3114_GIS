@@ -1,16 +1,16 @@
 package edu.vt.jowilcox.cs3114.p4.gis;
 
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import edu.vt.jowilcox.cs3114.p4.USStateAbbreviation;
-import edu.vt.jowilcox.cs3114.p4.prquadtree.Compare2D;
-import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
 
 /**
  * Class GISRecord Geographic Information System Record; Contains geographic
  * data. Each field maps to a field in the record.
  */
-public class GISRecord implements Compare2D<GISRecord> {
+public class GISRecord {
 
 	//
 	// Fields
@@ -31,31 +31,27 @@ public class GISRecord implements Compare2D<GISRecord> {
 	/**
 	 * Two Characters that represent the US postal code abbreviation.
 	 */
-	private edu.vt.jowilcox.cs3114.p4.USStateAbbreviation state;
-	/**
-	 * Non negative integer that represents the numeric code for the state.
-	 */
-	private int stateCode;
+	private USStateAbbreviation state;
 	/**
 	 * Record's latitude in decimal format or unknown.
 	 */
-	private double latitude;
+	private Double latitude;
 	/**
 	 * Record's longitude in decimal format or unknown.
 	 */
-	private double longitude;
+	private Double longitude;
 	/**
 	 * Latitude of the record's source in decimal format.
 	 */
-	private double slatitude;
+	private Double slatitude;
 	/**
 	 * Longitude of record's source in decimal format.
 	 */
-	private double slongitude;
+	private Double slongitude;
 	/**
 	 * Record's elevation in meters
 	 */
-	private int elevation;
+	private Integer elevation;
 	/**
 	 * Name of USGS topographic map including record.
 	 */
@@ -63,11 +59,11 @@ public class GISRecord implements Compare2D<GISRecord> {
 	/**
 	 * Date record was initially committed to the database, optional.
 	 */
-	private Date created;
+	private Calendar created;
 	/**
 	 * Date record was last updated, optional.
 	 */
-	private Date edited;
+	private Calendar edited;
 
 	//
 	// Constructors
@@ -75,7 +71,65 @@ public class GISRecord implements Compare2D<GISRecord> {
 	/**
 	 * Constructor.
 	 */
-	public GISRecord() {}
+	public GISRecord() {
+	}
+
+	public GISRecord(String fields) {
+		this(fields.split("\\|"));
+	}
+
+	public GISRecord(String... fields) {
+		// @formatter:off
+		// 0 FEATURE_ID|1 FEATURE_NAME|2 FEATURE_CLASS|3 STATE_ALPHA|4 STATE_NUMERIC|5 COUNTY_NAME|6 COUNTY_NUMERIC|7 PRIMARY_LAT_DMS|8 PRIM_LONG_DMS|9 PRIM_LAT_DEC
+		// | 10 PRIM_LONG_DEC|11 SOURCE_LAT_DMS|12 SOURCE_LONG_DMS|13 SOURCE_LAT_DEC|14 SOURCE_LONG_DEC|15 ELEV_IN_M|16 ELEV_IN_FT|17 MAP_NAME|18 DATE_CREATED|19 DATE_EDITED
+		
+		this.fid = Integer.valueOf(fields[0]);
+		this.name = (fields[1].isEmpty()) ? null : fields[1];
+		this.classifier = (fields[2].isEmpty()) ? null : fields[2];
+		this.state = (fields[3].isEmpty()) ? null : USStateAbbreviation.valueOf(fields[3]);
+		this.latitude = (fields[9].isEmpty()) ? null : Double.valueOf(fields[9]);
+		this.longitude = (fields[10].isEmpty()) ? null : Double.valueOf(fields[10]);
+		this.slatitude = (fields[13].isEmpty()) ? null : Double.valueOf(fields[13]);
+		this.slongitude = (fields[14].isEmpty()) ? null : Double.valueOf(fields[14]);
+		this.elevation = (fields[15].isEmpty()) ? null : Integer.valueOf(fields[15]);
+		this.mapname = (fields[17].isEmpty()) ? null : fields[17];
+
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		this.created = (fields[18].isEmpty()) ? null : Calendar.getInstance();
+		this.edited = (fields[fields.length - 1].isEmpty()) ? null : Calendar.getInstance();
+		try {
+			if(this.created != null) { 
+				this.created.setTime(sdf.parse(fields[18]));
+			}
+			if(this.edited != null) { 
+				this.edited.setTime(sdf.parse(fields[fields.length - 1]));
+			}
+		}
+		catch (ParseException e) {
+			System.err.println(fields[1]);
+			e.printStackTrace();
+		}
+	}
+	// @formatter:on
+
+	public GISRecord(int fid, String name, String classifier,
+	    USStateAbbreviation state, double latitude, double longitude,
+	    double slatitude, double slongitude, int elevation, String mapname,
+	    Calendar created, Calendar edited) {
+		super();
+		this.fid = fid;
+		this.name = name;
+		this.classifier = classifier;
+		this.state = state;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.slatitude = slatitude;
+		this.slongitude = slongitude;
+		this.elevation = elevation;
+		this.mapname = mapname;
+		this.created = created;
+		this.edited = edited;
+	}
 
 	//
 	// Methods
@@ -90,7 +144,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * geographic record.
 	 * 
 	 * @param fid
-	 *            the new value of fid
+	 *          the new value of fid
 	 */
 	public void setFid(int fid) {
 		this.fid = fid;
@@ -110,7 +164,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * Set the value of name Standard name of this record.
 	 * 
 	 * @param name
-	 *            the new value of name
+	 *          the new value of name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -129,7 +183,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * Set the value of classifier Descriptive class of this record
 	 * 
 	 * @param clazz
-	 *            the new value of classifier
+	 *          the new value of classifier
 	 */
 	public void setClassifier(String clazz) {
 		this.classifier = clazz;
@@ -149,7 +203,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * abbreviation.
 	 * 
 	 * @param abbrev
-	 *            the new value of state
+	 *          the new value of state
 	 */
 	public void setState(USStateAbbreviation abbrev) {
 		this.state = abbrev;
@@ -161,36 +215,25 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * 
 	 * @return the value of state
 	 */
-	public edu.vt.jowilcox.cs3114.p4.USStateAbbreviation getState() {
+	public USStateAbbreviation getState() {
 		return this.state;
 	}
 
 	/**
-	 * Set the value of stateCode Non negative integer that represents the
-	 * numeric code for the state.
-	 * 
-	 * @param stateCode
-	 *            the new value of stateCode
-	 */
-	public void setStateCode(int stateCode) {
-		this.stateCode = stateCode;
-	}
-
-	/**
-	 * Get the value of stateCode Non negative integer that represents the
-	 * numeric code for the state.
+	 * Get the value of stateCode Non negative integer that represents the numeric
+	 * code for the state.
 	 * 
 	 * @return the value of stateCode
 	 */
 	public int getStateCode() {
-		return this.stateCode;
+		return this.state.getNumeric();
 	}
 
 	/**
 	 * Set the value of latitude Record's latitude in decimal format or unknown.
 	 * 
 	 * @param latitude
-	 *            the new value of latitude
+	 *          the new value of latitude
 	 */
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
@@ -206,19 +249,17 @@ public class GISRecord implements Compare2D<GISRecord> {
 	}
 
 	/**
-	 * Set the value of longitude Record's longitude in decimal format or
-	 * unknown.
+	 * Set the value of longitude Record's longitude in decimal format or unknown.
 	 * 
 	 * @param longitude
-	 *            the new value of longitude
+	 *          the new value of longitude
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
 	/**
-	 * Get the value of longitude Record's longitude in decimal format or
-	 * unknown.
+	 * Get the value of longitude Record's longitude in decimal format or unknown.
 	 * 
 	 * @return the value of longitude
 	 */
@@ -231,7 +272,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * format.
 	 * 
 	 * @param slatitude
-	 *            the new value of slatitude
+	 *          the new value of slatitude
 	 */
 	public void setSlatitude(double slatitude) {
 		this.slatitude = slatitude;
@@ -248,19 +289,17 @@ public class GISRecord implements Compare2D<GISRecord> {
 	}
 
 	/**
-	 * Set the value of slongitude Longitude of record's source in decimal
-	 * format.
+	 * Set the value of slongitude Longitude of record's source in decimal format.
 	 * 
 	 * @param slongitude
-	 *            the new value of slongitude
+	 *          the new value of slongitude
 	 */
 	public void setSlongitude(double slongitude) {
 		this.slongitude = slongitude;
 	}
 
 	/**
-	 * Get the value of slongitude Longitude of record's source in decimal
-	 * format.
+	 * Get the value of slongitude Longitude of record's source in decimal format.
 	 * 
 	 * @return the value of slongitude
 	 */
@@ -272,7 +311,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * Set the value of elevation Record's elevation in meters
 	 * 
 	 * @param elevation
-	 *            the new value of elevation
+	 *          the new value of elevation
 	 */
 	public void setElevation(int elevation) {
 		this.elevation = elevation;
@@ -291,7 +330,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * Set the value of mapname Name of USGS topographic map including record.
 	 * 
 	 * @param mapname
-	 *            the new value of mapname
+	 *          the new value of mapname
 	 */
 	public void setMapname(String mapname) {
 		this.mapname = mapname;
@@ -311,9 +350,9 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * database, optional.
 	 * 
 	 * @param created
-	 *            the new value of created
+	 *          the new value of created
 	 */
-	public void setCreated(Date created) {
+	public void setCreated(Calendar created) {
 		this.created = created;
 	}
 
@@ -323,7 +362,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * 
 	 * @return the value of created
 	 */
-	public Date getCreated() {
+	public Calendar getCreated() {
 		return this.created;
 	}
 
@@ -331,9 +370,9 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * Set the value of edited Date record was last updated, optional.
 	 * 
 	 * @param edited
-	 *            the new value of edited
+	 *          the new value of edited
 	 */
-	public void setEdited(Date edited) {
+	public void setEdited(Calendar edited) {
 		this.edited = edited;
 	}
 
@@ -342,52 +381,7 @@ public class GISRecord implements Compare2D<GISRecord> {
 	 * 
 	 * @return the value of edited
 	 */
-	public Date getEdited() {
+	public Calendar getEdited() {
 		return this.edited;
-	}
-
-	//
-	// Other methods
-	//
-
-	/**
-	 * Convert a decimal longitude or latitude value to DMS format.
-	 * 
-	 * @return String
-	 * @param degrees
-	 *            A latitude or longitude value.
-	 */
-	protected String toDMS(double degrees) {
-		return null;
-	}
-
-	@Override
-	public long getX() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public long getY() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Direction directionFrom(long X, long Y) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Direction inQuadrant(double xLo, double xHi, double yLo, double yHi) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean inBox(double xLo, double xHi, double yLo, double yHi) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

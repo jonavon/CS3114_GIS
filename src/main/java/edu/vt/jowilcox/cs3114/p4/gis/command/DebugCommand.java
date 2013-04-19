@@ -1,33 +1,51 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
-import edu.vt.jowilcox.cs3114.p4.Command;
 
+import java.io.IOException;
 
 /**
  * Class DebugCommand
  */
-public class DebugCommand implements Command {
+public class DebugCommand extends AbstractCommand {
+	private DebugCommand.TYPE debug;
 
 	//
 	// Fields
 	//
+	enum TYPE {
+		quad, hash, pool
+	}
 
-  
 	//
 	// Constructors
 	//
-	public DebugCommand () { };
-  
-	//
-	// Methods
-	//
 
+	public DebugCommand(String args) {
+		this(args.split("\\s"));
+	}
 
-	//
-	// Accessor methods
-	//
+	public DebugCommand(String... args) {
+		this.debug = DebugCommand.TYPE.valueOf(args[0]);
+	}
 
-	//
-	// Other methods
-	//
-
+	@Override
+	public void execute() {
+		try {
+			switch (this.debug) {
+				case quad:
+					this.logfile.log(this.database.getCoordIndex().print(false));
+				break;
+				case hash:
+					this.logfile.log(this.database.getNameIndex().debug());
+				break;
+				// TODO Add a buffer pool debug
+				default:
+					this.logfile.log("Invalid command");
+				break;
+			}
+		}
+		catch (IOException e) {
+			System.err.println("Unable to print debug data do to error");
+			e.printStackTrace();
+		}
+	}
 }
