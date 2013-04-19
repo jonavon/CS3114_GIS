@@ -360,6 +360,14 @@ public class GISDatabaseFile extends AbstractGISFile {
 			this.coordIndex.insert(cindex);
 		}
 	}
+	
+	public int getCoordIndexSize() {
+		return this.coordIndex.size();
+	}
+	
+	public int getNameIndexSize() {
+		return this.nameIndex.size();
+	}
 
 	public void insert(GISRecordsFile document) throws IOException {
 		long size = document.getFile().length();

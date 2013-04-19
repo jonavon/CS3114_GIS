@@ -19,6 +19,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 
 	prQuadNode root;
 	long xMin, xMax, yMin, yMax;
+	private transient int size = 0;
 	final int bucketSize;
 
 	/**
@@ -232,6 +233,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 			this.root = this.delete(elem, this.root, this.xMin, this.xMax, this.yMin,
 			    this.yMax);
 			deleted = true;
+			this.size--;
 		}
 		catch (Exception e) {
 			deleted = false;
@@ -451,6 +453,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 			this.root = this.insert(elem, this.root, this.xMin, this.xMax, this.yMin,
 			    this.yMax);
 			inserted = true;
+			this.size++;
 		}
 		catch (Exception e) {
 			inserted = false;
@@ -720,4 +723,11 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		output += element + '\n';
 		return output;
 	}
+
+	/**
+	 * @return the size
+	 */
+  public int size() {
+	  return size;
+  }
 }
