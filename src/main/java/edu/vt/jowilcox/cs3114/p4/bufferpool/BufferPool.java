@@ -3,6 +3,7 @@ package edu.vt.jowilcox.cs3114.p4.bufferpool;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 
 /**
@@ -23,6 +24,9 @@ public class BufferPool<K, V> implements Serializable {
     private static final long serialVersionUID = -8751061971956633424L;
 		private int capacity;
     
+    /**
+     * @param capacity
+     */
     public HashMapBuffer(int capacity) {
     	super(capacity + 1, BufferPool.DO_NOT_RESIZE, true);
     	this.capacity = capacity;
@@ -37,15 +41,27 @@ public class BufferPool<K, V> implements Serializable {
     }
   }
   
+  /**
+   * 
+   */
   static final int DEFAULT_CAPACITY = 20;
 
+	/**
+	 * 
+	 */
 	private static final float DO_NOT_RESIZE = 1.7f;
 
   /** Pool stack */
 	private HashMapBuffer<K,V> pool;
 
-	private transient int longestk = 0;
-	private transient int longestv = 0;
+	/**
+	 * 
+	 */
+	private transient int longestk = 5;
+	/**
+	 * 
+	 */
+	private transient int longestv = 6;
   /** Pool Stack */
   
   /**
@@ -63,12 +79,21 @@ public class BufferPool<K, V> implements Serializable {
   	this.pool = new HashMapBuffer<>(capacity);
   }
   
+  /**
+   * @param key
+   * @return
+   */
   public synchronized V get(K key) {
   	return this.pool.get(key);
   }
   
+  /**
+   * @param key
+   * @param value
+   */
   public synchronized void put(K key, V value) {
   	this.longestk = (this.longestk < key.toString().length())? key.toString().length() : this.longestk;
+  	this.longestv = (this.longestv < value.toString().length())? value.toString().length() : this.longestv;
   	this.pool.put(key, value);
   }
   
@@ -113,21 +138,19 @@ public class BufferPool<K, V> implements Serializable {
 		int v = this.longestv;
 		StringBuilder output = new StringBuilder();
 		// Header row
-		output.append("┏━");output.append(this.repeatText('━', 2)); output.append("━┳━"); output.append(this.repeatText('━', k));          output.append("━┳━"); output.append(this.repeatText('━', v));            output.append("━┓\n");
+		output.append("┏━");output.append(this.repeatText('━', 5)); output.append("━┳━"); output.append(this.repeatText('━', k));          output.append("━┳━"); output.append(this.repeatText('━', v));            output.append("━┓\n");
 		output.append("┃ ");output.append(String.format("%-2s", "INDEX")); output.append(" ┃ "); output.append(String.format("%-"+k+"s", "KEY")); output.append(" ┃ "); output.append(String.format("%"+v+"s", "VALUES")); output.append(" ┃\n");
-		output.append("┗━");output.append(this.repeatText('━', 2)); output.append("━┻━"); output.append(this.repeatText('━', k));          output.append("━┻━"); output.append(this.repeatText('━', v));            output.append("━┛\n");
-		
+		output.append("┗━");output.append(this.repeatText('━', 5)); output.append("━┻━"); output.append(this.repeatText('━', k));          output.append("━┻━"); output.append(this.repeatText('━', v));            output.append("━┛\n");
 		// Table rows
-	  output.append("┌─");output.append(this.repeatText('─', 2)); output.append("─┬─"); output.append(this.repeatText('─', k));          output.append("─┬─"); output.append(this.repeatText('─', v));            output.append("─┐\n");
+	  output.append("┌─");output.append(this.repeatText('─', 5)); output.append("─┬─"); output.append(this.repeatText('─', k));          output.append("─┬─"); output.append(this.repeatText('─', v));            output.append("─┐\n");
 	  int i = 0;
-		for(K ky : this.pool.keySet()) {
-			String key = ky.toString();
-			String val = (this.pool.get(key).toString());
-			output.append("│ "); output.append(String.format("%02d", ++i)); output.append(" │ "); output.append(String.format("%-"+k+"s", key)); output.append(" │ "); output.append(String.format("%"+v+"s", val)); output.append(" │\n");
-			output.append("├─"); output.append(this.repeatText('─', 2)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
+		for(Entry<K, V> e : this.pool.entrySet()) {
+			String key = e.getKey().toString();
+			String val = e.getValue().toString();
+			output.append("│ "); output.append(String.format("%02d   ", ++i)); output.append(" │ "); output.append(String.format("%-"+k+"s", key)); output.append(" │ "); output.append(String.format("%"+v+"s", val)); output.append(" │\n");
+			output.append("├─"); output.append(this.repeatText('─', 5)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
 		}
-		output.append("└─");output.append(this.repeatText('─', 2)); output.append("─┴─"); output.append(this.repeatText('─', k));          output.append("─┴─"); output.append(this.repeatText('─', v));            output.append("─┘\n");
-
+		output.append("└─");output.append(this.repeatText('─', 5)); output.append("─┴─"); output.append(this.repeatText('─', k));          output.append("─┴─"); output.append(this.repeatText('─', v));            output.append("─┘\n");
 		return output.toString();
 	}
 
