@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 
+import edu.vt.jowilcox.cs3114.p4.gis.GIS;
 import edu.vt.jowilcox.cs3114.p4.gis.GISDatabaseFile;
 import edu.vt.jowilcox.cs3114.p4.gis.GISLogFile;
 
@@ -145,8 +146,11 @@ public class GISCommandInvoker {
 	public void run() {
 		int count = 0;
 		for (String cmd : this.commands) {
+			String section = "\nCommand " + count++ + ":\t" + cmd + "\n";
+			section += GIS.repeatText('-', section.length() + 1);
+			section += "\n";
 			try {
-				this.logfile.log("Command " + count + ":\t" + cmd + "\n\n");
+				this.logfile.log(section);
 				this.invoke();
 			}
 			catch (Exception e) {

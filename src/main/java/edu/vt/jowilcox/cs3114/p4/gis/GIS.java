@@ -4,6 +4,8 @@
 package edu.vt.jowilcox.cs3114.p4.gis;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import edu.vt.jowilcox.cs3114.p4.gis.command.GISCommandInvoker;
 
@@ -38,12 +40,15 @@ public class GIS {
 		}
 		// Run commands
 		GISCommandInvoker controller = new GISCommandInvoker(database, logfile);
+		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c = Calendar.getInstance();
 		try {
 			controller.enqueue(commands.readAll());
 			StringBuilder sb = new StringBuilder();
-			sb.append("Database File: " + args[0] + "\n");
-			sb.append("Commands File: " + args[1] + "\n");
-			sb.append("     Log File: " + args[2] + "\n");
+			sb.append("Database File\n:\t" + args[0] + "\n\n");
+			sb.append("Commands File\n:\t" + args[1] + "\n\n");
+			sb.append("Log File\n:\t" + args[2] + "\n\n");
+			sb.append("Start Time\n:\t" + dateformat.format(c.getTime()) + "\n");
 			logfile.log(sb.toString());
 			controller.run();
 		}
@@ -51,5 +56,21 @@ public class GIS {
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	/**
+	 * Repeats one character a number of times.
+	 * @param c the character to be repeated.
+	 * @param number Number of times to repeat character.
+	 * @return String of repeated text.
+	 */
+	public static String repeatText(char c, int number) {
+		assert number >= 0 : "Number must be greater than 0";
+		StringBuilder output = new StringBuilder();
+		for (int i = 0; i < number; i++) {
+			output.append(c);
+		}
+		return output.toString();
+	}
+
 
 }
