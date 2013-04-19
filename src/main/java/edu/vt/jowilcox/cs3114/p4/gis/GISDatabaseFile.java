@@ -3,6 +3,8 @@ package edu.vt.jowilcox.cs3114.p4.gis;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Map;
+import java.util.TreeMap;
 
 import edu.vt.jowilcox.cs3114.p4.Hashtable;
 import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
@@ -26,8 +28,10 @@ public class GISDatabaseFile extends AbstractGISFile {
 	private class Index implements Compare2D<Index> {
 		private long offset;
 		private String name;
+		private Map<Long, String> shell;
 		private long xcoord;
 		private long ycoord;
+		private boolean delete;
 
 		/**
 		 * @param offset
@@ -40,6 +44,9 @@ public class GISDatabaseFile extends AbstractGISFile {
 			this.name = name;
 			this.xcoord = xcoord;
 			this.ycoord = ycoord;
+			this.delete = false;
+			this.shell = new TreeMap<>();
+			this.shell.put(this.offset, this.name);
 		}
 
 		/**
@@ -184,8 +191,8 @@ public class GISDatabaseFile extends AbstractGISFile {
 
 			if ((o.getClass() == Index.class)) {
 				return ( ((Index) o).getX() == this.getX())
-				    && (((Index) o).getY() == this.getY())
-				    && (((Index) o).getOffset() == this.getOffset());
+				    && (((Index) o).getY() == this.getY());
+				    //&& (((Index) o).getOffset() == this.getOffset());
 			}
 			return false;
 		}
@@ -203,6 +210,29 @@ public class GISDatabaseFile extends AbstractGISFile {
 		public long getOffset() {
 			return this.offset;
 		}
+
+		@Override
+    public void fusion(Index o) {
+			if(this.equals(o)) {
+				this.shell.putAll(o.shell);
+			}
+    }
+
+		@Override
+    public void fission(Index o) {
+			if(this.equals(o)) {
+				for(Long k : o.shell.keySet()) {
+					this.shell.remove(k);
+				}
+				this.delete = (this.shell.size() == 0);
+			}
+	    
+    }
+
+		@Override
+    public boolean isDeleted() {
+	    return this.delete;
+    }
 	}
 
 	/**
