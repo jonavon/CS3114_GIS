@@ -11,7 +11,7 @@ import edu.vt.jowilcox.cs3114.p4.USStateAbbreviation;
  * data. Each field maps to a field in the record.
  */
 public class GISRecord {
-	
+
 	//
 	// Fields
 	//
@@ -71,54 +71,65 @@ public class GISRecord {
 	/**
 	 * Constructor.
 	 */
-	public GISRecord() {}
+	public GISRecord() {
+	}
+
 	public GISRecord(String fields) {
 		this(fields.split("\\|"));
 	}
+
 	public GISRecord(String... fields) {
-		// 0 FEATURE_ID|1 FEATURE_NAME|2 FEATURE_CLASS|3 STATE_ALPHA|4 STATE_NUMERIC|5 COUNTY_NAME|6 COUNTY_NUMERIC|7 PRIMARY_LAT_DMS|8 PRIM_LONG_DMS|9 PRIM_LAT_DEC|
-		// 10 PRIM_LONG_DEC|11 SOURCE_LAT_DMS|12 SOURCE_LONG_DMS|13 SOURCE_LAT_DEC|14 SOURCE_LONG_DEC|15 ELEV_IN_M|16 ELEV_IN_FT|17 MAP_NAME|18 DATE_CREATED|19 DATE_EDITED
-		this.fid = Integer.valueOf(fields[0]);
-		this.name = (fields[1].isEmpty())? null : fields[1];
-		this.classifier = (fields[2].isEmpty())? null : fields[2];
-		this.state = (fields[3].isEmpty())? null : USStateAbbreviation.valueOf(fields[3]);
-		this.latitude = (fields[9].isEmpty())? null : Double.valueOf(fields[9]);
-		this.longitude = (fields[10].isEmpty())? null : Double.valueOf(fields[10]);
-		this.slatitude = (fields[13].isEmpty())? null : Double.valueOf(fields[13]);
-		this.slongitude = (fields[14].isEmpty())? null : Double.valueOf(fields[14]);
-		this.elevation = (fields[15].isEmpty())? null : Integer.valueOf(fields[15]);
-		this.mapname = (fields[17].isEmpty())? null : fields[17];
+		// @formatter:off
+		// 0 FEATURE_ID|1 FEATURE_NAME|2 FEATURE_CLASS|3 STATE_ALPHA|4 STATE_NUMERIC|5 COUNTY_NAME|6 COUNTY_NUMERIC|7 PRIMARY_LAT_DMS|8 PRIM_LONG_DMS|9 PRIM_LAT_DEC
+		// | 10 PRIM_LONG_DEC|11 SOURCE_LAT_DMS|12 SOURCE_LONG_DMS|13 SOURCE_LAT_DEC|14 SOURCE_LONG_DEC|15 ELEV_IN_M|16 ELEV_IN_FT|17 MAP_NAME|18 DATE_CREATED|19 DATE_EDITED
 		
+		this.fid = Integer.valueOf(fields[0]);
+		this.name = (fields[1].isEmpty()) ? null : fields[1];
+		this.classifier = (fields[2].isEmpty()) ? null : fields[2];
+		this.state = (fields[3].isEmpty()) ? null : USStateAbbreviation.valueOf(fields[3]);
+		this.latitude = (fields[9].isEmpty()) ? null : Double.valueOf(fields[9]);
+		this.longitude = (fields[10].isEmpty()) ? null : Double.valueOf(fields[10]);
+		this.slatitude = (fields[13].isEmpty()) ? null : Double.valueOf(fields[13]);
+		this.slongitude = (fields[14].isEmpty()) ? null : Double.valueOf(fields[14]);
+		this.elevation = (fields[15].isEmpty()) ? null : Integer.valueOf(fields[15]);
+		this.mapname = (fields[17].isEmpty()) ? null : fields[17];
+
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		this.created = Calendar.getInstance();
-		this.edited = Calendar.getInstance();
+		this.created = (fields[18].isEmpty()) ? null : Calendar.getInstance();
+		this.edited = (fields[fields.length - 1].isEmpty()) ? null : Calendar.getInstance();
 		try {
-	    this.created.setTime(sdf.parse(fields[18]));
-			this.edited.setTime(sdf.parse(fields[18]));
-    }
-    catch (ParseException e) {
-	    e.printStackTrace();
-    }
+			if(this.created != null) { 
+				this.created.setTime(sdf.parse(fields[18]));
+			}
+			if(this.edited != null) { 
+				this.edited.setTime(sdf.parse(fields[fields.length - 1]));
+			}
+		}
+		catch (ParseException e) {
+			System.err.println(fields[1]);
+			e.printStackTrace();
+		}
 	}
-	
+	// @formatter:on
+
 	public GISRecord(int fid, String name, String classifier,
-      USStateAbbreviation state, double latitude,
-      double longitude, double slatitude, double slongitude, int elevation,
-      String mapname, Calendar created, Calendar edited) {
-	  super();
-	  this.fid = fid;
-	  this.name = name;
-	  this.classifier = classifier;
-	  this.state = state;
-	  this.latitude = latitude;
-	  this.longitude = longitude;
-	  this.slatitude = slatitude;
-	  this.slongitude = slongitude;
-	  this.elevation = elevation;
-	  this.mapname = mapname;
-	  this.created = created;
-	  this.edited = edited;
-  }
+	    USStateAbbreviation state, double latitude, double longitude,
+	    double slatitude, double slongitude, int elevation, String mapname,
+	    Calendar created, Calendar edited) {
+		super();
+		this.fid = fid;
+		this.name = name;
+		this.classifier = classifier;
+		this.state = state;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.slatitude = slatitude;
+		this.slongitude = slongitude;
+		this.elevation = elevation;
+		this.mapname = mapname;
+		this.created = created;
+		this.edited = edited;
+	}
 
 	//
 	// Methods
@@ -133,7 +144,7 @@ public class GISRecord {
 	 * geographic record.
 	 * 
 	 * @param fid
-	 *            the new value of fid
+	 *          the new value of fid
 	 */
 	public void setFid(int fid) {
 		this.fid = fid;
@@ -153,7 +164,7 @@ public class GISRecord {
 	 * Set the value of name Standard name of this record.
 	 * 
 	 * @param name
-	 *            the new value of name
+	 *          the new value of name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -172,7 +183,7 @@ public class GISRecord {
 	 * Set the value of classifier Descriptive class of this record
 	 * 
 	 * @param clazz
-	 *            the new value of classifier
+	 *          the new value of classifier
 	 */
 	public void setClassifier(String clazz) {
 		this.classifier = clazz;
@@ -192,7 +203,7 @@ public class GISRecord {
 	 * abbreviation.
 	 * 
 	 * @param abbrev
-	 *            the new value of state
+	 *          the new value of state
 	 */
 	public void setState(USStateAbbreviation abbrev) {
 		this.state = abbrev;
@@ -208,10 +219,9 @@ public class GISRecord {
 		return this.state;
 	}
 
-
 	/**
-	 * Get the value of stateCode Non negative integer that represents the
-	 * numeric code for the state.
+	 * Get the value of stateCode Non negative integer that represents the numeric
+	 * code for the state.
 	 * 
 	 * @return the value of stateCode
 	 */
@@ -223,7 +233,7 @@ public class GISRecord {
 	 * Set the value of latitude Record's latitude in decimal format or unknown.
 	 * 
 	 * @param latitude
-	 *            the new value of latitude
+	 *          the new value of latitude
 	 */
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
@@ -239,19 +249,17 @@ public class GISRecord {
 	}
 
 	/**
-	 * Set the value of longitude Record's longitude in decimal format or
-	 * unknown.
+	 * Set the value of longitude Record's longitude in decimal format or unknown.
 	 * 
 	 * @param longitude
-	 *            the new value of longitude
+	 *          the new value of longitude
 	 */
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 
 	/**
-	 * Get the value of longitude Record's longitude in decimal format or
-	 * unknown.
+	 * Get the value of longitude Record's longitude in decimal format or unknown.
 	 * 
 	 * @return the value of longitude
 	 */
@@ -264,7 +272,7 @@ public class GISRecord {
 	 * format.
 	 * 
 	 * @param slatitude
-	 *            the new value of slatitude
+	 *          the new value of slatitude
 	 */
 	public void setSlatitude(double slatitude) {
 		this.slatitude = slatitude;
@@ -281,19 +289,17 @@ public class GISRecord {
 	}
 
 	/**
-	 * Set the value of slongitude Longitude of record's source in decimal
-	 * format.
+	 * Set the value of slongitude Longitude of record's source in decimal format.
 	 * 
 	 * @param slongitude
-	 *            the new value of slongitude
+	 *          the new value of slongitude
 	 */
 	public void setSlongitude(double slongitude) {
 		this.slongitude = slongitude;
 	}
 
 	/**
-	 * Get the value of slongitude Longitude of record's source in decimal
-	 * format.
+	 * Get the value of slongitude Longitude of record's source in decimal format.
 	 * 
 	 * @return the value of slongitude
 	 */
@@ -305,7 +311,7 @@ public class GISRecord {
 	 * Set the value of elevation Record's elevation in meters
 	 * 
 	 * @param elevation
-	 *            the new value of elevation
+	 *          the new value of elevation
 	 */
 	public void setElevation(int elevation) {
 		this.elevation = elevation;
@@ -324,7 +330,7 @@ public class GISRecord {
 	 * Set the value of mapname Name of USGS topographic map including record.
 	 * 
 	 * @param mapname
-	 *            the new value of mapname
+	 *          the new value of mapname
 	 */
 	public void setMapname(String mapname) {
 		this.mapname = mapname;
@@ -344,7 +350,7 @@ public class GISRecord {
 	 * database, optional.
 	 * 
 	 * @param created
-	 *            the new value of created
+	 *          the new value of created
 	 */
 	public void setCreated(Calendar created) {
 		this.created = created;
@@ -364,7 +370,7 @@ public class GISRecord {
 	 * Set the value of edited Date record was last updated, optional.
 	 * 
 	 * @param edited
-	 *            the new value of edited
+	 *          the new value of edited
 	 */
 	public void setEdited(Calendar edited) {
 		this.edited = edited;

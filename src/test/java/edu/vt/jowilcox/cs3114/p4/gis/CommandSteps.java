@@ -38,7 +38,7 @@ public class CommandSteps {
 
 	@When("^the system is run$")
 	public void the_system_is_run() throws Throwable {
-		GIS.main(new String[] { DB_FILE_PATH, CMD_FILE_PATH, LOG_FILE_PATH });
+		//GIS.main(new String[] { DB_FILE_PATH, CMD_FILE_PATH, LOG_FILE_PATH });
 		throw new PendingException();
 	}
 
