@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import edu.vt.jowilcox.cs3114.p4.Hashtable;
+import edu.vt.jowilcox.cs3114.p4.bufferpool.BufferPool;
 import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
 import edu.vt.jowilcox.cs3114.p4.prquadtree.prQuadtree;
 import edu.vt.jowilcox.cs3114.p4.prquadtree.Compare2D;
@@ -20,6 +21,7 @@ import edu.vt.jowilcox.cs3114.p4.prquadtree.Compare2D;
 public class GISDatabaseFile extends AbstractGISFile {
 	private Hashtable<String, Index> nameIndex;
 	private prQuadtree<CoordIndex> coordIndex;
+	private BufferPool<Long, GISRecord> bufferPool;
 
 	private class Index {
 		private long offset;
@@ -334,10 +336,19 @@ public class GISDatabaseFile extends AbstractGISFile {
 	 *           thrown if offset is less than 0 or other IOException .
 	 */
 	public String select(long offset) throws IOException {
-		// set file pointer to record offset
-		this.file.seek(offset);
-		// return the next line
-		return this.read();
+		if(this.bufferPool == null) {
+			this.bufferPool = new BufferPool<>();
+		}
+		// Check the buffer first
+		GISRecord data = this.bufferPool.get(offset);
+		if(data == null) {
+			// set file pointer to record offset
+			this.file.seek(offset);
+			// return the next line
+			data = new GISRecord(this.read());
+			this.bufferPool.put(offset, data);
+		}
+		return data.toString();
 	}
 
 	private void insert(String read) throws IOException {
