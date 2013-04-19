@@ -453,7 +453,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public String toString() {
-		return this.debug();
+		return this.print();
 	}
 
 	/**
@@ -467,6 +467,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 		output += "    NUMBER OF ITEMS: "+ this.size() + "\n";
 		output += "     TABLE CAPACITY: "+ this.getCapacity() + "\n";
 		output += "        TABLE LIMIT: "+ this.limit + "\n";
+		output += "      LONGEST PROBE: "+ this.longestProbe + "\n";
 		output += this.print();
 		return output;
 	}
@@ -478,6 +479,13 @@ public class Hashtable<K, V> implements Map<K, V> {
 	private int getCapacity() {
 		return this.table.length;
 	}
+	/**
+	 * @return the longestProbe
+	 */
+	public int getLongestProbe() {
+		return longestProbe;
+	}
+
 	/**
 	 * Return a string that contains a human readable version of the hash
 	 * table.
