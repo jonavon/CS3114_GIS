@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import edu.vt.jowilcox.cs3114.p4.Hashtable;
@@ -18,14 +19,79 @@ import edu.vt.jowilcox.cs3114.p4.prquadtree.Compare2D;
  */
 public class GISDatabaseFile extends AbstractGISFile {
 	private Hashtable<String, Index> nameIndex;
-	private prQuadtree<Index> coordIndex;
+	private prQuadtree<CoordIndex> coordIndex;
+
+	private class Index {
+		private long offset;
+		private String name;
+
+		/**
+		 * @param offset
+		 * @param name
+		 */
+		public Index(final long offset, final String name) {
+			this.offset = offset;
+			this.name = name;
+		}
+
+		/**
+		 * Returns a string representation of this index.
+		 * 
+		 * @return string representation of point.
+		 */
+		@Override
+		public String toString() {
+			StringBuilder output = new StringBuilder();
+		//	output.append((this.name == null) ? "" : this.getName());
+			output.append("<");
+			output.append(this.getOffset());
+			output.append(">");
+			return output.toString();
+		}
+
+		/**
+		 * @return the name
+		 */
+		public String getName() {
+			return name;
+		}
+
+		/**
+		 * @return the offset
+		 */
+		public long getOffset() {
+			return this.offset;
+		}
+
+		/**
+		 * Overrides the user data object's inherited equals() method with an
+		 * appropriate definition; it is necessary to place this in the interface
+		 * that is used as a bound on the type parameter for the generic spatial
+		 * structure, otherwise the compiler will bind to Object.equals(), which
+		 * will almost certainly be inappropriate.
+		 */
+		@Override
+		public boolean equals(Object o) {
+			if (o == null) {
+				return false;
+			}
+			if (o == this) {
+				return true;
+			}
+
+			if ((o.getClass() == Index.class)) {
+				return (((Index) o).getOffset() == this.getOffset());
+			}
+			return false;
+		}
+	}
 
 	/**
 	 * Index object.
 	 * 
 	 * @author "Jonavon Wilcox <jowilcox@vt.edu>"
 	 */
-	private class Index implements Compare2D<Index> {
+	private class CoordIndex extends Index implements Compare2D<CoordIndex> {
 		private long offset;
 		private String name;
 		private Map<Long, String> shell;
@@ -39,7 +105,8 @@ public class GISDatabaseFile extends AbstractGISFile {
 		 * @param xcoord
 		 * @param ycoord
 		 */
-		public Index(long offset, String name, long xcoord, long ycoord) {
+		public CoordIndex(long offset, String name, long xcoord, long ycoord) {
+			super(offset, name);
 			this.offset = offset;
 			this.name = name;
 			this.xcoord = xcoord;
@@ -163,14 +230,36 @@ public class GISDatabaseFile extends AbstractGISFile {
 		 */
 		@Override
 		public String toString() {
-			String point = (this.name == null) ? "" : this.getName();
-			point += "(";
-			point += this.getX();
-			point += ", ";
-			point += this.getY();
-			point += ")";
-			point += "<" + this.getOffset() + ">";
-			return point;
+			StringBuilder output = new StringBuilder();
+			int attached = this.shell.size();
+			if (attached > 1) {
+				output.append("{");
+				output.append(attached);
+				output.append(" attached}");
+			}
+			else {
+				output.append((this.name == null) ? "" : this.getName());
+			}
+			output.append("(");
+			output.append(this.getX());
+			output.append(", ");
+			output.append(this.getY());
+			output.append(")");
+			if (attached > 1) {
+				for (Entry<Long, String> entry : this.shell.entrySet()) {
+					output.append(" ");
+					output.append(entry.getValue());
+					output.append("<");
+					output.append(entry.getKey());
+					output.append(">");
+				}
+			}
+			else {
+				output.append("<");
+				output.append(this.getOffset());
+				output.append(">");
+			}
+			return output.toString();
 		}
 
 		/**
@@ -189,10 +278,9 @@ public class GISDatabaseFile extends AbstractGISFile {
 				return true;
 			}
 
-			if ((o.getClass() == Index.class)) {
-				return ( ((Index) o).getX() == this.getX())
-				    && (((Index) o).getY() == this.getY());
-				    //&& (((Index) o).getOffset() == this.getOffset());
+			if ((o.getClass() == CoordIndex.class)) {
+				return (((CoordIndex) o).getX() == this.getX())
+				    && (((CoordIndex) o).getY() == this.getY());
 			}
 			return false;
 		}
@@ -212,27 +300,27 @@ public class GISDatabaseFile extends AbstractGISFile {
 		}
 
 		@Override
-    public void fusion(Index o) {
-			if(this.equals(o)) {
+		public void fusion(CoordIndex o) {
+			if (this.equals(o)) {
 				this.shell.putAll(o.shell);
 			}
-    }
+		}
 
 		@Override
-    public void fission(Index o) {
-			if(this.equals(o)) {
-				for(Long k : o.shell.keySet()) {
+		public void fission(CoordIndex o) {
+			if (this.equals(o)) {
+				for (Long k : o.shell.keySet()) {
 					this.shell.remove(k);
 				}
 				this.delete = (this.shell.size() == 0);
 			}
-	    
-    }
+
+		}
 
 		@Override
-    public boolean isDeleted() {
-	    return this.delete;
-    }
+		public boolean isDeleted() {
+			return this.delete;
+		}
 	}
 
 	/**
@@ -270,20 +358,20 @@ public class GISDatabaseFile extends AbstractGISFile {
 		this.file.writeBytes(read + "\n");
 		GISRecord record = new GISRecord(read);
 		// index
-		Index index = new Index(
-				offset,
-				record.getName(), 
-				(long) (record.getLongitude() * 3600),
-				(long) (record.getLatitude() * 3600));
-		
-		if(this.nameIndex != null) {
-			this.nameIndex.put(record.getName() + ":" + record.getState().toString(), index);
+		Index index = new Index(offset, record.getName());
+		CoordIndex cindex = new CoordIndex(offset, record.getName(),
+		    (long) (record.getLongitude() * 3600),
+		    (long) (record.getLatitude() * 3600));
+
+		if (this.nameIndex != null) {
+			this.nameIndex.put(record.getName() + ":" + record.getState().toString(),
+			    index);
 		}
-		if(this.coordIndex != null) {
-			this.coordIndex.insert(index);
+		if (this.coordIndex != null) {
+			this.coordIndex.insert(cindex);
 		}
-  }
-	
+	}
+
 	public void insert(GISRecordsFile document) throws IOException {
 		// TODO Auto-generated method stub
 		long size = document.getFile().length();
@@ -293,7 +381,6 @@ public class GISDatabaseFile extends AbstractGISFile {
 			this.insert(document.read());
 		}
 	}
-
 
 	public void truncate() throws IOException {
 		this.file.setLength(0);
@@ -313,7 +400,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 	public void configNameIndex() {
 		this.nameIndex = new Hashtable<>();
 	}
-	
+
 	public void configNameIndex(int capacity) {
 		this.nameIndex = new Hashtable<>(capacity);
 	}
@@ -321,10 +408,11 @@ public class GISDatabaseFile extends AbstractGISFile {
 	public void configNameIndex(int capacity, float portion) {
 		this.nameIndex = new Hashtable<>(capacity, portion);
 	}
+
 	/**
 	 * @return the coordIndex
 	 */
-	public prQuadtree<Index> getCoordIndex() {
+	public prQuadtree<CoordIndex> getCoordIndex() {
 		return coordIndex;
 	}
 
@@ -335,9 +423,10 @@ public class GISDatabaseFile extends AbstractGISFile {
 	public void configCoordIndex(long xMin, long xMax, long yMin, long yMax) {
 		this.coordIndex = new prQuadtree<>(xMin, xMax, yMin, yMax);
 	}
-	
-	public void configCoordIndex(long xMin, long xMax, long yMin, long yMax, int bucketSize) {
+
+	public void configCoordIndex(long xMin, long xMax, long yMin, long yMax,
+	    int bucketSize) {
 		this.coordIndex = new prQuadtree<>(xMin, xMax, yMin, yMax, bucketSize);
 	}
-	
+
 }
