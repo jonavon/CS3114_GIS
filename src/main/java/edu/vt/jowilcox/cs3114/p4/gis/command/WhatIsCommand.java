@@ -1,33 +1,27 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
-import edu.vt.jowilcox.cs3114.p4.Command;
-
 
 /**
  * Class WhatIsCommand
  */
-public class WhatIsCommand implements Command {
-
-	//
-	// Fields
-	//
-
-  
+public class WhatIsCommand extends AbstractCommand {
 	//
 	// Constructors
 	//
-	public WhatIsCommand () { };
-  
-	//
-	// Methods
-	//
+	// TODO
+	public WhatIsCommand(String args) {
+		this(args.split("\\s"));
+	}
 
+	// TODO
+	public WhatIsCommand(String... args) {
+	}
 
-	//
-	// Accessor methods
-	//
+	public WhatIsCommand() {
+	}
 
-	//
-	// Other methods
-	//
-
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		System.out.println("What Is command executed.");
+	}
 }

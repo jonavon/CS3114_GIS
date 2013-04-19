@@ -1,33 +1,26 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
-import edu.vt.jowilcox.cs3114.p4.Command;
-
 
 /**
  * Class QuitCommand
  */
-public class QuitCommand implements Command {
+public class QuitCommand extends AbstractCommand {
 
-	//
-	// Fields
-	//
-
-  
 	//
 	// Constructors
 	//
-	public QuitCommand () { };
-  
-	//
-	// Methods
-	//
+	// TODO
+	public QuitCommand(){}
+	// TODO
+	public QuitCommand(String args) {
+		this(args.split("\\s"));
+	}
+	// TODO
+	public QuitCommand(String... args) {
+	}
 
-
-	//
-	// Accessor methods
-	//
-
-	//
-	// Other methods
-	//
-
+	@Override
+	public void execute() {
+		System.out.println("Quit command given! Exiting.");
+		System.exit(0);
+	}
 }

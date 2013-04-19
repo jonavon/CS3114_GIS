@@ -1,33 +1,30 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
-import edu.vt.jowilcox.cs3114.p4.Command;
-
 
 /**
  * Class DebugCommand
  */
-public class DebugCommand implements Command {
+public class DebugCommand extends AbstractCommand {
 
 	//
 	// Fields
 	//
 
-  
 	//
 	// Constructors
 	//
-	public DebugCommand () { };
-  
-	//
-	// Methods
-	//
 
+	// TODO
+	public DebugCommand(String args) {
+		this(args.split("\\s"));
+	}
 
-	//
-	// Accessor methods
-	//
+	// TODO
+	public DebugCommand(String... args) {
+	}
 
-	//
-	// Other methods
-	//
-
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		System.out.println("Debug command executed.");
+	}
 }
