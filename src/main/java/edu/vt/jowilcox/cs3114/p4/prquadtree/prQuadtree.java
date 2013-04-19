@@ -56,7 +56,6 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 			this.a = a;
 			this.b = b;
 		}
-		
 
 		/**
 		 * Returns the world dimensions of this internal node. Used in debugging.
@@ -217,7 +216,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	public prQuadtree(long xMin, long xMax, long yMin, long yMax) {
 		this(xMin, xMax, yMin, yMax, DEFAULT_BUCKET_CAPACITY);
 	}
-	
+
 	/**
 	 * Pre: elem != null Post: If elem lies in the tree's region, and a matching
 	 * element occurs in the tree, then that element has been removed.
@@ -264,33 +263,46 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 			if (this.isLeaf(node)) {
 				@SuppressWarnings("unchecked")
 				prQuadLeaf leaf = (prQuadLeaf) node;
-				node = (leaf.Elements.remove(elem)) ? leaf : node;
-				node = (leaf.size() == 0) ? null : node;
+				for (T t : leaf.Elements) {
+					if (t.equals(elem)) {
+						t.fission(elem);
+						elem = t;
+						break;
+					}
+				}
+				if (elem.isDeleted()) {
+					node = (leaf.Elements.remove(elem)) ? leaf : node;
+					node = (leaf.size() == 0) ? null : node;
+				}
 			}
 			else {
-				long midx = (xHi + xLo) / 2;
-				long midy = (yHi + yLo) / 2;
-				@SuppressWarnings("unchecked")
-				prQuadInternal internal = (prQuadInternal) node;
-				Direction quadrant = elem.directionFrom(midx, midy);
-				switch (quadrant) {
-					case NE:
-						internal.NE = this.delete(elem, internal.NE, midx, xHi, midy, yHi);
-					break;
-					case NW:
-						internal.NW = this.delete(elem, internal.NW, xLo, midx, midy, yHi);
-					break;
-					case SW:
-						internal.SW = this.delete(elem, internal.SW, xLo, midx, yLo, midy);
-					break;
-					case SE:
-						internal.SE = this.delete(elem, internal.SE, midx, xHi, yLo, midy);
-					break;
-					default:
+					long midx = (xHi + xLo) / 2;
+					long midy = (yHi + yLo) / 2;
+					@SuppressWarnings("unchecked")
+					prQuadInternal internal = (prQuadInternal) node;
+					Direction quadrant = elem.directionFrom(midx, midy);
+					switch (quadrant) {
+						case NE:
+							internal.NE = this
+							    .delete(elem, internal.NE, midx, xHi, midy, yHi);
+						break;
+						case NW:
+							internal.NW = this
+							    .delete(elem, internal.NW, xLo, midx, midy, yHi);
+						break;
+						case SW:
+							internal.SW = this
+							    .delete(elem, internal.SW, xLo, midx, yLo, midy);
+						break;
+						case SE:
+							internal.SE = this
+							    .delete(elem, internal.SE, midx, xHi, yLo, midy);
+						break;
+						default:
+					}
+					node = internal.compressMe();
 				}
-				node = internal.compressMe();
 			}
-		}
 		return node;
 	}
 
@@ -432,10 +444,8 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 */
 	public boolean insert(T elem) {
 		/**
-		if (elem.equals(this.find(elem))) {
-			return false;
-		}
-		*/
+		 * if (elem.equals(this.find(elem))) { return false; }
+		 */
 		boolean inserted;
 		try {
 			this.root = this.insert(elem, this.root, this.xMin, this.xMax, this.yMin,
@@ -479,14 +489,27 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 				// leaf node?
 				if (this.isLeaf(node)) {
 					prQuadLeaf leaf = ((prQuadLeaf) node);
-					if (leaf.size() < this.bucketSize) {
-						leaf.Elements.add(elem);
+					boolean isfused = false;
+					for (T t : leaf.Elements) {
+						if (t.equals(elem)) {
+							t.fusion(elem);
+							isfused = true;
+							break;
+						}
+					}
+					if (isfused) {
 						node = leaf;
 					}
 					else {
-						node = this.partitionLeaf(node, xLo, xHi, yLo, yHi);
-						node = this.inserttElementAtInternal(elem, (prQuadInternal) node,
-						    xLo, xHi, yLo, yHi);
+						if (leaf.size() < this.bucketSize) {
+							leaf.Elements.add(elem);
+							node = leaf;
+						}
+						else {
+							node = this.partitionLeaf(node, xLo, xHi, yLo, yHi);
+							node = this.inserttElementAtInternal(elem, (prQuadInternal) node,
+							    xLo, xHi, yLo, yHi);
+						}
 					}
 				}
 				else {
@@ -600,7 +623,9 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 
 	/**
 	 * Print a tree of nodes.
-	 * @param expanded Show more detail if true. 
+	 * 
+	 * @param expanded
+	 *          Show more detail if true.
 	 * @return a String containing the printed tree.
 	 */
 	public String print(boolean expanded) {
@@ -609,11 +634,17 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 
 	/**
 	 * Print a tree of nodes.
-	 * @param descriptor Help text to describe item printed.
-	 * @param node Current printed node.
-	 * @param prefix String prefix for this printed item.
-	 * @param isLast true if last item.
-	 * @param expanded Show more detail if true. 
+	 * 
+	 * @param descriptor
+	 *          Help text to describe item printed.
+	 * @param node
+	 *          Current printed node.
+	 * @param prefix
+	 *          String prefix for this printed item.
+	 * @param isLast
+	 *          true if last item.
+	 * @param expanded
+	 *          Show more detail if true.
 	 * @return a String containing the printed tree.
 	 */
 	@SuppressWarnings("unchecked")
@@ -634,15 +665,20 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 				int size = leaf.Elements.size();
 				for (int i = 0; i < size; i++) {
 					T element = leaf.Elements.get(i);
-					output.append(this.print(element.toString(), prefix, (i == (size - 1))));
+					output.append(this.print(element.toString(), prefix,
+					    (i == (size - 1))));
 				}
 			}
 		}
 		else {
 			prQuadInternal internal = (prQuadInternal) node;
-			output.append(this.print("SW", internal.SW, prefix, ((internal.SE == null) && (internal.NW == null) && (internal.NE == null)), expanded));
-			output.append(this.print("SE", internal.SE, prefix, ((internal.NW == null) && (internal.NE == null)), expanded));
-			output.append(this.print("NW", internal.NW, prefix, ((internal.NE == null)), expanded));
+			output.append(this
+			    .print("SW", internal.SW, prefix, ((internal.SE == null)
+			        && (internal.NW == null) && (internal.NE == null)), expanded));
+			output.append(this.print("SE", internal.SE, prefix,
+			    ((internal.NW == null) && (internal.NE == null)), expanded));
+			output.append(this.print("NW", internal.NW, prefix,
+			    ((internal.NE == null)), expanded));
 			output.append(this.print("NE", internal.NE, prefix, true, expanded));
 		}
 
@@ -651,22 +687,31 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 
 	/**
 	 * Print a tree of nodes.
-	 * @param descriptor Help text to describe item printed.
-	 * @param node Current printed node.
-	 * @param prefix String prefix for this printed item.
-	 * @param isLast true if last item.
+	 * 
+	 * @param descriptor
+	 *          Help text to describe item printed.
+	 * @param node
+	 *          Current printed node.
+	 * @param prefix
+	 *          String prefix for this printed item.
+	 * @param isLast
+	 *          true if last item.
 	 * @return a String containing the printed tree.
 	 */
 	private String print(String descriptor, prQuadNode node, String prefix,
 	    boolean isLast) {
 		return this.print(descriptor, node, prefix, isLast, false);
 	}
-	
+
 	/**
 	 * Print a tree of nodes.
-	 * @param element String to print.
-	 * @param prefix String prefix for this printed item.
-	 * @param isLast true if last item.
+	 * 
+	 * @param element
+	 *          String to print.
+	 * @param prefix
+	 *          String prefix for this printed item.
+	 * @param isLast
+	 *          true if last item.
 	 * @return a String containing the printed row.
 	 */
 	private String print(String element, String prefix, boolean isLast) {

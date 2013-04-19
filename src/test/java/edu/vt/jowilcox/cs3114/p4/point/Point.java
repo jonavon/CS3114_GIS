@@ -1,5 +1,8 @@
 package edu.vt.jowilcox.cs3114.p4.point;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import edu.vt.jowilcox.cs3114.p4.prquadtree.Compare2D;
 import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
 
@@ -9,13 +12,14 @@ import edu.vt.jowilcox.cs3114.p4.prquadtree.Direction;
  * user-defined data type.
  */
 public class Point implements Compare2D<Point> {
-
-	/** Represents the human readable name of the object. */
 	private String name;
+	/** Represents the human readable name of the object. */
+	private Set<String> names;
 
 	/** The X and Y coordinates of the object */
 	long xcoord;
 	private long ycoord;
+	private boolean delete;
 
 	/**
 	 * Constructor. Initializes coordinate fields to 0;
@@ -29,8 +33,17 @@ public class Point implements Compare2D<Point> {
 	 * Constructor.
 	 */
 	public Point(long x, long y) {
-		xcoord = x;
-		ycoord = y;
+		this.xcoord = x;
+		this.ycoord = y;
+		this.names = new TreeSet<>();
+		this.delete = false;
+	}
+
+	public Point(String name, long x, long y) {
+		this(x, y);
+		this.addName(this.name);
+		this.name = null;
+		this.addName(name);
 	}
 
 	/**
@@ -145,7 +158,7 @@ public class Point implements Compare2D<Point> {
 	 */
 	@Override
 	public String toString() {
-		String point = (this.name == null) ? "" : this.getName();
+		String point = (this.name.isEmpty()) ? "" : this.name;
 		point += "(";
 		point += this.getX();
 		point += ", ";
@@ -172,8 +185,8 @@ public class Point implements Compare2D<Point> {
 
 		if ((o.getClass() == Point.class)) {
 			return (((Point) o).getX() == this.getX())
-			    && (((Point) o).getY() == this.getY()); 
-			//    && (((this.getName().equals(((Point) o).getName())))));
+			    && (((Point) o).getY() == this.getY());
+			// && (((this.getName().equals(((Point) o).getName())))));
 		}
 		return false;
 	}
@@ -181,15 +194,64 @@ public class Point implements Compare2D<Point> {
 	/**
 	 * @return the name
 	 */
-	public String getName() {
-		return name;
+	public Set<String> getNames() {
+		return names;
 	}
 
 	/**
 	 * @param name
 	 *          the name to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	private void addName(String name) {
+		if (this.names == null) {
+			this.names = new TreeSet<>();
+		}
+		this.names.add(name);
+		this.name = this.implode(" | ", (String[]) this.names.toArray());
+	}
+
+	private String implode(String separator, String... data) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < data.length - 1; i++) {
+			// data.length - 1 => to not add separator at the end
+			if (!data[i].matches(" *")) {// empty string are ""; " "; "  "; and so on
+				sb.append(data[i]);
+				sb.append(separator);
+			}
+		}
+		sb.append(data[data.length - 1]);
+		return sb.toString();
+	}
+	
+	protected String getName() {
+		return this.name;
+	}
+	
+	public void fusion(Point p) {
+		if(this.equals(p)) {
+			if(p.getNames().size() > 0) {
+				this.names.addAll(p.getNames());
+				this.name = this.implode(" | ", (String[]) this.names.toArray());
+			}
+			else {
+				this.addName(p.getName());
+			}
+		}
+	}
+	
+	public void fission(Point p) {
+		if(this.equals(p)) {
+			if(p.getNames() != null && p.getNames().size() > 0) {
+				this.names.removeAll(p.getNames());
+				this.name = this.implode(" | ", (String[]) this.names.toArray());
+			}
+			else {
+				this.delete = true;
+			}
+		}
+	}
+	
+	public boolean isDeleted() {
+		return this.delete;
 	}
 }
