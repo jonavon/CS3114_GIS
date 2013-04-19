@@ -23,15 +23,12 @@ public class GISDatabaseFile extends AbstractGISFile {
 
 	private class Index {
 		private long offset;
-		private String name;
-
 		/**
 		 * @param offset
 		 * @param name
 		 */
-		public Index(final long offset, final String name) {
+		public Index(final long offset) {
 			this.offset = offset;
-			this.name = name;
 		}
 
 		/**
@@ -42,18 +39,10 @@ public class GISDatabaseFile extends AbstractGISFile {
 		@Override
 		public String toString() {
 			StringBuilder output = new StringBuilder();
-		//	output.append((this.name == null) ? "" : this.getName());
 			output.append("<");
 			output.append(this.getOffset());
 			output.append(">");
 			return output.toString();
-		}
-
-		/**
-		 * @return the name
-		 */
-		public String getName() {
-			return name;
 		}
 
 		/**
@@ -106,7 +95,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 		 * @param ycoord
 		 */
 		public CoordIndex(long offset, String name, long xcoord, long ycoord) {
-			super(offset, name);
+			super(offset);
 			this.offset = offset;
 			this.name = name;
 			this.xcoord = xcoord;
@@ -358,7 +347,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 		this.file.writeBytes(read + "\n");
 		GISRecord record = new GISRecord(read);
 		// index
-		Index index = new Index(offset, record.getName());
+		Index index = new Index(offset);
 		CoordIndex cindex = new CoordIndex(offset, record.getName(),
 		    (long) (record.getLongitude() * 3600),
 		    (long) (record.getLatitude() * 3600));
@@ -373,7 +362,6 @@ public class GISDatabaseFile extends AbstractGISFile {
 	}
 
 	public void insert(GISRecordsFile document) throws IOException {
-		// TODO Auto-generated method stub
 		long size = document.getFile().length();
 		// skip a line
 		document.read();
