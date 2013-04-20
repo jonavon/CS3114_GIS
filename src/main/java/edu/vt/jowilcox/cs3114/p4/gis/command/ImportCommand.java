@@ -38,13 +38,15 @@ public class ImportCommand extends AbstractCommand {
 			// @formatter:off
 			this.database.configNameIndex(1019);
 	    this.database.insert(this.document);
-	    this.logfile.log("\n      Total indexed in name index: " + this.database.getNameIndexSize());
-	    this.logfile.log("\n           Longest probe sequence: " + this.database.getNameIndex().getLongestProbe());
-	    this.logfile.log("\nTotal indexed in coordinate index: " + this.database.getCoordIndexSize() + "\n");
+	    this.logfile.log("\n      Number imported into name index: " + this.database.getNameImportCnt());
+	    this.logfile.log("\nNumber imported into coordinate index: " + this.database.getCoordImportCnt());
+	    this.logfile.log("\n          Total indexed in name index: " + this.database.getNameIndexSize());
+	    this.logfile.log("\n    Total indexed in coordinate index: " + this.database.getCoordIndexSize());
+	    this.logfile.log("\n               Longest probe sequence: " + this.database.getNameIndex().getLongestProbe() + "\n");
 			// @formatter:on
 		}
 		catch (IOException e) {
-			System.err.println("Unable to import document.");
+			System.err.println("Unable to import document." + this.args);
 			e.printStackTrace();
 		}
 	}

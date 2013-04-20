@@ -23,6 +23,22 @@ public class GISDatabaseFile extends AbstractGISFile {
 	private Hashtable<String, Index> nameIndex;
 	private prQuadtree<CoordIndex> coordIndex;
 	private BufferPool<Long, GISRecord> bufferPool;
+	private int nameImportCnt;
+	/**
+	 * @return the nameImportCnt
+	 */
+	public int getNameImportCnt() {
+		return this.nameImportCnt;
+	}
+
+	/**
+	 * @return the coordImportCnt
+	 */
+	public int getCoordImportCnt() {
+		return this.coordImportCnt;
+	}
+
+	private int coordImportCnt;
 
 	public class Index {
 		private final long offset;
@@ -366,11 +382,12 @@ public class GISDatabaseFile extends AbstractGISFile {
 		    (long) Math.round((record.getLatitude() * 3600)));
 
 		if (this.nameIndex != null) {
-			this.nameIndex.put(record.getName() + ":" + record.getState().toString(),
-			    index);
+			this.nameIndex.put(record.getName() + ":" + record.getState().toString(), index);
+			this.nameImportCnt++; // for debugging
 		}
 		if (this.coordIndex != null) {
 			this.coordIndex.insert(cindex);
+			this.coordImportCnt++; // for debugging
 		}
 	}
 
@@ -385,6 +402,9 @@ public class GISDatabaseFile extends AbstractGISFile {
 	public void insert(GISRecordsFile document) throws IOException {
 		long size = document.getFile().length();
 		// skip a line
+		// reset tracking variables
+		this.nameImportCnt = 0;
+		this.coordImportCnt = 0;
 		document.read();
 		while (document.getFile().getFilePointer() < size) {
 			this.insert(document.read());
