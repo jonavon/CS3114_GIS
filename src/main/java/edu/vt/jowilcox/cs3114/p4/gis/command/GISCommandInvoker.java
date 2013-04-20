@@ -29,8 +29,8 @@ public class GISCommandInvoker {
 		WORLD(WorldCommand.class)
 		, IMPORT(ImportCommand.class)
 		, WHAT_IS(WhatIsCommand.class)
-		, WHAT_IS_AT(WhatIsCommand.class)
-		, WHAT_IS_IN(WhatIsCommand.class)
+		, WHAT_IS_AT(WhatIsAtCommand.class)
+		, WHAT_IS_IN(WhatIsInCommand.class)
 		, DEBUG(DebugCommand.class)
 		, QUIT(QuitCommand.class)
 		;
