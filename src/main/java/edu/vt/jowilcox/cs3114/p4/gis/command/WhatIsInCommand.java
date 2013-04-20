@@ -14,35 +14,26 @@ public class WhatIsInCommand extends AbstractCommand {
 	//
 	// Constructors
 	//
-	// TODO
 	private String latitude;
 	private String longitude;
-	private String name;
-	private String state;
+	private String hheight;
+	private String hwidth;
+	private FLAG flag;
+
+	enum FLAG {
+		COUNT, VERBOSE;
+	}
 
 	public WhatIsInCommand(String args) {
-		Pattern what_is_at = Pattern.compile("^\\d{6,7}(N|S)\\t?\\d{6,7}(E|W)$"); // what_is_at  364201N  1063259W
 		String[] input = args.split("\\t");
-		if (what_is_at.matcher(args).matches()) {
-			this.latitude = input[0];
-			this.longitude = input[1];
+		int f = (args.charAt(0) == '-') ? 1 : 0;
+		if (f == 1) {
+			this.flag = (args.charAt(1) == 'c') ? FLAG.COUNT : FLAG.VERBOSE;
 		}
-		Pattern what_is = Pattern.compile("^(\\d+ )?([a-zA-Z]+ ?)+(\\t[A-Z]{2}){1}$"); // what_is 11476 Water Well NM
-		if(what_is.matcher(args).matches()) {
-			 this.name = input[0];
-			 this.state = input[1];
-		}
-		
-		// "^\d{6,7}(N|S)\t?\d{6,7}(E|W)\t\d{1,}\t\d{1,}$" // what_is_in 364201S 1063259E 60 60
-		// "^\d{6,7}(N|S)\t?\d{6,7}(E|W)\t\d{1,}\t\d{1,}$" what_is_in 364201S 1063259E 60 60
-		// this.latitude;
-		// this.longitude;
-		// this.hheight;
-		// this.hwidth;
-		// "^-c\t\d{6,7}(N|S)\t?\d{6,7}(E|W)\t\d{1,}\t\d{1,}$"
-		// this.count
-		// "^-l\t\d{6,7}(N|S)\t?\d{6,7}(E|W)\t\d{1,}\t\d{1,}$"
-		// this.isLong
+		this.latitude = input[0 + f];
+		this.longitude = input[1 + f];
+		this.hheight = input[2 + f];
+		this.hwidth = input[3 + f];
 	}
 
 	@Override
