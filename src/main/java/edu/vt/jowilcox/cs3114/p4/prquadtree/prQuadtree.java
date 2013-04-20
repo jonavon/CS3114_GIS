@@ -652,7 +652,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		if (node == null) {
 			return "";
 		}
-		String n = (!expanded && !this.isLeaf(node)) ? "" : " " + node.toString();
+		String n = (!this.isLeaf(node) || (expanded && this.isLeaf(node))) ? "" : " " + node.toString();
 		n = (expanded && this.isLeaf(node)) ? "" : n;
 		StringBuilder output = new StringBuilder();
 		output.append(this.print(descriptor + n, prefix, isLast));
