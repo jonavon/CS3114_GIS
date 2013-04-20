@@ -37,7 +37,9 @@ public class DebugCommand extends AbstractCommand {
 				case hash:
 					this.logfile.log(this.database.getNameIndex().debug());
 				break;
-				// TODO Add a buffer pool debug
+				case pool:
+					this.logfile.log(this.database.getBufferPool().debug());
+				break;
 				default:
 					this.logfile.log("Invalid command");
 				break;

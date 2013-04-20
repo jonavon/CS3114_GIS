@@ -3,9 +3,10 @@ package edu.vt.jowilcox.cs3114.p4.gis;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Collection;
+import java.util.TreeMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import edu.vt.jowilcox.cs3114.p4.Hashtable;
 import edu.vt.jowilcox.cs3114.p4.bufferpool.BufferPool;
@@ -23,8 +24,8 @@ public class GISDatabaseFile extends AbstractGISFile {
 	private prQuadtree<CoordIndex> coordIndex;
 	private BufferPool<Long, GISRecord> bufferPool;
 
-	private class Index {
-		private long offset;
+	public class Index {
+		private final long offset;
 		/**
 		 * @param offset
 		 * @param name
@@ -82,12 +83,11 @@ public class GISDatabaseFile extends AbstractGISFile {
 	 * 
 	 * @author "Jonavon Wilcox <jowilcox@vt.edu>"
 	 */
-	private class CoordIndex extends Index implements Compare2D<CoordIndex> {
-		private long offset;
-		private String name;
-		private Map<Long, String> shell;
-		private long xcoord;
-		private long ycoord;
+	public class CoordIndex extends Index implements Compare2D<CoordIndex> {
+		private final String name;
+		private Map<String, Long> shell;
+		private final long xcoord;
+		private final long ycoord;
 		private boolean delete;
 
 		/**
@@ -98,13 +98,12 @@ public class GISDatabaseFile extends AbstractGISFile {
 		 */
 		public CoordIndex(long offset, String name, long xcoord, long ycoord) {
 			super(offset);
-			this.offset = offset;
 			this.name = name;
 			this.xcoord = xcoord;
 			this.ycoord = ycoord;
 			this.delete = false;
 			this.shell = new TreeMap<>();
-			this.shell.put(this.offset, this.name);
+			this.shell.put(this.name, this.getOffset());
 		}
 
 		/**
@@ -436,5 +435,9 @@ public class GISDatabaseFile extends AbstractGISFile {
 	    int bucketSize) {
 		this.coordIndex = new prQuadtree<>(xMin, xMax, yMin, yMax, bucketSize);
 	}
+
+	public BufferPool<Long, GISRecord> getBufferPool() {
+	  return this.bufferPool;
+  }
 
 }
