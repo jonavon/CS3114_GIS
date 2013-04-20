@@ -261,6 +261,13 @@ public class Hashtable<K, V> implements Map<K, V> {
 			this.collisions = 0;
 		}
 		else {
+			if(this.table[index].key.equals(entry.key)) {
+				Entry<K, V> old = this.table[index];
+				this.table[index] = entry;
+				this.collisions = 0;
+				// return old entry
+				return old;
+			}
 			int hash = this.rehash(entry.getKey());
 			int idx = hash % this.table.length;
 			if (this.collisions < this.table.length) {
@@ -271,7 +278,8 @@ public class Hashtable<K, V> implements Map<K, V> {
 				return null;
 			}
 		}
-		return this.table[index];
+		// end it
+		return null;
 	}
 
 	/**
