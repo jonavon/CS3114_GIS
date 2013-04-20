@@ -8,4 +8,4 @@ mvn clean package \
 	&& ln -vf ./target/test-classes/files/VA_Montgomery.txt ./ \
 	&& ln -vf ./target/test-classes/files/VA_Highland.txt ./ \
 	&& ln -vf ./target/test-classes/files/VA_Bath.txt ./ \
-	&& time ./target/GIS.jar /tmp/db.txt ./target/test-classes/files/command/Script03.txt /tmp/log.txt;
+	&& time ./target/GIS.jar /tmp/db.txt ./target/test-classes/files/command/Script01.txt /tmp/log.txt;

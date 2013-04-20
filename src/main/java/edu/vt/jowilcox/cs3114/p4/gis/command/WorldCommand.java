@@ -44,7 +44,7 @@ public class WorldCommand extends AbstractCommand {
 
 	public String toString() {
 		String output = "\n";
-		output += "WORLD DIMENSIONS:";
+		output += "WORLD DIMENSIONS:\n";
 		output += "           " + this.yMax + "\n";
 		output += this.xMin + "               " + this.xMax + "\n";
 		output += "           " + this.yMin + "\n";
