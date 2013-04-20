@@ -32,8 +32,13 @@ public class GISLogFile extends AbstractGISFile {
 	 * @param data
 	 * @throws IOException
 	 */
-	public void log(String data) throws IOException {
-		this.file.write(data.getBytes());
+	public void log(String data) {
+		try {
+			this.file.write(data.getBytes());
+		}
+		catch (IOException e) {
+			System.err.println("Unable to log data:\n\t'" + data + "'");
+		}
 	}
 
 	/**
