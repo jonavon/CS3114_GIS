@@ -360,8 +360,8 @@ public class GISDatabaseFile extends AbstractGISFile {
 		// index
 		Index index = new Index(offset);
 		CoordIndex cindex = new CoordIndex(offset, record.getName(),
-		    (long) (record.getLongitude() * 3600),
-		    (long) (record.getLatitude() * 3600));
+		    (long) Math.round((record.getLongitude() * 3600)),
+		    (long) Math.round((record.getLatitude() * 3600)));
 
 		if (this.nameIndex != null) {
 			this.nameIndex.put(record.getName() + ":" + record.getState().toString(), index);
