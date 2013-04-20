@@ -3,11 +3,11 @@
  */
 package edu.vt.jowilcox.cs3114.p4;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
@@ -62,8 +62,11 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 		/**
 		 * Constructor for entry.
-		 * @param key Key for this entry.
-		 * @param value value to be stored along with key.
+		 * 
+		 * @param key
+		 *          Key for this entry.
+		 * @param value
+		 *          value to be stored along with key.
 		 */
 		public Entry(final L key, W value) {
 			this.key = key;
@@ -71,7 +74,8 @@ public class Hashtable<K, V> implements Map<K, V> {
 			this.isTombstone = false;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see java.util.Map.Entry#getKey()
 		 */
 		@Override
@@ -79,7 +83,8 @@ public class Hashtable<K, V> implements Map<K, V> {
 			return this.key;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see java.util.Map.Entry#getValue()
 		 */
 		@Override
@@ -87,7 +92,8 @@ public class Hashtable<K, V> implements Map<K, V> {
 			return this.value;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see java.util.Map.Entry#setValue(java.lang.Object)
 		 */
 		@Override
@@ -98,6 +104,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 		/**
 		 * Sets this Entry as a tombstone.
+		 * 
 		 * @return the Entry object.
 		 */
 		public Entry<L, W> delete() {
@@ -107,13 +114,15 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 		/**
 		 * Determine if object has been deleted.
+		 * 
 		 * @return boolean True of object has been deleted.
 		 */
 		public boolean isTombstone() {
 			return this.isTombstone;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -131,8 +140,11 @@ public class Hashtable<K, V> implements Map<K, V> {
 	}
 
 	/**
-	 * Constructor; generate hash table with specified capacity and default load factor.
-	 * @param capacity Initial capacity.
+	 * Constructor; generate hash table with specified capacity and default load
+	 * factor.
+	 * 
+	 * @param capacity
+	 *          Initial capacity.
 	 */
 	public Hashtable(int capacity) {
 		this(capacity, INITIAL_PORTION);
@@ -140,8 +152,11 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/**
 	 * Generate hash table.
-	 * @param capacity initial capacity.
-	 * @param portion default load factor.
+	 * 
+	 * @param capacity
+	 *          initial capacity.
+	 * @param portion
+	 *          default load factor.
 	 */
 	@SuppressWarnings("unchecked")
 	public Hashtable(int capacity, float portion) {
@@ -208,22 +223,26 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public V put(K key, V value) {
-		int hash = this.hash(key);
-		int index = hash % this.table.length;
+		long hash = this.hash(key);
+		long index = hash % this.table.length;
 		this.collisions = 0;
 
 		// Increase the table if we need to before we put a new entry.
 		if (this.size >= this.limit) {
 			this.increaseCapacity();
 		}
-		Map.Entry<K, V> inserted = this.insert(index, new Entry<>(key, value));
+		Map.Entry<K, V> inserted = this
+		    .insert((int) index, new Entry<>(key, value));
 		return (inserted == null) ? null : inserted.getValue();
 	}
 
 	/**
 	 * Insert entry into the table.
-	 * @param index position to insert the entry.
-	 * @param entry Entry to be inserted.
+	 * 
+	 * @param index
+	 *          position to insert the entry.
+	 * @param entry
+	 *          Entry to be inserted.
 	 * @return The entry that is inserted or null if failed.
 	 */
 	private Map.Entry<K, V> insert(int index, Entry<K, V> entry) {
@@ -234,7 +253,8 @@ public class Hashtable<K, V> implements Map<K, V> {
 			int m = entry.getValue().toString().length();
 			this.longestv = (m > this.longestv) ? m : this.longestv;
 			this.size++;
-			this.longestProbe = (this.longestProbe < this.collisions)? this.collisions : this.longestProbe;
+			this.longestProbe = (this.longestProbe < this.collisions) ? this.collisions
+			    : this.longestProbe;
 			this.collisions = 0;
 		}
 		else {
@@ -371,7 +391,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 */
 	@Override
 	public Collection<V> values() {
-		Collection<V> values = new Vector<>(this.size());
+		Collection<V> values = new ArrayList<>(this.size());
 		for (Map.Entry<K, V> value : this.table) {
 			if (value != null) {
 				values.add(value.getValue());
@@ -397,7 +417,9 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/**
 	 * Generate hash using key.
-	 * @param k key to hash with.
+	 * 
+	 * @param k
+	 *          key to hash with.
 	 * @return int a hash value.
 	 */
 	private int hash(K k) {

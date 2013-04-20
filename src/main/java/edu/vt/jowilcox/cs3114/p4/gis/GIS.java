@@ -45,10 +45,11 @@ public class GIS {
 		try {
 			controller.enqueue(commands.readAll());
 			StringBuilder sb = new StringBuilder();
-			sb.append("Database File\n:\t" + args[0] + "\n\n");
-			sb.append("Commands File\n:\t" + args[1] + "\n\n");
-			sb.append("Log File\n:\t" + args[2] + "\n\n");
-			sb.append("Start Time\n:\t" + dateformat.format(c.getTime()) + "\n");
+			sb.append("Database File:\t").append(args[0]).append("\n")
+			    .append("Commands File:\t").append(args[1]).append("\n")
+			    .append("     Log File:\t").append(args[2]).append("\n")
+			    .append("   Start Time:\t").append(dateformat.format(c.getTime()))
+			    .append("\n");
 			logfile.log(sb.toString());
 			controller.run();
 		}
@@ -87,8 +88,7 @@ public class GIS {
 		for (int i = 0; i < data.length - 1; i++) {
 			// data.length - 1 => to not add separator at the end
 			if (data[i] != null) {
-				if (!data[i].matches(" *")) {// empty string are ""; " "; "  "; and so
-																		 // on
+				if (!data[i].matches(" *")) {
 					sb.append(data[i]);
 					sb.append(separator);
 				}
@@ -97,12 +97,12 @@ public class GIS {
 				sb.append(separator);
 			}
 		}
-		if(data[data.length - 1] != null) {
+		if (data[data.length - 1] != null) {
 			sb.append(data[data.length - 1]);
 		}
 		return sb.toString();
 	}
-	
+
 	/**
 	 * @param dec
 	 * @param isLongitude
@@ -110,30 +110,30 @@ public class GIS {
 	 */
 	public static String toDMS(double dec, boolean isLongitude) {
 		char dir;
-		if(isLongitude) {
-			dir = (dec < 0)?'W':'E';
+		if (isLongitude) {
+			dir = (dec < 0) ? 'W' : 'E';
 		}
 		else {
-			dir = (dec < 0)?'S':'N';
+			dir = (dec < 0) ? 'S' : 'N';
 		}
 		dec = Math.abs(dec);
 		String deg = String.valueOf((int) dec);
 		String min = String.format("%02d", (int) (((dec % 1) * 60)));
 		String sec = String.format("%02d", (int) ((((dec % 1) * 60) % 1) * 60));
-		
+
 		StringBuilder dms = new StringBuilder();
 		dms.append(deg).append(min).append(sec).append(dir);
-	  return dms.toString();
-  }
+		return dms.toString();
+	}
 
 	public static long DMStoTotalSeconds(String dms) {
 		int l = dms.length() - 1;
 		char dir = dms.charAt(l);
-		int sign = (dir == 'W' || dir == 'S')? -1 : 1;
-		int seconds = Integer.valueOf(dms.substring(l-2,l));
-		int minutes = Integer.valueOf(dms.substring(l-4,l-2)) * 60;
-		int degrees = Integer.valueOf(dms.substring(0, l-4)) * 3600;
-	  return (degrees + minutes + seconds) * sign;
-  }
+		int sign = (dir == 'W' || dir == 'S') ? -1 : 1;
+		int seconds = Integer.valueOf(dms.substring(l - 2, l));
+		int minutes = Integer.valueOf(dms.substring(l - 4, l - 2)) * 60;
+		int degrees = Integer.valueOf(dms.substring(0, l - 4)) * 3600;
+		return (degrees + minutes + seconds) * sign;
+	}
 
 }

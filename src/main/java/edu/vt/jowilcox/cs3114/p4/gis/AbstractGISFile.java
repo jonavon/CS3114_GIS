@@ -32,12 +32,12 @@ public abstract class AbstractGISFile {
 		long current = this.file.getFilePointer();
 		this.file.readLine();
 		long eol = this.file.getFilePointer();
-		if((eol-1) > current) {
+		if ((eol - 1) > current) {
 			this.file.seek(current);
-			byte[] b = new byte[(int) (eol - current)-1];
+			byte[] b = new byte[(int) (eol - current) - 1];
 			this.file.read(b);
 			this.file.seek(eol);
-			String output = new String(b,"UTF-8");
+			String output = new String(b, "UTF-8");
 			return output;
 		}
 		else {

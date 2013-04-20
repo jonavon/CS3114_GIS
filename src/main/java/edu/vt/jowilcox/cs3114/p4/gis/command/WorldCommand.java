@@ -1,7 +1,5 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
 
-import java.io.IOException;
-
 /**
  * Class WorldCommand
  */
@@ -14,12 +12,10 @@ public class WorldCommand extends AbstractCommand {
 	//
 	// Constructors
 	//
-	// TODO
 	public WorldCommand(String args) {
 		this(args.split("\\s"));
 	}
 
-	// TODO
 	public WorldCommand(String... args) {
 		this.xMin = this.DMStoSeconds(args[0]);
 		this.xMax = this.DMStoSeconds(args[1]);
@@ -30,28 +26,25 @@ public class WorldCommand extends AbstractCommand {
 	@Override
 	public void execute() {
 		this.database.configCoordIndex(this.xMin, this.xMax, this.yMin, this.yMax);
-		try {
-	    this.logfile.log(this.toString());
-    }
-    catch (IOException e) {
-	    e.printStackTrace();
-    }
+		this.logfile.log(this.toString());
+		System.out.println("World command executed");
 	}
-	
+
 	private long DMStoSeconds(String dms) {
 		int length = dms.length() - 1;
 		char direction = dms.charAt(length);
-		
-		int sign = ((direction == 'W') || (direction == 'S'))? -1 : 1;
+
+		int sign = ((direction == 'W') || (direction == 'S')) ? -1 : 1;
 		long seconds = 0;
 		seconds += (Long.parseLong(dms.substring(0, length - 4)) * 3600);
 		seconds += (Long.parseLong(dms.substring(length - 4, length - 2)) * 60);
 		seconds += Long.parseLong(dms.substring(length - 2, length));
 		return seconds * sign;
 	}
-	
+
 	public String toString() {
-		String output = "\n"; 
+		String output = "\n";
+		output += "WORLD DIMENSIONS:";
 		output += "           " + this.yMax + "\n";
 		output += this.xMin + "               " + this.xMax + "\n";
 		output += "           " + this.yMin + "\n";

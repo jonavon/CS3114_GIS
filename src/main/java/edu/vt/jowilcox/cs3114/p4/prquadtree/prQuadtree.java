@@ -278,33 +278,29 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 				}
 			}
 			else {
-					long midx = (xHi + xLo) / 2;
-					long midy = (yHi + yLo) / 2;
-					@SuppressWarnings("unchecked")
-					prQuadInternal internal = (prQuadInternal) node;
-					Direction quadrant = elem.directionFrom(midx, midy);
-					switch (quadrant) {
-						case NE:
-							internal.NE = this
-							    .delete(elem, internal.NE, midx, xHi, midy, yHi);
-						break;
-						case NW:
-							internal.NW = this
-							    .delete(elem, internal.NW, xLo, midx, midy, yHi);
-						break;
-						case SW:
-							internal.SW = this
-							    .delete(elem, internal.SW, xLo, midx, yLo, midy);
-						break;
-						case SE:
-							internal.SE = this
-							    .delete(elem, internal.SE, midx, xHi, yLo, midy);
-						break;
-						default:
-					}
-					node = internal.compressMe();
+				long midx = (xHi + xLo) / 2;
+				long midy = (yHi + yLo) / 2;
+				@SuppressWarnings("unchecked")
+				prQuadInternal internal = (prQuadInternal) node;
+				Direction quadrant = elem.directionFrom(midx, midy);
+				switch (quadrant) {
+					case NE:
+						internal.NE = this.delete(elem, internal.NE, midx, xHi, midy, yHi);
+					break;
+					case NW:
+						internal.NW = this.delete(elem, internal.NW, xLo, midx, midy, yHi);
+					break;
+					case SW:
+						internal.SW = this.delete(elem, internal.SW, xLo, midx, yLo, midy);
+					break;
+					case SE:
+						internal.SE = this.delete(elem, internal.SE, midx, xHi, yLo, midy);
+					break;
+					default:
 				}
+				node = internal.compressMe();
 			}
+		}
 		return node;
 	}
 
@@ -727,7 +723,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	/**
 	 * @return the size
 	 */
-  public int size() {
-	  return size;
-  }
+	public int size() {
+		return size;
+	}
 }

@@ -38,7 +38,7 @@ public class CommandSteps {
 
 	@When("^the system is run$")
 	public void the_system_is_run() throws Throwable {
-		//GIS.main(new String[] { DB_FILE_PATH, CMD_FILE_PATH, LOG_FILE_PATH });
+		GIS.main(new String[] { DB_FILE_PATH, CMD_FILE_PATH, LOG_FILE_PATH });
 		throw new PendingException();
 	}
 
@@ -62,7 +62,7 @@ public class CommandSteps {
 	public void the_command_file_does_not_exists() throws Throwable {
 		// Express the Regexp above with the code you wish you had
 		throw new PendingException();
-	//	assertFalse(this.cmd.exists());
+		// assertFalse(this.cmd.exists());
 	}
 
 	@Then("^an error message should be written to the console:$")
@@ -93,12 +93,12 @@ public class CommandSteps {
 	}
 
 	private void copyFile(String file, String path) throws IOException {
-		String ffn = file.substring(file.lastIndexOf(File.separatorChar)+1);
-		String fdir = file.substring(0,file.lastIndexOf(File.separatorChar)+1);
+		String ffn = file.substring(file.lastIndexOf(File.separatorChar) + 1);
+		String fdir = file.substring(0, file.lastIndexOf(File.separatorChar) + 1);
 		File fobj = this.getAbsolutePathFile(fdir, ffn);
-		
-		String pfn = path.substring(path.lastIndexOf(File.separatorChar)+1);
-		String pdir = path.substring(0,path.lastIndexOf(File.separatorChar)+1);
+
+		String pfn = path.substring(path.lastIndexOf(File.separatorChar) + 1);
+		String pdir = path.substring(0, path.lastIndexOf(File.separatorChar) + 1);
 		File pobj = this.getAbsolutePathFile(pdir, pfn);
 		RandomAccessFile f = new RandomAccessFile(fobj, "r");
 		RandomAccessFile p = new RandomAccessFile(pobj, "rw");
@@ -109,15 +109,12 @@ public class CommandSteps {
 		p.close();
 		f.close();
 	}
-	
+
 	/**
-   * Converts a path relative to a given directory
-   * to an absolute path.
-   */
-  private File getAbsolutePathFile(String dir, String fn) {
-      File f = new File(fn);
-      return f.isAbsolute()
-          ? f
-          : new File(dir, fn);
-  }
+	 * Converts a path relative to a given directory to an absolute path.
+	 */
+	private File getAbsolutePathFile(String dir, String fn) {
+		File f = new File(fn);
+		return f.isAbsolute() ? f : new File(dir, fn);
+	}
 }

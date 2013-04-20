@@ -13,7 +13,6 @@ public class WhatIsCommand extends AbstractCommand {
 	//
 	// Constructors
 	//
-	// TODO
 	private String name;
 	private String state;
 
@@ -44,24 +43,24 @@ public class WhatIsCommand extends AbstractCommand {
 			output.append("No result");
 		}
 		else {
+			GISRecord record;
 			try {
-				GISRecord record = this.database.select(item.getOffset());
-				output.append(String.format("%8d", item.getOffset())).append(":\t")
-				    .append(record.getCounty()).append(" ")
-				    .append(GIS.toDMS(record.getLatitude(), false)).append(" ")
-				    .append(GIS.toDMS(record.getLongitude(), true)).append("\n");
+				record = this.database.select(item.getOffset());
+				// @formatter:off
+				output.append(String.format("%8d", item.getOffset()))
+				      .append(":\t")
+				      .append(record.getCounty())
+				      .append(" ")
+				      .append(GIS.toDMS(record.getLatitude(), false))
+				      .append(" ")
+				      .append(GIS.toDMS(record.getLongitude(), true))
+				      .append("\n");
+				// @formatter:on
 			}
 			catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			try {
-				this.logfile.log(output.toString());
-			}
-			catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			this.logfile.log(output.toString());
 			System.out.println("What is command run.");
 		}
 	}

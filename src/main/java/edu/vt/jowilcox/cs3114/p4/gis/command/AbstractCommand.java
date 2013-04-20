@@ -10,12 +10,14 @@ public abstract class AbstractCommand implements ICommand {
 
 	protected GISDatabaseFile database;
 	protected GISLogFile logfile;
+	protected String args;
 
 	//
 	// Constructors
 	//
 	// TODO
 	public AbstractCommand(String args) {
+		this.args = args;
 	}
 
 	// TODO

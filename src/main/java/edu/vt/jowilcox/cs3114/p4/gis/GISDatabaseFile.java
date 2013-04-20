@@ -26,6 +26,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 
 	public class Index {
 		private final long offset;
+
 		/**
 		 * @param offset
 		 * @param name
@@ -335,12 +336,12 @@ public class GISDatabaseFile extends AbstractGISFile {
 	 *           thrown if offset is less than 0 or other IOException .
 	 */
 	public GISRecord select(long offset) throws IOException {
-		if(this.bufferPool == null) {
+		if (this.bufferPool == null) {
 			this.bufferPool = new BufferPool<>();
 		}
 		// Check the buffer first
 		GISRecord data = this.bufferPool.get(offset);
-		if(data == null) {
+		if (data == null) {
 			// set file pointer to record offset
 			this.file.seek(offset);
 			// return the next line
@@ -355,8 +356,8 @@ public class GISDatabaseFile extends AbstractGISFile {
 		long offset = this.file.length();
 		// read line
 		this.file.seek(offset);
-		this.file.write((read+"\n").getBytes());
-		
+		this.file.write((read + "\n").getBytes());
+
 		GISRecord record = new GISRecord(read);
 		// index
 		Index index = new Index(offset);
@@ -365,17 +366,18 @@ public class GISDatabaseFile extends AbstractGISFile {
 		    (long) Math.round((record.getLatitude() * 3600)));
 
 		if (this.nameIndex != null) {
-			this.nameIndex.put(record.getName() + ":" + record.getState().toString(), index);
+			this.nameIndex.put(record.getName() + ":" + record.getState().toString(),
+			    index);
 		}
 		if (this.coordIndex != null) {
 			this.coordIndex.insert(cindex);
 		}
 	}
-	
+
 	public int getCoordIndexSize() {
 		return this.coordIndex.size();
 	}
-	
+
 	public int getNameIndexSize() {
 		return this.nameIndex.size();
 	}
@@ -405,15 +407,21 @@ public class GISDatabaseFile extends AbstractGISFile {
 	 *          the nameIndex to set
 	 */
 	public void configNameIndex() {
-		this.nameIndex = new Hashtable<>();
+		if (this.nameIndex == null) {
+			this.nameIndex = new Hashtable<>();
+		}
 	}
 
 	public void configNameIndex(int capacity) {
-		this.nameIndex = new Hashtable<>(capacity);
+		if (this.nameIndex == null) {
+			this.nameIndex = new Hashtable<>(capacity);
+		}
 	}
 
 	public void configNameIndex(int capacity, float portion) {
-		this.nameIndex = new Hashtable<>(capacity, portion);
+		if (this.nameIndex == null) {
+			this.nameIndex = new Hashtable<>(capacity, portion);
+		}
 	}
 
 	/**
@@ -428,16 +436,20 @@ public class GISDatabaseFile extends AbstractGISFile {
 	 *          the coordIndex to set
 	 */
 	public void configCoordIndex(long xMin, long xMax, long yMin, long yMax) {
-		this.coordIndex = new prQuadtree<>(xMin, xMax, yMin, yMax);
+		if (this.coordIndex == null) {
+			this.coordIndex = new prQuadtree<>(xMin, xMax, yMin, yMax);
+		}
 	}
 
 	public void configCoordIndex(long xMin, long xMax, long yMin, long yMax,
 	    int bucketSize) {
-		this.coordIndex = new prQuadtree<>(xMin, xMax, yMin, yMax, bucketSize);
+		if (this.coordIndex == null) {
+			this.coordIndex = new prQuadtree<>(xMin, xMax, yMin, yMax, bucketSize);
+		}
 	}
 
 	public BufferPool<Long, GISRecord> getBufferPool() {
-	  return this.bufferPool;
-  }
+		return this.bufferPool;
+	}
 
 }

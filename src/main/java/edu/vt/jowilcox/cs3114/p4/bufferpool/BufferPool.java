@@ -5,54 +5,54 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 /**
  * Object pool.
+ * 
  * @author "Jonavon Wilcox <jowilcox@vt.edu>"
  */
 public class BufferPool<K, V> implements Serializable {
 	/** Generated serial version id */
-  private static final long serialVersionUID = -4340171158534043845L;
-  
-  /**
-   * @author "Jonavon Wilcox <jowilcox@vt.edu>"
-   *
-   * @param <L>
-   * @param <W>
-   */
-  private class HashMapBuffer<L,W> extends LinkedHashMap<L, W> {
-    private static final long serialVersionUID = -8751061971956633424L;
+	private static final long serialVersionUID = -4340171158534043845L;
+
+	/**
+	 * @author "Jonavon Wilcox <jowilcox@vt.edu>"
+	 * @param <L>
+	 * @param <W>
+	 */
+	private class HashMapBuffer<L, W> extends LinkedHashMap<L, W> {
+		private static final long serialVersionUID = -8751061971956633424L;
 		private int capacity;
-    
-    /**
-     * @param capacity
-     */
-    public HashMapBuffer(int capacity) {
-    	super(capacity + 1, BufferPool.DO_NOT_RESIZE, true);
-    	this.capacity = capacity;
-    }
-    
-    /* (non-Javadoc)
-     * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
-     */
-    @Override
-    protected boolean removeEldestEntry(Map.Entry<L, W> eldest) {
+
+		/**
+		 * @param capacity
+		 */
+		public HashMapBuffer(int capacity) {
+			super(capacity + 1, BufferPool.DO_NOT_RESIZE, true);
+			this.capacity = capacity;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
+		 */
+		@Override
+		protected boolean removeEldestEntry(Map.Entry<L, W> eldest) {
 			return this.size() > this.capacity;
-    }
-  }
-  
-  /**
+		}
+	}
+
+	/**
    * 
    */
-  static final int DEFAULT_CAPACITY = 20;
+	static final int DEFAULT_CAPACITY = 20;
 
 	/**
 	 * 
 	 */
 	private static final float DO_NOT_RESIZE = 1.7f;
 
-  /** Pool stack */
-	private HashMapBuffer<K,V> pool;
+	/** Pool stack */
+	private HashMapBuffer<K, V> pool;
 
 	/**
 	 * 
@@ -147,7 +147,7 @@ public class BufferPool<K, V> implements Serializable {
 		for(Entry<K, V> e : this.pool.entrySet()) {
 			String key = e.getKey().toString();
 			String val = e.getValue().toString();
-			output.append("│ "); output.append(String.format("%02d   ", ++i)); output.append(" │ "); output.append(String.format("%-"+k+"s", key)); output.append(" │ "); output.append(String.format("%"+v+"s", val)); output.append(" │\n");
+			output.append("│ "); output.append(String.format("%02d   ", ++i)); output.append(" │ "); output.append(String.format("%"+k+"s", key)); output.append(" │ "); output.append(String.format("%-"+v+"s", val)); output.append(" │\n");
 			output.append("├─"); output.append(this.repeatText('─', 5)); output.append("─┼─");output.append(this.repeatText('─', k)); output.append("─┼─"); output.append(this.repeatText('─', v)); output.append("─┤\n");
 		}
 		output.append("└─");output.append(this.repeatText('─', 5)); output.append("─┴─"); output.append(this.repeatText('─', k));          output.append("─┴─"); output.append(this.repeatText('─', v));            output.append("─┘\n");

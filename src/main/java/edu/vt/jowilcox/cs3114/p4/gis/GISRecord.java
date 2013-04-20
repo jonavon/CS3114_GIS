@@ -36,7 +36,7 @@ public class GISRecord {
 	 * Record's latitude in decimal format or unknown.
 	 */
 	private Double latitude;
-	
+
 	private String county;
 	private String countyNumeric;
 	/**
@@ -119,33 +119,6 @@ public class GISRecord {
 		}
 	}
 	// @formatter:on
-
-	public GISRecord(int fid, String name, String classifier,
-	    USStateAbbreviation state, double latitude, double longitude,
-	    double slatitude, double slongitude, int elevation, String mapname,
-	    Calendar created, Calendar edited) {
-		super();
-		this.fid = fid;
-		this.name = name;
-		this.classifier = classifier;
-		this.state = state;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.slatitude = slatitude;
-		this.slongitude = slongitude;
-		this.elevation = elevation;
-		this.mapname = mapname;
-		this.created = created;
-		this.edited = edited;
-	}
-
-	//
-	// Methods
-	//
-
-	//
-	// Accessor methods
-	//
 
 	/**
 	 * Set the value of fid Non negative integer. Unique identifier for this
@@ -245,7 +218,8 @@ public class GISRecord {
 	}
 
 	/**
-	 * @param county the county to set
+	 * @param county
+	 *          the county to set
 	 */
 	public void setCounty(String county) {
 		this.county = county;
@@ -259,7 +233,8 @@ public class GISRecord {
 	}
 
 	/**
-	 * @param countyNumeric the countyNumeric to set
+	 * @param countyNumeric
+	 *          the countyNumeric to set
 	 */
 	public void setCountyNumeric(String countyNumeric) {
 		this.countyNumeric = countyNumeric;
@@ -427,6 +402,7 @@ public class GISRecord {
 	 */
 	@Override
 	public String toString() {
+		// @formatter:off
 		// 0 FEATURE_ID|1 FEATURE_NAME|2 FEATURE_CLASS|3 STATE_ALPHA|4 STATE_NUMERIC|5 COUNTY_NAME|6 COUNTY_NUMERIC|7 PRIMARY_LAT_DMS|8 PRIM_LONG_DMS|9 PRIM_LAT_DEC
 		// | 10 PRIM_LONG_DEC|11 SOURCE_LAT_DMS|12 SOURCE_LONG_DMS|13 SOURCE_LAT_DEC|14 SOURCE_LONG_DEC|15 ELEV_IN_M|16 ELEV_IN_FT|17 MAP_NAME|18 DATE_CREATED|19 DATE_EDITED
 		String[] data;
@@ -454,5 +430,41 @@ public class GISRecord {
 		return GIS.implode("|", data);
 	}
 
-
+	public String print() {
+		StringBuilder o = new StringBuilder();
+		o.append("\n")
+		 .append("     FEATURE ID:\t").append(String.valueOf(this.getFid())).append("\n")
+		 .append("   FEATURE NAME:\t").append(this.getName()).append("\n")
+		 .append("  FEATURE CLASS:\t").append(this.getClassifier()).append("\n")
+		 .append("    STATE ALPHA:\t").append(this.getState().toString()).append("\n")
+		// .append("  STATE NUMERIC:\t").append(String.valueOf(this.getStateCode())).append("\n")
+		 .append("    COUNTY NAME:\t").append(this.getCounty()).append("\n")
+		// .append(" COUNTY NUMERIC:\t").append(this.getCountyNumeric()).append("\n")
+		 .append("PRIMARY LAT DMS:\t").append(GIS.toDMS(this.getLatitude() , false)).append("\n")
+		 .append("  PRIM LONG DMS:\t").append(GIS.toDMS(this.getLongitude(), true)).append("\n")
+		// .append("   PRIM LAT DEC:\t").append(String.valueOf(this.getLatitude())).append("\n")
+		// .append("  PRIM LONG DEC:\t").append(String.valueOf(this.getLongitude())).append("\n")
+		 ;
+	//if(this.getSlatitude() != null)
+	//	o.append(" SOURCE LAT DMS:\t").append(GIS.toDMS(this.getSlatitude() , false)).append("\n");
+	//if(this.getSlongitude() != null)
+	//	o.append("SOURCE LONG DMS:\t").append(GIS.toDMS(this.getSlongitude() , true)).append("\n");
+	//if(this.getSlatitude() != null)
+	//	o.append(" SOURCE LAT DEC:\t").append(String.valueOf(this.getSlatitude())).append("\n");
+	//if(this.getSlongitude() != null)
+	//	o.append("SOURCE LONG DEC:\t").append(String.valueOf(this.getSlongitude())).append("\n");
+	//if(this.getElevation() != null)
+	//	o.append("      ELEV IN M:\t").append(String.valueOf(this.getElevation())).append("\n");
+	if(this.getElevation() != null)
+		o.append("     ELEV IN FT:\t").append(String.valueOf(Math.round(this.getElevation() * 3.28084))).append("\n");
+		o.append("       MAP NAME:\t").append(this.getMapname()).append("\n");
+	if(this.getCreated() != null)
+		o.append("   DATE CREATED:\t").append(this.sdf.format(this.getCreated().getTime())).append("\n");
+	if(this.getEdited() != null)
+		o.append("    DATE EDITED:\t").append(this.sdf.format(this.getEdited().getTime())).append("\n");
+		o.append("\n");
+		
+	  return o.toString();
+  }
+	// @formatter:on
 }

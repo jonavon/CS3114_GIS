@@ -24,7 +24,7 @@ public class ImportCommand extends AbstractCommand {
 	}
 
 	public ImportCommand(String... args) throws FileNotFoundException {
-			this(new GISRecordsFile(args[0]));
+		this(new GISRecordsFile(args[0]));
 	}
 
 	public ImportCommand(GISRecordsFile document) {
@@ -35,15 +35,17 @@ public class ImportCommand extends AbstractCommand {
 	public void execute() {
 		System.out.println("Import command executed.");
 		try {
+			// @formatter:off
 			this.database.configNameIndex(1019);
 	    this.database.insert(this.document);
 	    this.logfile.log("\n      Total indexed in name index: " + this.database.getNameIndexSize());
 	    this.logfile.log("\n           Longest probe sequence: " + this.database.getNameIndex().getLongestProbe());
 	    this.logfile.log("\nTotal indexed in coordinate index: " + this.database.getCoordIndexSize() + "\n");
-    }
-    catch (IOException e) {
+			// @formatter:on
+		}
+		catch (IOException e) {
 			System.err.println("Unable to import document.");
-	    e.printStackTrace();
-    }
+			e.printStackTrace();
+		}
 	}
 }

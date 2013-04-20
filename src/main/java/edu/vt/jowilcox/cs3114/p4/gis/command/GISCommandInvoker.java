@@ -26,6 +26,7 @@ public class GISCommandInvoker {
 	 * @formatter:off
 	 */
 	private enum Command {
+		// @formatter:off
 		WORLD(WorldCommand.class)
 		, IMPORT(ImportCommand.class)
 		, WHAT_IS(WhatIsCommand.class)
@@ -34,11 +35,8 @@ public class GISCommandInvoker {
 		, DEBUG(DebugCommand.class)
 		, QUIT(QuitCommand.class)
 		;
+		// @formatter:on
 
-		/*
-		 * 
-		 * @formatter:on
-		 */
 		/** Class object. */
 		private Class<? extends ICommand> clazz;
 
@@ -51,13 +49,12 @@ public class GISCommandInvoker {
 		}
 
 		@SuppressWarnings("unused")
-    public ICommand createCommandObject()
-		    throws InstantiationException, IllegalAccessException,
-		    IllegalArgumentException, InvocationTargetException,
-		    NoSuchMethodException, SecurityException {
-			return this.clazz.getDeclaredConstructor()
-			    .newInstance();
+		public ICommand createCommandObject() throws InstantiationException,
+		    IllegalAccessException, IllegalArgumentException,
+		    InvocationTargetException, NoSuchMethodException, SecurityException {
+			return this.clazz.getDeclaredConstructor().newInstance();
 		}
+
 		/**
 		 * @param params
 		 * @return

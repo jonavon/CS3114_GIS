@@ -1,12 +1,10 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
 
 import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.Vector;
 
 import edu.vt.jowilcox.cs3114.p4.gis.GIS;
-import edu.vt.jowilcox.cs3114.p4.gis.GISDatabaseFile;
 import edu.vt.jowilcox.cs3114.p4.gis.GISDatabaseFile.CoordIndex;
-import edu.vt.jowilcox.cs3114.p4.gis.GISDatabaseFile.Index;
 import edu.vt.jowilcox.cs3114.p4.gis.GISRecord;
 
 /**
@@ -54,78 +52,53 @@ public class WhatIsInCommand extends AbstractCommand {
 			// 1063259W = -383579
 			long lat = GIS.DMStoTotalSeconds(this.latitude);
 			long lon = GIS.DMStoTotalSeconds(this.longitude);
-			SearchCoord search = new SearchCoord(lon, lat);
-			CoordIndex results = this.database.getCoordIndex().find(search);
-			for (Long offset : results.getOffsets()) {
-				try {
-					GISRecord record = this.database.select(offset);
-					StringBuilder output = new StringBuilder();
-					output.append(String.format("%8d", offset))
-					      .append(":\t")
-					      .append(record.getName())
-					      .append(" ")
-					      .append(record.getCounty())
-					      .append(" ")
-					      .append(record.getState())
-					      .append("\n")
-					;
-					this.logfile.log(output.toString());
-				}
-				catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			long h = Long.valueOf(this.hheight);
+			long w = Long.valueOf(this.hwidth);
+
+			long xLo = lon - w;
+			long xHi = lon + w;
+			long yHi = lat + h;
+			long yLo = lat - h;
+			Vector<CoordIndex> results = this.database.getCoordIndex().find(xLo, xHi,
+			    yLo, yHi);
+			int count = 0;
+			StringBuilder output = new StringBuilder();
+			for (CoordIndex result : results) {
+
+				count = count + result.getOffsets().size();
+				for (Long offset : result.getOffsets()) {
+					try {
+						GISRecord record = this.database.select(offset);
+						output = new StringBuilder(); // reset
+						if (this.flag == FLAG.VERBOSE) {
+							output.append(record.print());
+						}
+						else if (this.flag == null) {
+							//@formatter:off
+							output.append(String.format("%8d", offset))
+							      .append(":\t")
+							      .append(record.getName())
+							      .append(" ")
+							      .append(record.getState())
+							      .append(" ")
+							      .append(GIS.toDMS(record.getLatitude(), false))
+							      .append(" ")
+							      .append(GIS.toDMS(record.getLongitude(), true))
+							      .append("\n");
+						//@formatter:on
+						}
+					}
+					catch (IOException e) {
+						System.err.println("System error when finding offset:\t" + offset);
+						e.printStackTrace();
+					}
 				}
 			}
-		}
-		else if(this.name != null) {
-			Index item = this.database.getNameIndex().get(this.name + ":" + this.state);
-      StringBuilder output = new StringBuilder();
-      if(item == null) {
-      	output.append("No result");
-      }
-      else {
-			try {
-	      GISRecord record = this.database.select(item.getOffset());
-	      output.append(String.format("%8d",item.getOffset()))
-	            .append(":\t")
-	            .append(record.getCounty())
-	            .append(" ")
-	            .append(GIS.toDMS(record.getLatitude(), false))
-	            .append(" ")
-	            .append(GIS.toDMS(record.getLongitude(), true))
-	            .append("\n")
-	      ;
-      }
-      catch (IOException e) {
-	      // TODO Auto-generated catch block
-	      e.printStackTrace();
-      }
-			finally {
-				try {
-	        this.logfile.log(output.toString());
-        }
-        catch (IOException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-        }
+			if (this.flag == FLAG.COUNT) {
+				output.append("Found ").append(count).append(" items.\n");
 			}
-      }
+			this.logfile.log(output.toString());
 		}
-		else {
-			System.out.println("What is command run.");
-		}
-	}
-
-	class SearchCoord extends CoordIndex {
-		public SearchCoord(long xcoord, long ycoord) {
-			this(WhatIsInCommand.this.database, -1, "@@SEARCH@@", xcoord, ycoord);
-		}
-
-		private SearchCoord(GISDatabaseFile gisDatabaseFile, long offset,
-		    String name, long xcoord, long ycoord) {
-			gisDatabaseFile.super(offset, name, xcoord, ycoord);
-			// TODO Auto-generated constructor stub
-		}
-
+		System.out.println("What is in command run.");
 	}
 }
