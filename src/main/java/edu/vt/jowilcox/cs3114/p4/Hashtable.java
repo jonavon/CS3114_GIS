@@ -27,9 +27,12 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class Hashtable<K, V> implements Map<K, V> {
 	static final float INITIAL_PORTION = 0.70f;
-	static final Integer[] RESIZE_ARRAY = new Integer[] { /*31, 53, 97, 193, 389,
-	    769,*/ 1019, 2027, 4079, 8123, 16267, 32503, 65011, 130027, 260111, 520279,
-	    1040387, 2080763, 4161539, 8323151, 16646323 };
+	// @formatter:off
+	static final Integer[] RESIZE_ARRAY = new Integer[] {
+		/* 31, 53, 97, 193, 389, 769, */1019, 2027, 4079,
+	    8123, 16267, 32503, 65011, 130027, 260111, 520279,
+			1040387, 2080763, 4161539, 8323151, 16646323 };
+	// @formatter:on
 	static final int INITIAL_CAPACITY = RESIZE_ARRAY[0];
 
 	private Entry<K, V>[] table;
@@ -289,10 +292,10 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 		for (int i = 0; i < old.length; i++) {
 			if (!(old[i] == null || old[i].isTombstone())) {
-				int hash = this.hash(old[i].getKey());
-				int index = hash % this.table.length;
+				long hash = this.hash(old[i].getKey());
+				long index = hash % this.table.length;
 				this.collisions = 0;
-				this.insert(index, old[i]);
+				this.insert((int) index, old[i]);
 			}
 		}
 	}
@@ -313,14 +316,16 @@ public class Hashtable<K, V> implements Map<K, V> {
 
 	/**
 	 * Find an Entry based on key.
-	 * @param key key to search with.
+	 * 
+	 * @param key
+	 *          key to search with.
 	 * @return the Entry found or null if failed.
 	 */
 	@SuppressWarnings("unchecked")
 	private Entry<K, V> find(Object key) {
 		int hash;
 		if (this.collisions == 0) {
-			hash = this.hash((K) key);
+			hash = (int) this.hash((K) key);
 		}
 		else {
 			this.collisions--; // corrective decrement
@@ -422,8 +427,8 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 *          key to hash with.
 	 * @return int a hash value.
 	 */
-	private int hash(K k) {
-		int hash = 0;
+	private long hash(K k) {
+		long hash = 0;
 		if (k != null) {
 			if (k instanceof String) {
 				hash = this.elfhash((String) k);
@@ -444,11 +449,11 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 *          key should be a string.
 	 * @return a hash number.
 	 */
-	private int elfhash(String k) {
-		int elf = 0;
+	private long elfhash(String k) {
+		long elf = 0;
 		for (int i = 0; i < k.length(); i++) { // use all characters
 			elf = (elf << 4) + k.charAt(i);
-			int hibits = elf & 0xF0000000; // get high nybble
+			long hibits = elf & 0xF0000000L; // get high nybble
 			if (hibits != 0) {
 				elf ^= hibits >> 24; // xor high nybble with second
 			}
@@ -466,7 +471,7 @@ public class Hashtable<K, V> implements Map<K, V> {
 	 */
 	private int rehash(K k) {
 		int n = ++this.collisions;
-		return this.hash(k) + (n * n + n) >> 2;
+		return (int) this.hash(k) + (n * n + n) >> 2;
 	}
 
 	/*
