@@ -30,7 +30,7 @@ public class GIS {
 			database = new GISDatabaseFile(args[0]);
 			commands = new CommandsFile(args[1]);
 			logfile = new GISLogFile(args[2]);
-			
+
 			database.truncate();
 			logfile.truncate();
 		}
@@ -56,11 +56,14 @@ public class GIS {
 			System.err.println(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Repeats one character a number of times.
-	 * @param c the character to be repeated.
-	 * @param number Number of times to repeat character.
+	 * 
+	 * @param c
+	 *          the character to be repeated.
+	 * @param number
+	 *          Number of times to repeat character.
 	 * @return String of repeated text.
 	 */
 	public static String repeatText(char c, int number) {
@@ -72,5 +75,32 @@ public class GIS {
 		return output.toString();
 	}
 
+	/**
+	 * Similar to PHP's implode.
+	 * 
+	 * @param separator
+	 * @param data
+	 * @return
+	 */
+	public static String implode(String separator, String... data) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < data.length - 1; i++) {
+			// data.length - 1 => to not add separator at the end
+			if (data[i] != null) {
+				if (!data[i].matches(" *")) {// empty string are ""; " "; "  "; and so
+																		 // on
+					sb.append(data[i]);
+					sb.append(separator);
+				}
+			}
+			else {
+				sb.append(separator);
+			}
+		}
+		if(data[data.length - 1] != null) {
+			sb.append(data[data.length - 1]);
+		}
+		return sb.toString();
+	}
 
 }

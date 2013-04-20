@@ -364,8 +364,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 		    (long) (record.getLatitude() * 3600));
 
 		if (this.nameIndex != null) {
-			this.nameIndex.put(record.getName() + ":" + record.getState().toString(),
-			    index);
+			this.nameIndex.put(record.getName() + ":" + record.getState().toString(), index);
 		}
 		if (this.coordIndex != null) {
 			this.coordIndex.insert(cindex);

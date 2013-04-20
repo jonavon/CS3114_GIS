@@ -36,6 +36,9 @@ public class GISRecord {
 	 * Record's latitude in decimal format or unknown.
 	 */
 	private Double latitude;
+	
+	private String county;
+	private String countyNumeric;
 	/**
 	 * Record's longitude in decimal format or unknown.
 	 */
@@ -64,6 +67,7 @@ public class GISRecord {
 	 * Date record was last updated, optional.
 	 */
 	private Calendar edited;
+	private SimpleDateFormat sdf;
 
 	//
 	// Constructors
@@ -87,6 +91,8 @@ public class GISRecord {
 		this.name = (fields[1].isEmpty()) ? null : fields[1];
 		this.classifier = (fields[2].isEmpty()) ? null : fields[2];
 		this.state = (fields[3].isEmpty()) ? null : USStateAbbreviation.valueOf(fields[3]);
+		this.county = (fields[5].isEmpty())? null : fields[5];
+		this.countyNumeric = (fields[6].isEmpty())? null : fields[6];
 		this.latitude = (fields[9].isEmpty()) ? null : Double.valueOf(fields[9]);
 		this.longitude = (fields[10].isEmpty()) ? null : Double.valueOf(fields[10]);
 		this.slatitude = (fields[13].isEmpty()) ? null : Double.valueOf(fields[13]);
@@ -94,7 +100,7 @@ public class GISRecord {
 		this.elevation = (fields[15].isEmpty()) ? null : Integer.valueOf(fields[15]);
 		this.mapname = (fields[17].isEmpty()) ? null : fields[17];
 
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		this.sdf = new SimpleDateFormat("MM/dd/yyyy");
 		this.created = (fields[18].isEmpty()) ? null : Calendar.getInstance();
 		this.edited = (fields[fields.length - 1].isEmpty()) ? null : Calendar.getInstance();
 		try {
@@ -227,6 +233,34 @@ public class GISRecord {
 	 */
 	public int getStateCode() {
 		return this.state.getNumeric();
+	}
+
+	/**
+	 * @return the county
+	 */
+	public String getCounty() {
+		return county;
+	}
+
+	/**
+	 * @param county the county to set
+	 */
+	public void setCounty(String county) {
+		this.county = county;
+	}
+
+	/**
+	 * @return the countyNumeric
+	 */
+	public String getCountyNumeric() {
+		return countyNumeric;
+	}
+
+	/**
+	 * @param countyNumeric the countyNumeric to set
+	 */
+	public void setCountyNumeric(String countyNumeric) {
+		this.countyNumeric = countyNumeric;
 	}
 
 	/**
@@ -384,4 +418,61 @@ public class GISRecord {
 	public Calendar getEdited() {
 		return this.edited;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		// 0 FEATURE_ID|1 FEATURE_NAME|2 FEATURE_CLASS|3 STATE_ALPHA|4 STATE_NUMERIC|5 COUNTY_NAME|6 COUNTY_NUMERIC|7 PRIMARY_LAT_DMS|8 PRIM_LONG_DMS|9 PRIM_LAT_DEC
+		// | 10 PRIM_LONG_DEC|11 SOURCE_LAT_DMS|12 SOURCE_LONG_DMS|13 SOURCE_LAT_DEC|14 SOURCE_LONG_DEC|15 ELEV_IN_M|16 ELEV_IN_FT|17 MAP_NAME|18 DATE_CREATED|19 DATE_EDITED
+		String[] data;
+		data = new String[20];
+		data[0] = String.valueOf(this.getFid());
+		data[1] = this.getName();
+		data[2] = this.getClassifier();
+		data[3] = this.getState().toString();
+		data[4] = String.valueOf(this.getStateCode());
+		data[5] = this.getCounty();
+		data[6] = this.getCountyNumeric();
+		data[7] = this.toDMS(this.getLatitude() , false);
+		data[8] = this.toDMS(this.getLongitude(), true);
+		data[9] = String.valueOf(this.getLatitude());
+		data[10] = String.valueOf(this.getLongitude());
+		data[11] = this.toDMS(this.getSlatitude() , false);
+		data[12] = this.toDMS(this.getSlongitude() , true);
+		data[13] = String.valueOf(this.getSlatitude());
+		data[14] = String.valueOf(this.getSlongitude());
+		data[15] = String.valueOf(this.getElevation());
+		data[16] = String.valueOf(Math.round(this.getElevation() * 3.28084)); // Convert to feet long.
+		data[17] = this.getMapname();
+		data[18] = (this.getCreated() == null)? null : this.sdf.format(this.getCreated().getTime());
+		data[19] = (this.getCreated().equals(this.getEdited()))? null : this.sdf.format(this.getEdited().getTime());
+		return GIS.implode("|", data);
+	}
+
+	/**
+	 * @param dec
+	 * @param isLongitude
+	 * @return
+	 */
+	private String toDMS(double dec, boolean isLongitude) {
+		char dir;
+		if(isLongitude) {
+			dir = (dec < 0)?'W':'E';
+		}
+		else {
+			dir = (dec < 0)?'S':'N';
+		}
+		dec = Math.abs(dec);
+		String deg = String.valueOf((int) dec);
+		String min = String.format("%02d", (int) (((dec % 1) * 60)));
+		String sec = String.format("%02d", (int) ((((dec % 1) * 60) % 1) * 60));
+		
+		StringBuilder dms = new StringBuilder();
+		dms.append(deg).append(min).append(sec).append(dir);
+	  return dms.toString();
+  }
+
 }
