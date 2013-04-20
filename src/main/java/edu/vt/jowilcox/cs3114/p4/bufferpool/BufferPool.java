@@ -62,41 +62,51 @@ public class BufferPool<K, V> implements Serializable {
 	 * 
 	 */
 	private transient int longestv = 6;
-  /** Pool Stack */
-  
-  /**
-   * Constructor.
-   */
-  public BufferPool(){
-  	this(DEFAULT_CAPACITY);
-  }
-  
-  /**
-   * Constructor.
-   * @param size
-   */
-  public BufferPool(int capacity) {
-  	this.pool = new HashMapBuffer<>(capacity);
-  }
-  
-  /**
-   * @param key
-   * @return
-   */
-  public synchronized V get(K key) {
-  	return this.pool.get(key);
-  }
-  
-  /**
-   * @param key
-   * @param value
-   */
-  public synchronized void put(K key, V value) {
-  	this.longestk = (this.longestk < key.toString().length())? key.toString().length() : this.longestk;
-  	this.longestv = (this.longestv < value.toString().length())? value.toString().length() : this.longestv;
-  	this.pool.put(key, value);
-  }
-  
+	/** Pool Stack */
+
+	private transient int trys = 0;
+
+	private transient int hits = 0;
+
+	/**
+	 * Constructor.
+	 */
+	public BufferPool() {
+		this(DEFAULT_CAPACITY);
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param size
+	 */
+	public BufferPool(int capacity) {
+		this.pool = new HashMapBuffer<>(capacity);
+	}
+
+	/**
+	 * @param key
+	 * @return
+	 */
+	public synchronized V get(K key) {
+		V value = this.pool.get(key);
+		this.trys++;
+		this.hits += (value == null) ? 0 : 1;
+		return value;
+	}
+
+	/**
+	 * @param key
+	 * @param value
+	 */
+	public synchronized void put(K key, V value) {
+		this.longestk = (this.longestk < key.toString().length()) ? key.toString()
+		    .length() : this.longestk;
+		this.longestv = (this.longestv < value.toString().length()) ? value
+		    .toString().length() : this.longestv;
+		this.pool.put(key, value);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -114,7 +124,8 @@ public class BufferPool<K, V> implements Serializable {
 	 */
 	public String debug() {
 		String output ="";
-		output += "     POOL SIZE: "+ this.size() + "\n";
+		output += "POOL SIZE: "+ this.size() + "\n";
+		output += " HIT RATE: "+ String.format("%3.2f", (((float) this.hits / (float) this.trys) * 1.00f)) + "\n";
 		output += this.print();
 		return output;
 	}
