@@ -348,14 +348,16 @@ public class GISDatabaseFile extends AbstractGISFile {
 			data = new GISRecord(this.read());
 			this.bufferPool.put(offset, data);
 		}
-		return data.toString();
+		return data;
 	}
 
 	private void insert(String read) throws IOException {
 		// size of file is offset
 		long offset = this.file.length();
 		// read line
-		this.file.writeBytes(read + "\n");
+		this.file.seek(offset);
+		this.file.write((read+"\n").getBytes());
+		
 		GISRecord record = new GISRecord(read);
 		// index
 		Index index = new Index(offset);
