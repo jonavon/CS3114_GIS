@@ -38,30 +38,30 @@ public class WhatIsCommand extends AbstractCommand {
 	@Override
 	public void execute() {
 		Index item = this.database.getNameIndex().get(this.name + ":" + this.state);
-		StringBuilder output = new StringBuilder();
+		StringBuilder o = new StringBuilder();
 		if (item == null) {
-			output.append("No result");
+			o.append("No result");
 		}
 		else {
 			GISRecord record;
 			try {
 				record = this.database.select(item.getOffset());
 				// @formatter:off
-				output.append(String.format("%8d", item.getOffset()))
-				      .append(":\t")
-				      .append(record.getCounty())
-				      .append(" ")
-				      .append(GIS.toDMS(record.getLatitude(), false))
-				      .append(" ")
-				      .append(GIS.toDMS(record.getLongitude(), true))
-				      .append("\n");
+				o.append(String.format("%8d", item.getOffset()))
+				 .append(":\t")
+				 .append(record.getCounty())
+				 .append(" ")
+				 .append(GIS.toDMS(record.getLatitude(), false))
+				 .append(" ")
+				 .append(GIS.toDMS(record.getLongitude(), true))
+				 .append("\n");
 				// @formatter:on
 			}
 			catch (IOException e) {
 				e.printStackTrace();
 			}
-			this.logfile.log(output.toString());
 			System.out.println("What is command run.");
 		}
+		this.logfile.log(o.toString());
 	}
 }
