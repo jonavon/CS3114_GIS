@@ -54,28 +54,28 @@ public class WhatIsInCommand extends AbstractCommand {
 			    yLo, yHi);
 			int count = 0;
 			StringBuilder output = new StringBuilder();
+			StringBuilder o = new StringBuilder();
 			for (CoordIndex result : results) {
 
 				count = count + result.getOffsets().size();
 				for (Long offset : result.getOffsets()) {
 					try {
 						GISRecord record = this.database.select(offset);
-						output = new StringBuilder(); // reset
 						if (this.flag == FLAG.VERBOSE) {
 							output.append(record.print());
 						}
 						else if (this.flag == null) {
 							//@formatter:off
-							output.append(String.format("%8d", offset))
-							      .append(":\t")
-							      .append(record.getName())
-							      .append(" ")
-							      .append(record.getState())
-							      .append(" ")
-							      .append(GIS.toDMS(record.getLatitude(), false))
-							      .append(" ")
-							      .append(GIS.toDMS(record.getLongitude(), true))
-							      .append("\n");
+							o.append(String.format("%8d", offset))
+							 .append(":\t")
+							 .append(record.getName())
+							 .append(" ")
+							 .append(record.getState())
+							 .append(" ")
+							 .append(GIS.toDMS(record.getLatitude(), false))
+							 .append(" ")
+							 .append(GIS.toDMS(record.getLongitude(), true))
+							 .append("\n");
 						//@formatter:on
 						}
 					}
@@ -85,9 +85,7 @@ public class WhatIsInCommand extends AbstractCommand {
 					}
 				}
 			}
-			if (this.flag == FLAG.COUNT) {
-				output.append("Found ").append(count).append(" items.\n");
-			}
+			output.append("Found ").append(count).append(" item(s).\n").append(o);
 			this.logfile.log(output.toString());
 		}
 		System.out.println("What is in command run.");
