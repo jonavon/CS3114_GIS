@@ -237,11 +237,11 @@ public class GISDatabaseFile extends AbstractGISFile {
 			output.append(this.getY());
 			output.append(")");
 			if (attached > 1) {
-				for (Entry<Long, String> entry : this.shell.entrySet()) {
+				for (Entry<String, Long> entry : this.shell.entrySet()) {
 					output.append(" ");
-					output.append(entry.getValue());
-					output.append("<");
 					output.append(entry.getKey());
+					output.append("<");
+					output.append(entry.getValue());
 					output.append(">");
 				}
 			}
@@ -286,8 +286,8 @@ public class GISDatabaseFile extends AbstractGISFile {
 		/**
 		 * @return the offset
 		 */
-		public long getOffset() {
-			return this.offset;
+		public Collection<Long> getOffsets() {
+			return this.shell.values();
 		}
 
 		@Override
@@ -300,7 +300,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 		@Override
 		public void fission(CoordIndex o) {
 			if (this.equals(o)) {
-				for (Long k : o.shell.keySet()) {
+				for (String k : o.shell.keySet()) {
 					this.shell.remove(k);
 				}
 				this.delete = (this.shell.size() == 0);
@@ -335,7 +335,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 	 * @throws IOException
 	 *           thrown if offset is less than 0 or other IOException .
 	 */
-	public String select(long offset) throws IOException {
+	public GISRecord select(long offset) throws IOException {
 		if(this.bufferPool == null) {
 			this.bufferPool = new BufferPool<>();
 		}
