@@ -17,6 +17,7 @@ public class GISCommandInvoker {
 	private GISDatabaseFile database;
 	private GISLogFile logfile;
 	private static final String COMMENT_PREFIX = ";";
+	private static final String COMMANDS_EXIT = "quit";
 
 	//
 	// Fields
@@ -181,6 +182,9 @@ public class GISCommandInvoker {
 	public void enqueue(List<String> cmds) {
 		for (String cmd : cmds) {
 			this.enqueue(cmd);
+			if (cmd.startsWith(COMMANDS_EXIT)) {
+				break;
+			}
 		}
 	}
 }
