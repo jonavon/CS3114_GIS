@@ -445,11 +445,11 @@ public class GISRecord {
 		// .append("   PRIM LAT DEC:\t").append(String.valueOf(this.getLatitude())).append("\n")
 		// .append("  PRIM LONG DEC:\t").append(String.valueOf(this.getLongitude())).append("\n")
 		 ;
-	//if(this.getSlatitude() != null)
-	//	o.append(" SOURCE LAT DMS:\t").append(GIS.toDMS(this.getSlatitude() , false)).append("\n");
-	//if(this.getSlongitude() != null)
-	//	o.append("SOURCE LONG DMS:\t").append(GIS.toDMS(this.getSlongitude() , true)).append("\n");
-	//if(this.getSlatitude() != null)
+	if(this.getSlatitude() != null)
+		o.append(" SOURCE LAT DMS:\t").append(GIS.toDMS(this.getSlatitude() , false)).append("\n");
+	if(this.getSlongitude() != null)
+		o.append("SOURCE LONG DMS:\t").append(GIS.toDMS(this.getSlongitude() , true)).append("\n");
+	if(this.getSlatitude() != null)
 	//	o.append(" SOURCE LAT DEC:\t").append(String.valueOf(this.getSlatitude())).append("\n");
 	//if(this.getSlongitude() != null)
 	//	o.append("SOURCE LONG DEC:\t").append(String.valueOf(this.getSlongitude())).append("\n");

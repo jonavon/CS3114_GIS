@@ -144,7 +144,7 @@ public class GISCommandInvoker {
 	public void run() {
 		int count = 0;
 		for (String cmd : this.commands) {
-			String section = "\nCommand " + count++ + ":\t" + cmd + "\n";
+			String section = "\n\nCommand " + count++ + ":\t" + cmd + "\n";
 			section += GIS.repeatText('-', section.length() + 1);
 			section += "\n";
 			try {

@@ -62,7 +62,7 @@ public class WhatIsInCommand extends AbstractCommand {
 					try {
 						GISRecord record = this.database.select(offset);
 						if (this.flag == FLAG.VERBOSE) {
-							output.append(record.print());
+							o.append(record.print());
 						}
 						else if (this.flag == null) {
 							//@formatter:off
