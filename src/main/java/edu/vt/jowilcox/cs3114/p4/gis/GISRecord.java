@@ -102,7 +102,9 @@ public class GISRecord {
 
 		this.sdf = new SimpleDateFormat("MM/dd/yyyy");
 		this.created = (fields[18].isEmpty()) ? null : Calendar.getInstance();
-		this.edited = (fields[fields.length - 1].isEmpty()) ? null : Calendar.getInstance();
+		if((fields.length) > 19) {
+			this.edited = (fields[19].isEmpty()) ? null : Calendar.getInstance();
+		}
 		try {
 			if(this.created != null) { 
 				this.created.setTime(sdf.parse(fields[18]));
@@ -318,7 +320,7 @@ public class GISRecord {
 	 * 
 	 * @return the value of slatitude
 	 */
-	public double getSlatitude() {
+	public Double getSlatitude() {
 		return this.slatitude;
 	}
 
@@ -337,7 +339,7 @@ public class GISRecord {
 	 * 
 	 * @return the value of slongitude
 	 */
-	public double getSlongitude() {
+	public Double getSlongitude() {
 		return this.slongitude;
 	}
 
@@ -356,7 +358,7 @@ public class GISRecord {
 	 * 
 	 * @return the value of elevation
 	 */
-	public int getElevation() {
+	public Integer getElevation() {
 		return this.elevation;
 	}
 
@@ -436,43 +438,21 @@ public class GISRecord {
 		data[4] = String.valueOf(this.getStateCode());
 		data[5] = this.getCounty();
 		data[6] = this.getCountyNumeric();
-		data[7] = this.toDMS(this.getLatitude() , false);
-		data[8] = this.toDMS(this.getLongitude(), true);
+		data[7] = GIS.toDMS(this.getLatitude() , false);
+		data[8] = GIS.toDMS(this.getLongitude(), true);
 		data[9] = String.valueOf(this.getLatitude());
 		data[10] = String.valueOf(this.getLongitude());
-		data[11] = this.toDMS(this.getSlatitude() , false);
-		data[12] = this.toDMS(this.getSlongitude() , true);
-		data[13] = String.valueOf(this.getSlatitude());
-		data[14] = String.valueOf(this.getSlongitude());
-		data[15] = String.valueOf(this.getElevation());
-		data[16] = String.valueOf(Math.round(this.getElevation() * 3.28084)); // Convert to feet long.
+		data[11] = (this.getSlatitude() == null)? null : GIS.toDMS(this.getSlatitude() , false);
+		data[12] = (this.getSlongitude() == null)? null : GIS.toDMS(this.getSlongitude() , true);
+		data[13] = (this.getSlatitude() == null)? null : String.valueOf(this.getSlatitude());
+		data[14] = (this.getSlongitude() == null)? null : String.valueOf(this.getSlongitude());
+		data[15] = (this.getElevation() == null)? null : String.valueOf(this.getElevation());
+		data[16] = (this.getElevation() == null)? null : String.valueOf(Math.round(this.getElevation() * 3.28084)); // Convert to feet long.
 		data[17] = this.getMapname();
 		data[18] = (this.getCreated() == null)? null : this.sdf.format(this.getCreated().getTime());
-		data[19] = (this.getCreated().equals(this.getEdited()))? null : this.sdf.format(this.getEdited().getTime());
+		data[19] = (this.getEdited() == null)? null : this.sdf.format(this.getEdited().getTime());
 		return GIS.implode("|", data);
 	}
 
-	/**
-	 * @param dec
-	 * @param isLongitude
-	 * @return
-	 */
-	private String toDMS(double dec, boolean isLongitude) {
-		char dir;
-		if(isLongitude) {
-			dir = (dec < 0)?'W':'E';
-		}
-		else {
-			dir = (dec < 0)?'S':'N';
-		}
-		dec = Math.abs(dec);
-		String deg = String.valueOf((int) dec);
-		String min = String.format("%02d", (int) (((dec % 1) * 60)));
-		String sec = String.format("%02d", (int) ((((dec % 1) * 60) % 1) * 60));
-		
-		StringBuilder dms = new StringBuilder();
-		dms.append(deg).append(min).append(sec).append(dir);
-	  return dms.toString();
-  }
 
 }

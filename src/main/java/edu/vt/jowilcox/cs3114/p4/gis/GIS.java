@@ -102,5 +102,38 @@ public class GIS {
 		}
 		return sb.toString();
 	}
+	
+	/**
+	 * @param dec
+	 * @param isLongitude
+	 * @return
+	 */
+	public static String toDMS(double dec, boolean isLongitude) {
+		char dir;
+		if(isLongitude) {
+			dir = (dec < 0)?'W':'E';
+		}
+		else {
+			dir = (dec < 0)?'S':'N';
+		}
+		dec = Math.abs(dec);
+		String deg = String.valueOf((int) dec);
+		String min = String.format("%02d", (int) (((dec % 1) * 60)));
+		String sec = String.format("%02d", (int) ((((dec % 1) * 60) % 1) * 60));
+		
+		StringBuilder dms = new StringBuilder();
+		dms.append(deg).append(min).append(sec).append(dir);
+	  return dms.toString();
+  }
+
+	public static long DMStoTotalSeconds(String dms) {
+		int l = dms.length() - 1;
+		char dir = dms.charAt(l);
+		int sign = (dir == 'W' || dir == 'S')? -1 : 1;
+		int seconds = Integer.valueOf(dms.substring(l-2,l));
+		int minutes = Integer.valueOf(dms.substring(l-4,l-2)) * 60;
+		int degrees = Integer.valueOf(dms.substring(0, l-4)) * 3600;
+	  return (degrees + minutes + seconds) * sign;
+  }
 
 }
