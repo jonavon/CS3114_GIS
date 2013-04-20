@@ -18,7 +18,7 @@ public class QuitCommand extends AbstractCommand {
 		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Calendar c = Calendar.getInstance();
 		StringBuilder o = new StringBuilder();
-		o.append("Terminated:\t").append(dateformat.format(c.getTime())).append("\n");
+		o.append("Completed:\t").append(dateformat.format(c.getTime())).append("\n");
 		this.logfile.log(o.toString());
 		System.out.println("Quit command given! Exiting.");
 	}
