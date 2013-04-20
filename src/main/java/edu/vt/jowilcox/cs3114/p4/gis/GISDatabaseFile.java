@@ -382,12 +382,14 @@ public class GISDatabaseFile extends AbstractGISFile {
 		    (long) Math.round((record.getLatitude() * 3600)));
 
 		if (this.nameIndex != null) {
-			this.nameIndex.put(record.getName() + ":" + record.getState().toString(), index);
-			this.nameImportCnt++; // for debugging
+			if(this.nameIndex.put(record.getName() + ":" + record.getState().toString(), index) != index) {
+				this.nameImportCnt++; // for debugging
+			}
 		}
 		if (this.coordIndex != null) {
-			this.coordIndex.insert(cindex);
-			this.coordImportCnt++; // for debugging
+			if(this.coordIndex.insert(cindex)) {
+				this.coordImportCnt++; // for debugging
+			}
 		}
 	}
 
