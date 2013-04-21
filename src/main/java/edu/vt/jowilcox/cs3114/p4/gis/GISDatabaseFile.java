@@ -74,12 +74,16 @@ public class GISDatabaseFile extends AbstractGISFile {
 		 */
 		@Override
 		public String toString() {
+			int size = this.shell.size();
 			StringBuilder output = new StringBuilder();
-			for (Long offset : this.shell) {
+			//for (Long offset : this.shell) {
 				output.append("<");
 				output.append(offset);
 				output.append(">");
-			}
+				if(size > 1) {
+					output.append("+").append(size - 1).append(" more");
+				}
+			//}
 			return output.toString();
 		}
 

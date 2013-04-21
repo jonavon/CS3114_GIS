@@ -14,6 +14,7 @@ import java.io.RandomAccessFile;
  */
 public class GISLogFile extends AbstractGISFile {
 
+
 	/**
 	 * Constructor.
 	 * 
@@ -26,6 +27,7 @@ public class GISLogFile extends AbstractGISFile {
 		    AbstractGISFile.GIS_FILE_READWRITE);
 	}
 
+	
 	/**
 	 * Write a string as is to the log file.
 	 * 
@@ -40,7 +42,12 @@ public class GISLogFile extends AbstractGISFile {
 			System.err.println("Unable to log data:\n\t'" + data + "'");
 		}
 	}
+	
+	public void sync() throws IOException {
+		this.file.getFD().sync();
+	}
 
+	
 	/**
 	 * Remove the contents of the file.
 	 * 
