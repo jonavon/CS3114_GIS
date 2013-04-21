@@ -20,19 +20,6 @@ public class WhatIsCommand extends AbstractCommand {
 		String[] input = args.split("\\t");
 		this.name = input[0];
 		this.state = input[1];
-
-		// "^\d{6,7}(N|S)\t?\d{6,7}(E|W)\t\d{1,}\t\d{1,}$" // what_is_in 364201S
-		// 1063259E 60 60
-		// "^\d{6,7}(N|S)\t?\d{6,7}(E|W)\t\d{1,}\t\d{1,}$" what_is_in 364201S
-		// 1063259E 60 60
-		// this.latitude;
-		// this.longitude;
-		// this.hheight;
-		// this.hwidth;
-		// "^-c\t\d{6,7}(N|S)\t?\d{6,7}(E|W)\t\d{1,}\t\d{1,}$"
-		// this.count
-		// "^-l\t\d{6,7}(N|S)\t?\d{6,7}(E|W)\t\d{1,}\t\d{1,}$"
-		// this.isLong
 	}
 
 	@Override
@@ -40,22 +27,25 @@ public class WhatIsCommand extends AbstractCommand {
 		Index item = this.database.getNameIndex().get(this.name + ":" + this.state);
 		StringBuilder o = new StringBuilder();
 		if (item == null) {
-			o.append("No result");
+			o.append("No results");
 		}
 		else {
-			GISRecord record;
 			try {
-				record = this.database.select(item.getOffset());
-				// @formatter:off
-				o.append(String.format("%8d", item.getOffset()))
-				 .append(":\t")
-				 .append(record.getCounty())
-				 .append(" ")
-				 .append(GIS.toDMS(record.getLatitude(), false))
-				 .append(" ")
-				 .append(GIS.toDMS(record.getLongitude(), true))
-				 .append("\n");
-				// @formatter:on
+				int count = item.getOffsets().size();
+				o.append("Found ").append(count).append(" item(s).\n");
+				for (Long offset : item.getOffsets()) {
+					GISRecord record = this.database.select(offset);
+					// @formatter:off
+					o.append(String.format("%8d", offset))
+					 .append(":\t")
+					 .append(record.getCounty())
+					 .append(" ")
+					 .append(GIS.toDMS(record.getLatitude(), false))
+					 .append(" ")
+					 .append(GIS.toDMS(record.getLongitude(), true))
+					 .append("\n");
+					// @formatter:on
+				}
 			}
 			catch (IOException e) {
 				e.printStackTrace();

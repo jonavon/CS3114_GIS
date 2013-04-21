@@ -3,7 +3,9 @@ package edu.vt.jowilcox.cs3114.p4.gis;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,6 +26,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 	private prQuadtree<CoordIndex> coordIndex;
 	private BufferPool<Long, GISRecord> bufferPool;
 	private int nameImportCnt;
+
 	/**
 	 * @return the nameImportCnt
 	 */
@@ -42,6 +45,7 @@ public class GISDatabaseFile extends AbstractGISFile {
 
 	public class Index {
 		private final long offset;
+		private List<Long> shell;
 
 		/**
 		 * @param offset
@@ -49,6 +53,18 @@ public class GISDatabaseFile extends AbstractGISFile {
 		 */
 		public Index(final long offset) {
 			this.offset = offset;
+			this.shell = new ArrayList<>();
+			this.shell.add(offset);
+		}
+
+		public void fusion(Index o) {
+			this.shell.addAll(o.shell);
+		}
+
+		public void fission(Index o) {
+			for (Long item : o.shell) {
+				this.shell.remove(item);
+			}
 		}
 
 		/**
@@ -59,9 +75,11 @@ public class GISDatabaseFile extends AbstractGISFile {
 		@Override
 		public String toString() {
 			StringBuilder output = new StringBuilder();
-			output.append("<");
-			output.append(this.getOffset());
-			output.append(">");
+			for (Long offset : this.shell) {
+				output.append("<");
+				output.append(offset);
+				output.append(">");
+			}
 			return output.toString();
 		}
 
@@ -70,6 +88,13 @@ public class GISDatabaseFile extends AbstractGISFile {
 		 */
 		public long getOffset() {
 			return this.offset;
+		}
+
+		/**
+		 * @return the offset
+		 */
+		public Collection<Long> getOffsets() {
+			return this.shell;
 		}
 
 		/**
@@ -382,12 +407,17 @@ public class GISDatabaseFile extends AbstractGISFile {
 		    (long) Math.round((record.getLatitude() * 3600)));
 
 		if (this.nameIndex != null) {
-			if(this.nameIndex.put(record.getName() + ":" + record.getState().toString(), index) != index) {
+			String key = record.getName() + ":" + record.getState().toString();
+			if (this.nameIndex.containsKey(key)) {
+				index.fusion(this.nameIndex.get(key));
+			}
+			if (this.nameIndex.put(record.getName() + ":"
+			    + record.getState().toString(), index) != index) {
 				this.nameImportCnt++; // for debugging
 			}
 		}
 		if (this.coordIndex != null) {
-			if(this.coordIndex.insert(cindex)) {
+			if (this.coordIndex.insert(cindex)) {
 				this.coordImportCnt++; // for debugging
 			}
 		}
