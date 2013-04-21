@@ -297,6 +297,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 						internal.SE = this.delete(elem, internal.SE, midx, xHi, yLo, midy);
 					break;
 					default:
+						internal.NE = this.delete(elem, internal.NE, midx, xHi, midy, yHi);
 				}
 				node = internal.compressMe();
 			}
@@ -606,6 +607,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 				node.SE = this.insert(elem, node.SE, midx, xHi, yLo, midy);
 			break;
 			default:
+				node.NE = this.insert(elem, node.NE, midx, xHi, midy, yHi);
 		}
 		node.setDimensions(xLo, xHi, yLo, yHi);
 		return (prQuadInternal) node;
@@ -617,7 +619,7 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 */
 	@Override
 	public String toString() {
-		return this.print("ROOT", this.root, "", true);
+		return this.print("ROOT", this.root, "", true, true);
 	}
 
 	/**
@@ -652,7 +654,8 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 		if (node == null) {
 			return "";
 		}
-		String n = (!this.isLeaf(node) || (expanded && this.isLeaf(node))) ? "" : " " + node.toString();
+		//String n = (!this.isLeaf(node) || (expanded && this.isLeaf(node))) ? "" : " " + node.toString();
+		String n = ((!expanded && !this.isLeaf(node))) ? "" : " " + node.toString();
 		n = (expanded && this.isLeaf(node)) ? "" : n;
 		StringBuilder output = new StringBuilder();
 		output.append(this.print(descriptor + n, prefix, isLast));
