@@ -31,7 +31,8 @@ public class PointSteps {
 			double yLo, double xHi, double yHi) throws Throwable {
 		if (inbox) {
 			assertTrue(p.inBox(xLo, xHi, yLo, yHi));
-		} else {
+		} 
+		else {
 			assertFalse(p.inBox(xLo, xHi, yLo, yHi));
 		}
 	}

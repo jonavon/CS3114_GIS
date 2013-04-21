@@ -4,13 +4,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * Class QuitCommand
+ * Class QuitCommand.
+ * 
+ * Terminate program execution.
  */
 public class QuitCommand extends AbstractCommand {
 
 	//
 	// Constructors
 	//
+	/**
+	 * Constructor.
+	 * 
+	 * @param args
+	 *          arguments for the command.
+	 */
 	public QuitCommand(String args) { }
 
 	@Override

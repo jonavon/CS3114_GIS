@@ -10,7 +10,9 @@ import edu.vt.jowilcox.cs3114.p4.gis.GISDatabaseFile;
 import edu.vt.jowilcox.cs3114.p4.gis.GISLogFile;
 
 /**
- * Class GISCommandInvoker
+ * Class GISCommandInvoker.
+ * 
+ * Invokes a list of commands.
  */
 public class GISCommandInvoker {
 	private Queue<String> commands;
@@ -42,13 +44,25 @@ public class GISCommandInvoker {
 		private Class<? extends ICommand> clazz;
 
 		/**
-		 * @param name
-		 * @param clazz
+		 * Constructor.
+		 * 
+		 * @param clazz class this enum constant represents.
 		 */
 		private Command(Class<? extends ICommand> clazz) {
 			this.clazz = clazz;
 		}
 
+		/**
+		 * Create a concrete command depending on the enum.
+		 * 
+		 * @return a concrete command object.
+		 * @throws InstantiationException
+		 * @throws IllegalAccessException
+		 * @throws IllegalArgumentException
+		 * @throws InvocationTargetException
+		 * @throws NoSuchMethodException
+		 * @throws SecurityException
+		 */
 		@SuppressWarnings("unused")
 		public ICommand createCommandObject() throws InstantiationException,
 		    IllegalAccessException, IllegalArgumentException,
@@ -57,14 +71,16 @@ public class GISCommandInvoker {
 		}
 
 		/**
-		 * @param params
-		 * @return
+		 * Create a concrete command depending on the enum.
+		 * 
+		 * @param params a string that represents a parameter.
 		 * @throws InstantiationException
 		 * @throws IllegalAccessException
 		 * @throws IllegalArgumentException
 		 * @throws InvocationTargetException
 		 * @throws NoSuchMethodException
 		 * @throws SecurityException
+		 * @return a concrete command object.
 		 */
 		public ICommand createCommandObject(String params)
 		    throws InstantiationException, IllegalAccessException,
@@ -75,8 +91,10 @@ public class GISCommandInvoker {
 		}
 
 		/**
-		 * @param params
-		 * @return
+		 * Create a concrete command depending on the enum.
+		 * 
+		 * @param params array of parameter strings.
+		 * @return a Command object that extends {@link ICommand}
 		 * @throws InstantiationException
 		 * @throws IllegalAccessException
 		 * @throws IllegalArgumentException
@@ -97,8 +115,8 @@ public class GISCommandInvoker {
 	/**
 	 * Contructor.
 	 * 
-	 * @param logfile
-	 * @param database
+	 * @param logfile the logfile object.
+	 * @param database the database object.
 	 */
 	public GISCommandInvoker(GISDatabaseFile database, GISLogFile logfile) {
 		this.commands = new ArrayDeque<>();
@@ -110,7 +128,10 @@ public class GISCommandInvoker {
 	// Methods
 	//
 	/**
+	 * Store commands in the FIFO queue.
+	 * 
 	 * @param command
+	 *           a string that represents a command to the system.
 	 */
 	public void enqueue(String command) {
 		if (!command.startsWith(COMMENT_PREFIX)) {
@@ -186,6 +207,11 @@ public class GISCommandInvoker {
 		this.logfile = logfile;
 	}
 
+	/**
+	 * Enqueue a list of command strings.
+	 * 
+	 * @param cmds List of command strings.
+	 */
 	public void enqueue(List<String> cmds) {
 		for (String cmd : cmds) {
 			this.enqueue(cmd);

@@ -75,6 +75,11 @@ public enum USStateAbbreviation {
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param fullname
+	 *          the full name of the state.
+	 * @param numeric
+	 *          the state code for the abbreviation.
 	 */
 	private USStateAbbreviation(String fullname, int numeric) {
 		this.fullname = fullname;
@@ -89,8 +94,9 @@ public enum USStateAbbreviation {
 	public String getFullname() {
 		return this.fullname;
 	}
-	
-	/** Returns US State numeric code.
+
+	/**
+	 * Returns US State numeric code.
 	 * 
 	 * @return int the numeric code of the state.
 	 */

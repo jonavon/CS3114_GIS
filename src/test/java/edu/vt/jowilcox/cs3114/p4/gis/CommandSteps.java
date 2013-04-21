@@ -92,6 +92,11 @@ public class CommandSteps {
 		this.copyFile(file, CMD_FILE_PATH);
 	}
 
+	/**
+	 * @param file filename.
+	 * @param path directory path.
+	 * @throws IOException
+	 */
 	private void copyFile(String file, String path) throws IOException {
 		String ffn = file.substring(file.lastIndexOf(File.separatorChar) + 1);
 		String fdir = file.substring(0, file.lastIndexOf(File.separatorChar) + 1);
@@ -112,6 +117,10 @@ public class CommandSteps {
 
 	/**
 	 * Converts a path relative to a given directory to an absolute path.
+	 * 
+	 * @param dir directory.
+	 * @param fn filename
+	 * @return a file object.
 	 */
 	private File getAbsolutePathFile(String dir, String fn) {
 		File f = new File(fn);

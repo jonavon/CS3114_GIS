@@ -31,7 +31,7 @@ public class GISLogFile extends AbstractGISFile {
 	/**
 	 * Write a string as is to the log file.
 	 * 
-	 * @param data
+	 * @param data String to be logged.
 	 * @throws IOException
 	 */
 	public void log(String data) {
@@ -43,6 +43,10 @@ public class GISLogFile extends AbstractGISFile {
 		}
 	}
 	
+	/**
+	 * Force all system buffers to synchronize with the underlying device.
+	 * @throws IOException
+	 */
 	public void sync() throws IOException {
 		this.file.getFD().sync();
 	}

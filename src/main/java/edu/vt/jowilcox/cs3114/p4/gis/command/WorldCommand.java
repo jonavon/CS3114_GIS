@@ -1,7 +1,15 @@
 package edu.vt.jowilcox.cs3114.p4.gis.command;
 
+import edu.vt.jowilcox.cs3114.p4.gis.GIS;
+
 /**
- * Class WorldCommand
+ * Class WorldCommand. This will be the first command in the file, and will
+ * occur once. It specifies the boundaries of the coordinate space to be
+ * modeled. The four parameters will be longitude and latitudes expressed in DMS
+ * format, representing the vertical and horizontal boundaries of the coordinate
+ * space. It is possible that the GIS record file will contain records for
+ * features that lie outside the specified coordinate space. Such records should
+ * be ignored; i.e., they will not be indexed.
  */
 public class WorldCommand extends AbstractCommand {
 	private long yMax;
@@ -12,15 +20,27 @@ public class WorldCommand extends AbstractCommand {
 	//
 	// Constructors
 	//
+	/**
+	 * Constructor.
+	 * 
+	 * @param args
+	 *          arguments for the command.
+	 */
 	public WorldCommand(String args) {
 		this(args.split("\\s"));
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param args
+	 *          arguments for the command.
+	 */
 	public WorldCommand(String... args) {
-		this.xMin = this.DMStoSeconds(args[0]);
-		this.xMax = this.DMStoSeconds(args[1]);
-		this.yMin = this.DMStoSeconds(args[2]);
-		this.yMax = this.DMStoSeconds(args[3]);
+		this.xMin = GIS.DMStoTotalSeconds(args[0]);
+		this.xMax = GIS.DMStoTotalSeconds(args[1]);
+		this.yMin = GIS.DMStoTotalSeconds(args[2]);
+		this.yMax = GIS.DMStoTotalSeconds(args[3]);
 	}
 
 	@Override
@@ -30,18 +50,8 @@ public class WorldCommand extends AbstractCommand {
 		System.out.println("World command executed");
 	}
 
-	private long DMStoSeconds(String dms) {
-		int length = dms.length() - 1;
-		char direction = dms.charAt(length);
 
-		int sign = ((direction == 'W') || (direction == 'S')) ? -1 : 1;
-		long seconds = 0;
-		seconds += (Long.parseLong(dms.substring(0, length - 4)) * 3600);
-		seconds += (Long.parseLong(dms.substring(length - 4, length - 2)) * 60);
-		seconds += Long.parseLong(dms.substring(length - 2, length));
-		return seconds * sign;
-	}
-
+	@Override
 	public String toString() {
 		String output = "\n";
 		output += "WORLD DIMENSIONS:\n";

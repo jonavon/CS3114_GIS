@@ -8,7 +8,14 @@ import edu.vt.jowilcox.cs3114.p4.gis.GISDatabaseFile.CoordIndex;
 import edu.vt.jowilcox.cs3114.p4.gis.GISRecord;
 
 /**
- * Class WhatIsCommand
+ * Class WhatIsCommand. For every GIS record in the database file whose
+ * coordinates fall within the closed rectangle with the specified height and
+ * width, centered at the <geographic coordinate>, log the offset at which the
+ * record was found, and the feature name, the state name, and the primary
+ * latitude and primary longitude. Do not log any other data from the records.
+ * The half-height and half-width are specified as seconds.
+ * 
+ * @author "Jonavon Wilcox <jowilcox@vt.edu>"
  */
 public class WhatIsInCommand extends AbstractCommand {
 	//
@@ -20,10 +27,19 @@ public class WhatIsInCommand extends AbstractCommand {
 	private String hwidth;
 	private FLAG flag;
 
+	/**
+	 * @author "Jonavon Wilcox <jowilcox@vt.edu>"
+	 */
 	enum FLAG {
 		COUNT, VERBOSE;
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param args
+	 *          arguments for the command.
+	 */
 	public WhatIsInCommand(String args) {
 		String[] input = args.split("\\t");
 		int f = (args.charAt(0) == '-') ? 1 : 0;

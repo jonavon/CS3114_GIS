@@ -25,7 +25,7 @@ public class GISRecord {
 	 */
 	private String name;
 	/**
-	 * Descriptive class of this record
+	 * Descriptive class of this record.
 	 */
 	private String classifier;
 	/**
@@ -52,7 +52,7 @@ public class GISRecord {
 	 */
 	private Double slongitude;
 	/**
-	 * Record's elevation in meters
+	 * Record's elevation in meters.
 	 */
 	private Integer elevation;
 	/**
@@ -78,10 +78,16 @@ public class GISRecord {
 	public GISRecord() {
 	}
 
+	/**
+	 * @param fields a single string that represent record fields.
+	 */
 	public GISRecord(String fields) {
 		this(fields.split("\\|"));
 	}
 
+	/**
+	 * @param fields array of fields to be imported.
+	 */
 	public GISRecord(String... fields) {
 		// @formatter:off
 		// 0 FEATURE_ID|1 FEATURE_NAME|2 FEATURE_CLASS|3 STATE_ALPHA|4 STATE_NUMERIC|5 COUNTY_NAME|6 COUNTY_NUMERIC|7 PRIMARY_LAT_DMS|8 PRIM_LONG_DMS|9 PRIM_LAT_DEC
@@ -161,7 +167,7 @@ public class GISRecord {
 	}
 
 	/**
-	 * Set the value of classifier Descriptive class of this record
+	 * Set the value of classifier Descriptive class of this record.
 	 * 
 	 * @param clazz
 	 *          the new value of classifier
@@ -171,7 +177,7 @@ public class GISRecord {
 	}
 
 	/**
-	 * Get the value of classifier Descriptive class of this record
+	 * Get the value of classifier Descriptive class of this record.
 	 * 
 	 * @return the value of classifier
 	 */
@@ -319,7 +325,7 @@ public class GISRecord {
 	}
 
 	/**
-	 * Set the value of elevation Record's elevation in meters
+	 * Set the value of elevation Record's elevation in meters.
 	 * 
 	 * @param elevation
 	 *          the new value of elevation
@@ -329,7 +335,7 @@ public class GISRecord {
 	}
 
 	/**
-	 * Get the value of elevation Record's elevation in meters
+	 * Get the value of elevation Record's elevation in meters.
 	 * 
 	 * @return the value of elevation
 	 */
@@ -430,6 +436,9 @@ public class GISRecord {
 		return GIS.implode("|", data);
 	}
 
+	/**
+	 * @return formatted display of this record.
+	 */
 	public String print() {
 		StringBuilder o = new StringBuilder();
 		o.append("\n")

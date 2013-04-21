@@ -20,7 +20,7 @@ public class GIS {
 	private static GISLogFile logfile;
 
 	/**
-	 * @param args
+	 * @param args <database file><command file><log file>
 	 */
 	public static void main(String[] args) {
 		// Check for valid arguments
@@ -77,11 +77,11 @@ public class GIS {
 	}
 
 	/**
-	 * Similar to PHP's implode.
+	 * Similar to PHP's implode. Join elements with a string.
 	 * 
-	 * @param separator
-	 * @param data
-	 * @return
+	 * @param separator the separator place between array items.
+	 * @param data the array to be imploded.
+	 * @return a new string with the joined elements.
 	 */
 	public static String implode(String separator, String... data) {
 		StringBuilder sb = new StringBuilder();
@@ -104,9 +104,11 @@ public class GIS {
 	}
 
 	/**
-	 * @param dec
-	 * @param isLongitude
-	 * @return
+	 * Change a decimal value to DMS format for coordinates.
+	 * 
+	 * @param dec decimal value for geographic coordinates.
+	 * @param isLongitude true if it is a longitude value.
+	 * @return string that represents the DMS format.
 	 */
 	public static String toDMS(double dec, boolean isLongitude) {
 		char dir;
@@ -126,6 +128,12 @@ public class GIS {
 		return dms.toString();
 	}
 
+	/**
+	 * Take a dms string and return the total seconds.
+	 * @param dms a DMS string.
+	 * @return long
+	 *           total seconds.
+	 */
 	public static long DMStoTotalSeconds(String dms) {
 		int l = dms.length() - 1;
 		char dir = dms.charAt(l);

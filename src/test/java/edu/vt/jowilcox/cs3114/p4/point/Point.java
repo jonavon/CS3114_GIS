@@ -78,6 +78,8 @@ public class Point implements Compare2D<Point> {
 	 *          x-coordinate origin
 	 * @param Y
 	 *          y-coordinate origin
+	 *  @return Direction
+	 *          The direction from the origin points.
 	 */
 	public Direction directionFrom(long X, long Y) {
 		if (this.getX() == X && this.getY() == Y) {
@@ -108,6 +110,8 @@ public class Point implements Compare2D<Point> {
 	 *          y-coordinate of the high corner of the bounding square.
 	 * @param xHi
 	 *          y-coordinate of the high corner of the bounding square.
+	 *  @return Direction
+	 *          The direction from the origin points.
 	 */
 	public Direction inQuadrant(double xLo, double xHi, double yLo, double yHi) {
 		double midX = (xHi + xLo) / 2;
@@ -145,6 +149,8 @@ public class Point implements Compare2D<Point> {
 	 *          y-coordinate of the high corner of the bounding square.
 	 * @param xHi
 	 *          y-coordinate of the high corner of the bounding square.
+	 * @return true
+	 *          If this point can exist within the specified points.
 	 */
 	public boolean inBox(double xLo, double xHi, double yLo, double yHi) {
 		return (this.getX() >= xLo) && (this.getX() <= xHi) && (this.getY() >= yLo)
@@ -173,6 +179,11 @@ public class Point implements Compare2D<Point> {
 	 * is used as a bound on the type parameter for the generic spatial structure,
 	 * otherwise the compiler will bind to Object.equals(), which will almost
 	 * certainly be inappropriate.
+	 * 
+	 * @param o
+	 *        test object.
+	 * @return boolean
+	 *          true if the two objects are equivalent.
 	 */
 	@Override
 	public boolean equals(Object o) {

@@ -7,15 +7,26 @@ import edu.vt.jowilcox.cs3114.p4.gis.GISDatabaseFile.Index;
 import edu.vt.jowilcox.cs3114.p4.gis.GISRecord;
 
 /**
- * Class WhatIsCommand
+ * Class WhatIsCommand. For every GIS record in the database file that matches
+ * the given <feature name> and <state abbreviation>, log the offset at which
+ * the record was found, and the county name, the primary latitude, and the
+ * primary longitude. Do not log any other data from the records.
  */
 public class WhatIsCommand extends AbstractCommand {
 	//
 	// Constructors
 	//
+	/** Name. */
 	private String name;
+	/** State abbreviation. */
 	private String state;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param args
+	 *          arguments for the command.
+	 */
 	public WhatIsCommand(String args) {
 		String[] input = args.split("\\t");
 		this.name = input[0];
