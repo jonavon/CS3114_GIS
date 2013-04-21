@@ -1,0 +1,179 @@
+; Script 6
+;
+; Test of searches with a large database file.
+;
+; Specify boundaries of coordinate space:
+world	0860000W	0750000W	320000N	430000N
+
+GIS Program
+
+dbFile:     db06.txt
+script:     Script06.txt
+log:        Log06.txt
+Start time: Tue Mar 26 18:08:55 EDT 2013
+Quadtree children are printed in the order SW  SE  NE  NW
+--------------------------------------------------------------------------------
+
+Latitude/longitude values in index entries are shown as signed integers, in total seconds.
+
+World boundaries are set to:
+              154800
+   -309600                -270000
+              115200
+--------------------------------------------------------------------------------
+;
+; Import a large DB file:
+Command 1:  import	VA_All.txt
+
+Imported Features by name: 59546
+Longest probe sequence:    30
+Imported Locations:        59546
+--------------------------------------------------------------------------------
+;
+; Check the location and name/state indices if you dare:
+;debug	quad
+;debug	hash
+;
+; Try a few name/state searches:
+Command 2:  what_is	Blacksburg	VA
+
+2531589:  Rockbridge  791909W  374907N
+4247050:  Washington  814913W  364515N
+4713992:  Montgomery  802450W  371346N
+--------------------------------------------------------------------------------
+Command 3:  what_is	Mount Pleasant	VA
+
+1192549:  Spotsylvania  773839W  380654N
+2134495:  Essex  770307W  380608N
+3148846:  Amherst  791010W  374423N
+4053033:  Fairfax  770945W  384958N
+4276466:  Chesapeake (city)  760809W  364237N
+4392532:  Frederick  781742W  391019N
+4892565:  Surry  764930W  371217N
+5573914:  Clarke  780114W  391023N
+5659110:  Roanoke  795449W  371358N
+5774950:  Amherst  791000W  374152N
+--------------------------------------------------------------------------------
+Command 4:  what_is	Dry Run	VA
+
+507532:  Russell  821417W  365452N
+507675:  Culpeper  775817W  382438N
+507830:  Warren  780413W  385930N
+507972:  Rockingham  783727W  382557N
+508137:  Patrick  803210W  363618N
+508296:  Warren  781451W  385308N
+508448:  Warren  781317W  390009N
+2709030:  Washington  815723W  363655N
+2709187:  Wythe  811020W  364904N
+2709337:  Smyth  812715W  365015N
+2709484:  Smyth  812227W  365312N
+2709633:  Botetourt  794345W  373812N
+2709796:  Covington (city)  795920W  374837N
+2709956:  Alleghany  794751W  374908N
+2710111:  Alleghany  795850W  375414N
+2710266:  Bath  794648W  375553N
+2710418:  Bath  794709W  381341N
+2710564:  Page  782220W  384702N
+2710714:  Shenandoah  782350W  385139N
+2710866:  Montgomery  801830W  371619N
+2711021:  Botetourt  794121W  373121N
+2711173:  Rockingham  790438W  383323N
+2711333:  Warren  781718W  385224N
+2711485:  Frederick  781942W  391541N
+2711633:  Bath  794001W  380345N
+2711782:  Highland  794456W  381634N
+2711932:  Page  782717W  384112N
+--------------------------------------------------------------------------------
+Command 5:  what_is	Grundy	VA
+
+4723637:  Buchanan  820556W  371640N
+--------------------------------------------------------------------------------
+;
+; Try a few location searches:
+Command 6:  what_is_at	383341N	0793423W
+
+   The following features were found at 793423W   383341N:
+4860489:  Hardscrabble  Highland  VA
+--------------------------------------------------------------------------------
+Command 7:  what_is_at	363801N	0814701W
+
+   The following features were found at 814701W   363801N:
+2678310:  Damascus  Washington  VA
+--------------------------------------------------------------------------------
+Command 8:  what_is_at	371321N	0802509W
+
+   The following features were found at 802509W   371321N:
+5369786:  Cassel Coliseum  Montgomery  VA
+7460580:  Cassell Coliseum  Montgomery  VA
+--------------------------------------------------------------------------------
+;
+; And a few region searches:
+Command 9:  what_is_in	363202N	0804759W	60	60
+
+   The following 1 features were found in (804759W +/- 60, 363202N +/- 60)
+5837632:  Auberry Creek  VA  363202N  804759W
+--------------------------------------------------------------------------------
+Command 10:  what_is_in	382622N	0785220W	15	15
+
+   The following 41 features were found in (785220W +/- 15, 382622N +/- 15)
+6713115:  Cleveland Hall  VA  382624N  785226W
+7381273:  Anthony Seeger Hall  VA  382628N  785231W
+7383090:  Grace Street House  VA  382630N  785231W
+7384372:  Lincoln House  VA  382624N  785234W
+7385618:  Shenandoah Hall  VA  382624N  785234W
+7385067:  Nicholas House  VA  382626N  785232W
+5233704:  WXJM-FM (Harrisonburg)  VA  382622N  785220W
+6712392:  Burrus Hall  VA  382622N  785220W
+7381693:  Burruss Hall  VA  382622N  785220W
+6715463:  Keezel Infirmary  VA  382621N  785217W
+6715897:  Madison Memorial Library  VA  382620N  785220W
+7381968:  Carrier Library  VA  382619N  785218W
+7383233:  Grafton-Stovall Theatre  VA  382618N  785214W
+7382109:  Chappelear Hall  VA  382607N  785207W
+7382672:  Frederikson Hall  VA  382609N  785211W
+7386727:  Wampler Hall  VA  382620N  785232W
+7386998:  Wellington Hall  VA  382623N  785235W
+6711794:  Ashby Hall  VA  382618N  785231W
+6713255:  Converse Hall  VA  382617N  785233W
+6714761:  Gifford Hall  VA  382616N  785233W
+6717954:  Spottswood Hall  VA  382622N  785227W
+7386165:  Spotwood Hall  VA  382623N  785227W
+6715325:  Johnson Hall  VA  382622N  785225W
+7384087:  Keezell Hall  VA  382619N  785222W
+6711502:  Alumnae Hall  VA  382619N  785224W
+6717816:  Sheldon Hall  VA  382621N  785225W
+7381110:  Alumnae Hall-James Madison University  VA  382620N  785224W
+2991336:  James Madison University  VA  382617N  785223W
+6718522:  Wilson Hall  VA  382617N  785223W
+6716046:  Maury Hall  VA  382616N  785225W
+6718245:  Walter Reed Hall  VA  382618N  785222W
+7387138:  Wlson Hall  VA  382617N  785224W
+6714898:  Harrison Hall  VA  382617N  785230W
+7383514:  Harrison Hall Annex  VA  382617N  785230W
+6715187:  Jackson Hall  VA  382617N  785227W
+7385486:  Roop Hall  VA  382615N  785229W
+6715763:  Logan Hall  VA  382614N  785230W
+7381552:  Bridgeforth Stadium  VA  382607N  785222W
+7382814:  Frye Building  VA  382612N  785228W
+7386589:  Varner House  VA  382614N  785228W
+6718386:  Wayland Hall  VA  382614N  785233W
+--------------------------------------------------------------------------------
+Command 11:  what_is_in	382453N	0785619W	30	30
+
+   The following 8 features were found in (785619W +/- 30, 382453N +/- 30)
+7837003:  Wilbur S Pence Middle School  VA  382507N  785636W
+3743745:  Silver Lake Dam  VA  382520N  785623W
+3804340:  Dayton Cemetery  VA  382509N  785629W
+3806308:  Dayton Elementary School  VA  382500N  785629W
+6506854:  Dayton Historic District  VA  382457N  785630W
+7600130:  Town of Dayton  VA  382505N  785624W
+3991308:  Dayton  VA  382453N  785619W
+6506990:  Dayton Post Office  VA  382451N  785619W
+--------------------------------------------------------------------------------
+;
+; Exit
+Command 12:  quit	
+
+Terminating execution of commands.
+End time: Tue Mar 26 18:09:19 EDT 2013
+--------------------------------------------------------------------------------

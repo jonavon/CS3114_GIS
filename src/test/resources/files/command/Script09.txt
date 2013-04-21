@@ -1,0 +1,27 @@
+; Script 9
+;
+; Test of search failures with a large database file.
+;
+; Specify boundaries of coordinate space:
+world	0860000W	0750000W	320000N	430000N
+;
+; Import a large DB file:
+import	VA_All.txt
+;
+; Check the location and name/state indices if you dare:
+;debug	quad
+;debug	hash
+;
+; Try a few name/state searches for nonexistent features:
+what_is	Bleaksburg	VA
+what_is	Nova	VA
+what_is	Wet Run	VA
+;
+; Try a location search for an empty location:
+what_is_at	383340N	0793423W
+;
+; And a search for an empty region:
+what_is_in	363206N	0804752W	6	6
+;
+; Exit
+quit	

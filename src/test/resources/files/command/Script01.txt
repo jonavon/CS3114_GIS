@@ -1,0 +1,52 @@
+; Script 1
+;
+; Very basic testing of the simple search commands with a tiny DB.
+;
+; Specify boundaries of coordinate space:
+world	0794130W	0792630W	381500N	383000N
+;
+; Import some data:
+import	VA_Monterey.txt
+;
+;debug	world
+;
+; Check the location and name/state indices:
+debug	quad
+debug	hash
+;
+; Let's try some variations of a single-match name/state search:
+what_is	Trimble Knob	VA
+;
+; Let's check the buffer pool:
+debug	pool
+;
+; Let's try some variations of a single-match location search:
+what_is_at	382812N	0793156W
+;
+; Let's check the buffer pool:
+debug	pool
+;
+; Let's try a few more name/state searches:
+what_is	Swope Hollow	VA
+what_is	Possum Trot	VA
+what_is	Blue Grass	VA
+;
+; Let's check the buffer pool:
+debug	pool
+;
+; Let's try a few more location searches:
+what_is_at	382145N	0793031W
+what_is_at	382442N	0793451W
+what_is_at	382607N	0793312W
+;
+; Let's check the buffer pool:
+debug	pool
+;
+; Let's try a two-match location search:
+what_is_at	382856N	0793031W
+;
+; Let's check the buffer pool:
+debug	pool
+;
+; Exit
+quit	

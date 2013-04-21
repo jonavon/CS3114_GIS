@@ -1,0 +1,1008 @@
+; Script 5
+;
+; Test of "extreme" region searches with a larger database file.
+;
+; Specify boundaries of coordinate space:
+world	0804500W	0800000W	370000N	374500N
+
+GIS Program
+
+dbFile:     db05.txt
+script:     Script05.txt
+log:        Log05.txt
+Start time: Tue Mar 26 18:04:18 EDT 2013
+Quadtree children are printed in the order SW  SE  NE  NW
+--------------------------------------------------------------------------------
+
+Latitude/longitude values in index entries are shown as signed integers, in total seconds.
+
+World boundaries are set to:
+              135900
+   -290700                -288000
+              133200
+--------------------------------------------------------------------------------
+;
+; Import a smallish DB file:
+Command 1:  import	VA_Montgomery.txt
+
+Imported Features by name: 752
+Longest probe sequence:    12
+Imported Locations:        752
+--------------------------------------------------------------------------------
+;
+; Check the location and name/state indices if you dare:
+;debug	quad
+;debug	hash
+;
+; And a few region searches:
+Command 2:  what_is_in	371347N	0802514W	10	600
+
+   The following 92 features were found in (802514W +/- 600, 371347N +/- 10)
+40577:  Reesedale  VA  371345N  801756W
+78419:  Reesedale Church  VA  371345N  801744W
+68615:  Monteith Hall  VA  371355N  802513W
+81044:  Shanks Hall  VA  371354N  802512W
+97229:  Herbert J Thomas Hall  VA  371356N  802513W
+98147:  Jimmie Monteith Junior Hall  VA  371354N  802511W
+86337:  Thomas Hall  VA  371354N  802515W
+94710:  Art and Design Learning Center  VA  371354N  802515W
+99657:  Military Building  VA  371354N  802518W
+48012:  Blacksburg Historic District  VA  371355N  802459W
+82119:  Shultz Hall  VA  371354N  802507W
+97627:  J H Shultz Hall  VA  371354N  802507W
+60985:  Henderson Student Health Service Building  VA  371349N  802501W
+84421:  Squires Hall  VA  371346N  802506W
+98289:  John Houston Squires Student Center  VA  371346N  802506W
+94577:  Architecture Annex  VA  371343N  802459W
+99387:  Media Building  VA  371343N  802458W
+58561:  Femoyer Hall  VA  371352N  802517W
+92754:  Robert Femoyer Hall  VA  371352N  802517W
+66868:  Major Williams Dormitory  VA  371351N  802515W
+98990:  Major Lloyd W Williams Hall  VA  371352N  802516W
+100074:  Old Security Building  VA  371353N  802518W
+64863:  Lane Hall  VA  371351N  802511W
+94855:  Arts and Science Administration Building  VA  371352N  802513W
+98020:  James H Lane Hall  VA  371351N  802512W
+78022:  Rasche Hall  VA  371351N  802509W
+93907:  William H "Bosco" Rasche Hall  VA  371350N  802509W
+49514:  Brodie Hall  VA  371348N  802512W
+71827:  Newman Library  VA  371344N  802510W
+93317:  Torgersen Hall  VA  371347N  802514W
+93626:  War Memorial Chapel  VA  371343N  802515W
+79642:  Saint Marys Roman Catholic Church  VA  371356N  802453W
+49103:  Blacksburg United Methodist Church  VA  371347N  802445W
+79788:  Saint Paul African Methodist Episcopal Church  VA  371351N  802446W
+47878:  Blacksburg City Hall  VA  371350N  802451W
+48298:  Blacksburg Post Office  VA  371348N  802452W
+52067:  Christ Episcopal Church  VA  371350N  802449W
+77347:  Progress Street Fire Station  VA  371352N  802449W
+41209:  Blacksburg  VA  371346N  802450W
+57525:  Eggleston Hall  VA  371338N  802513W
+56411:  Donaldson Brown Continuing Education Center  VA  371342N  802504W
+94437:  Alumni Hall-Virginia Tech  VA  371342N  802505W
+95955:  Donaldson Brown Hotel and Conference Center  VA  371341N  802504W
+95266:  Charles Vawter Senior Hall  VA  371337N  802504W
+47070:  Berryfield  VA  371346N  802434W
+58688:  First Baptist Church  VA  371343N  802435W
+102279:  Dayspring Christian Academy  VA  371350N  802425W
+64333:  Knob Hill  VA  371348N  802355W
+41769:  WKEX-AM (Blacksburg)  VA  371357N  802639W
+42161:  WKEX-AM (Blacksburg)  VA  371357N  802639W
+87832:  Virginia Tech Golf Course  VA  371344N  802554W
+100672:  Town of Blacksburg  VA  371348N  802540W
+60723:  Hancock Hall  VA  371349N  802526W
+89195:  Whittemore Hall  VA  371351N  802527W
+96671:  Fred Durham Hall  VA  371353N  802526W
+97886:  J W Whittemore Hall  VA  371351N  802529W
+77895:  Randolph Hall  VA  371351N  802524W
+92498:  Price House  VA  371352N  802521W
+67006:  McBryde Hall  VA  371349N  802519W
+72224:  Norris Hall  VA  371348N  802521W
+98716:  Lingan Randolph Hall  VA  371350N  802524W
+60465:  Holden Hall  VA  371347N  802524W
+74430:  Patton Hall  VA  371345N  802520W
+94051:  William Patton Hall  VA  371345N  802521W
+55241:  Cowgil Hall  VA  371347N  802529W
+95010:  Burchard Hall  VA  371346N  802529W
+33387:  Virginia Polytechnic Institute and State University  VA  371345N  802526W
+49919:  Burruss Administration Building  VA  371343N  802526W
+98439:  Julian Burruss Hall  VA  371344N  802526W
+49777:  Burke Johnson Student Center  VA  371344N  802529W
+96802:  G Burke Johnston Student Center  VA  371344N  802529W
+73873:  Pamplin Hall  VA  371343N  802528W
+92888:  Robert Pamplin Senior and Robert Pamplin Junior Hall  VA  371343N  802529W
+55891:  Derring Hall  VA  371344N  802532W
+92227:  Paul Derring Hall  VA  371344N  802533W
+95680:  Clinton Cowgill Hall  VA  371347N  802530W
+55501:  Davidson Hall  VA  371337N  802531W
+60341:  Hahn Hall  VA  371340N  802531W
+78948:  Robeson Hall  VA  371341N  802530W
+89324:  Williams Hall  VA  371340N  802528W
+93055:  Roy Holden Hall  VA  371340N  802521W
+22421:  Fox Hollow  VA  371353N  803042W
+27122:  Mount Zion Cemetery  VA  371339N  803050W
+21838:  Fairview Church  VA  371349N  802943W
+58290:  Fairview School (historical)  VA  371349N  802943W
+29656:  Poff Hollow  VA  371349N  803003W
+30939:  Shaffer Hollow  VA  371345N  802957W
+24684:  Lick Run  VA  371339N  803152W
+32643:  Sunnyside Church  VA  371338N  803159W
+27804:  New Mount Zion Church  VA  371346N  803120W
+84950:  Sunnyside School (historical)  VA  371346N  803120W
+29818:  Poverty Creek  VA  371354N  803128W
+--------------------------------------------------------------------------------
+Command 3:  what_is_in	371347N	0802514W	600	10
+
+   The following 92 features were found in (802514W +/- 10, 371347N +/- 600)
+21107:  Coal Bank Hollow  VA  371632N  802510W
+35213:  Blacksburg Ranger Station  VA  371634N  802516W
+75278:  Pheasant Run  VA  371454N  802505W
+87556:  University Terrace  VA  371438N  802515W
+83609:  Snidow Heights  VA  371423N  802517W
+68615:  Monteith Hall  VA  371355N  802513W
+81044:  Shanks Hall  VA  371354N  802512W
+97229:  Herbert J Thomas Hall  VA  371356N  802513W
+98147:  Jimmie Monteith Junior Hall  VA  371354N  802511W
+86337:  Thomas Hall  VA  371354N  802515W
+94710:  Art and Design Learning Center  VA  371354N  802515W
+99657:  Military Building  VA  371354N  802518W
+66051:  Luther Memorial Church  VA  371358N  802507W
+82119:  Shultz Hall  VA  371354N  802507W
+97627:  J H Shultz Hall  VA  371354N  802507W
+84421:  Squires Hall  VA  371346N  802506W
+98289:  John Houston Squires Student Center  VA  371346N  802506W
+58561:  Femoyer Hall  VA  371352N  802517W
+92754:  Robert Femoyer Hall  VA  371352N  802517W
+66868:  Major Williams Dormitory  VA  371351N  802515W
+98990:  Major Lloyd W Williams Hall  VA  371352N  802516W
+100074:  Old Security Building  VA  371353N  802518W
+64863:  Lane Hall  VA  371351N  802511W
+94855:  Arts and Science Administration Building  VA  371352N  802513W
+98020:  James H Lane Hall  VA  371351N  802512W
+78022:  Rasche Hall  VA  371351N  802509W
+93907:  William H "Bosco" Rasche Hall  VA  371350N  802509W
+49514:  Brodie Hall  VA  371348N  802512W
+71827:  Newman Library  VA  371344N  802510W
+93317:  Torgersen Hall  VA  371347N  802514W
+93626:  War Memorial Chapel  VA  371343N  802515W
+57525:  Eggleston Hall  VA  371338N  802513W
+67401:  Memorial Gymnasium  VA  371334N  802515W
+94309:  Al Payne Hall  VA  371333N  802513W
+56411:  Donaldson Brown Continuing Education Center  VA  371342N  802504W
+94437:  Alumni Hall-Virginia Tech  VA  371342N  802505W
+95955:  Donaldson Brown Hotel and Conference Center  VA  371341N  802504W
+71704:  Newman Hall  VA  371334N  802505W
+95266:  Charles Vawter Senior Hall  VA  371337N  802504W
+97757:  J J Owens Hall  VA  371335N  802508W
+63532:  Johnson Hall  VA  371332N  802504W
+65656:  Lee Hall  VA  371328N  802507W
+95548:  Claudius Lee Hall  VA  371328N  802507W
+72927:  O'Shaughnessy Hall  VA  371331N  802506W
+98851:  Louis O'Shaughnessy Hall  VA  371331N  802507W
+56283:  Dietrick Hall  VA  371328N  802516W
+82956:  Slusher Hall  VA  371331N  802518W
+98573:  Leander Dietrick Dining Hall  VA  371327N  802517W
+77218:  Pritchard Hall  VA  371327N  802511W
+92359:  Peddrew-Yates Residence Hall  VA  371330N  802513W
+99934:  New Residence Hall - East  VA  371332N  802509W
+45715:  Ambler Johnston Hall  VA  371323N  802516W
+97490:  J Ambler Johnston Hall  VA  371323N  802516W
+37626:  Lane Stadium  VA  371312N  802505W
+50988:  Cassel Coliseum  VA  371321N  802509W
+95138:  Cassell Coliseum  VA  371321N  802509W
+63393:  Jamerson Athletic Center  VA  371318N  802507W
+99789:  Miller-Johnson Track/Soccer Complex  VA  371303N  802518W
+78281:  Rector Tennis Pavillion  VA  371253N  802509W
+77895:  Randolph Hall  VA  371351N  802524W
+92498:  Price House  VA  371352N  802521W
+67006:  McBryde Hall  VA  371349N  802519W
+72224:  Norris Hall  VA  371348N  802521W
+98716:  Lingan Randolph Hall  VA  371350N  802524W
+60465:  Holden Hall  VA  371347N  802524W
+74430:  Patton Hall  VA  371345N  802520W
+94051:  William Patton Hall  VA  371345N  802521W
+50465:  Campbell Hall  VA  371334N  802519W
+93182:  Thomas Campbell Hall  VA  371334N  802519W
+93055:  Roy Holden Hall  VA  371340N  802521W
+62619:  Hutcheson Hall  VA  371332N  802523W
+83217:  Smyth Hall  VA  371330N  802523W
+95407:  Clarice Slusher Pritchard Hall  VA  371330N  802520W
+51525:  Cheatham Hall  VA  371326N  802521W
+54282:  Cochrane Hall  VA  371322N  802520W
+69754:  Mosely Practice Field  VA  371312N  802519W
+99265:  McComas Hall  VA  371312N  802522W
+57653:  English Field  VA  371303N  802522W
+78148:  Rector Field House  VA  371308N  802519W
+92621:  Rechor Field House  VA  371308N  802519W
+87970:  Vista Via  VA  370840N  802524W
+36239:  Virginia Polytechnic Institute and State University Horticultural Research Area  VA  370958N  802505W
+67673:  Midway Heights  VA  371020N  802506W
+85928:  The Marketplace Shopping Center  VA  371002N  802517W
+18030:  Alleghany Church  VA  370930N  802506W
+45985:  Apple Acres  VA  370923N  802507W
+31101:  Shaffer Memorial Cemetery  VA  370747N  802515W
+87695:  Victory Heights  VA  370747N  802509W
+65126:  Lee-Hi Court  VA  370737N  802505W
+83894:  South Hill Park  VA  370706N  802511W
+63014:  Interchange 114  VA  370658N  802521W
+15968:  Union Valley  VA  370348N  802505W
+--------------------------------------------------------------------------------
+Command 4:  what_is_in	371347N	0802514W	600	600
+
+   The following 661 features were found in (802514W +/- 600, 371347N +/- 600)
+20385:  Bruisers Knob  VA  372111N  802037W
+35496:  Sarver Tract Recreation Site  VA  372133N  801957W
+30616:  Sarver Hollow  VA  372042N  801950W
+19449:  Betsy Boating Hollow  VA  371954N  802008W
+30452:  Rush Hollow  VA  372007N  801948W
+8116:  Hazelnut Hollow  VA  371947N  802027W
+29983:  Rock Hollow  VA  371955N  802029W
+24519:  Leyman Hollow  VA  372113N  801703W
+17861:  Aiken Dam Hollow  VA  372056N  801740W
+24091:  Jones Hollow  VA  372100N  801753W
+25000:  Locust Lick Hollow  VA  372057N  801731W
+25294:  Maple Springs Hollow  VA  372047N  801831W
+32473:  Sugar House Hollow  VA  372039N  801824W
+25950:  Mill Hollow  VA  372020N  801842W
+18159:  Allen Hollow  VA  372001N  801938W
+32304:  Sugar Bottom Hollow  VA  372010N  801917W
+34553:  Whitewash Hollow  VA  372016N  801932W
+35348:  Caldwell Fields Recreation Site  VA  372013N  801932W
+39784:  Double Ridge Knob  VA  371912N  801835W
+26987:  Mount Union Church  VA  371848N  801736W
+23666:  Jack Hollow  VA  371653N  801805W
+28932:  Pepper Run  VA  371723N  801733W
+31693:  Smith Run  VA  371734N  801700W
+104649:  Catawba Valley Airport  VA  371701N  801805W
+27513:  Mullins Branch  VA  371714N  801927W
+31241:  Sites Branch  VA  371725N  801940W
+34416:  Whitelock Cemetery  VA  371814N  801901W
+19741:  Big Ford Hollow  VA  371924N  802156W
+23962:  Johnson Ridge  VA  371657N  801948W
+90146:  District A-01  VA  371734N  802106W
+20066:  Blankenship Hollow  VA  371753N  801643W
+21428:  Crawford Ridge  VA  371938N  801518W
+22710:  Gallion Branch  VA  371832N  801528W
+40179:  McDonalds Mill  VA  371800N  801632W
+39265:  Acre of Rocks  VA  371636N  801607W
+35047:  Womack Branch  VA  371512N  801535W
+7995:  Halls Church  VA  371417N  801606W
+22094:  Flatwoods Branch  VA  371413N  801602W
+4540:  Craig Branch  VA  371415N  801628W
+7326:  Flatwoods  VA  371438N  801619W
+8848:  Ironto  VA  371307N  801641W
+12566:  Reese Hollow  VA  371234N  801649W
+19315:  Bennett Cemetery  VA  371555N  801943W
+25788:  Mill Creek  VA  371537N  802026W
+33222:  Turkeypen Hollow  VA  371615N  802044W
+39394:  Bennetts Mill  VA  371542N  802020W
+18324:  Anderson Cemetery  VA  371519N  802057W
+26426:  Mossy Spring Branch  VA  371518N  802049W
+28678:  Paris Mountain  VA  371405N  802009W
+34287:  White Church  VA  371521N  802050W
+9857:  Lusters Gate  VA  371433N  802149W
+23511:  Indian Run  VA  371430N  802125W
+89452:  Willow Springs Lake  VA  371455N  802113W
+102429:  Gateway Christian Academy  VA  371440N  802202W
+18460:  Austin Hollow  VA  371621N  801821W
+21683:  Dry Run  VA  371619N  801830W
+39918:  Half Acre of Rocks  VA  371602N  801705W
+72492:  North Fork Valley Rural Historic District  VA  371630N  801830W
+10142:  Midway Church  VA  371302N  801708W
+40577:  Reesedale  VA  371345N  801756W
+78419:  Reesedale Church  VA  371345N  801744W
+78544:  Reesedale School (historical)  VA  371403N  801802W
+4220:  Coffees Valley  VA  371149N  801743W
+4694:  Dark Hollow  VA  371147N  801726W
+7720:  Ginger Hollow  VA  371153N  801801W
+16341:  Walnut Hollow  VA  371152N  801746W
+10425:  Mill Knob  VA  371154N  801822W
+6310:  Fagg Hollow  VA  371130N  801941W
+6910:  Falling Waters Church  VA  371156N  801905W
+7040:  Falls Hollow  VA  371143N  801925W
+17322:  Fagg  VA  371146N  801923W
+54410:  Country Club Estates  VA  371245N  802144W
+8408:  Hightop Mountain  VA  371218N  802006W
+40449:  New Ellett  VA  371158N  802148W
+15527:  Taylor Hollow  VA  371205N  802122W
+82662:  Slate Lick Run  VA  371205N  802123W
+20516:  Cedar Run  VA  371121N  802132W
+34890:  Wilson Creek  VA  371116N  802108W
+17198:  Ellett  VA  371129N  802200W
+86994:  Trinity United Methodist Church  VA  371128N  802205W
+5005:  Den Creek  VA  371106N  802106W
+12854:  Riverside Church  VA  371112N  802107W
+48841:  Blakenship Farm  VA  371102N  802213W
+8687:  Iron Mine Hollow  VA  371002N  802042W
+14253:  Slaughterpen Hollow  VA  371010N  802035W
+69591:  Montgomery White Sulphur Springs (historical)  VA  371013N  802054W
+8972:  Kettle Hollow  VA  370945N  802035W
+48711:  Blake Forest  VA  370837N  801958W
+89067:  White Pine  VA  370827N  802009W
+40053:  Houchins  VA  370906N  802135W
+39663:  Dee Cee Hill  VA  371003N  801909W
+14094:  Skillet Hollow  VA  371007N  801703W
+16656:  Wheeling Hollow  VA  370957N  801741W
+39533:  Brush Harbor  VA  371103N  801727W
+59238:  Friendship School (historical)  VA  371051N  801756W
+12408:  Poplar Hollow  VA  370948N  801750W
+76226:  Poplar Branch  VA  370948N  801750W
+88380:  Wanless Church (historical)  VA  370947N  801756W
+16499:  Wells Hollow  VA  370934N  801938W
+17443:  Montgomery  VA  370923N  801908W
+5276:  Den Hill Cemetery  VA  370920N  801844W
+10676:  Mount Calvary Church  VA  370919N  801848W
+47615:  Big Tunnel  VA  370930N  801859W
+55765:  Den Hill  VA  370920N  801847W
+3933:  Church Campgrounds  VA  370843N  801906W
+5159:  Den Hill  VA  370847N  801911W
+66596:  Marvin Garden Subdivision  VA  370834N  801904W
+10933:  Mount Pleasant Church  VA  370758N  801823W
+55366:  Cumberland Forest  VA  370824N  801918W
+69886:  Mount Pleasant School (historical)  VA  370803N  801828W
+70434:  Mountain Top Estates  VA  370815N  801929W
+76108:  Pond Hill  VA  370738N  801810W
+4384:  Cooks Branch  VA  370648N  801753W
+6584:  Falling Branch  VA  370638N  801825W
+57265:  East Ridge  VA  370758N  802208W
+85530:  Teel Subdivision  VA  370820N  802203W
+42033:  WFNR-AM (Blacksburg)  VA  370801N  802116W
+42693:  WFNR-FM (Christiansburg)  VA  370801N  802116W
+58033:  Falling Branch  VA  370750N  802136W
+63139:  Interchange 118  VA  370814N  802123W
+101253:  Falling Branch Elementary School  VA  370734N  802219W
+7443:  Garber Chapel  VA  370816N  802034W
+55629:  DeHart Subdivision  VA  370813N  802051W
+101983:  Community Christian Academy  VA  370814N  802054W
+5404:  Dry Branch  VA  370544N  802007W
+15371:  Tanzy Hollow  VA  370544N  802007W
+11323:  Panther Hollow  VA  370552N  802008W
+13114:  Rocky Branch  VA  370617N  801952W
+41082:  Sugar Grove  VA  370606N  801943W
+11063:  Oak Grove Cemetery  VA  370636N  802214W
+17571:  Oak Grove  VA  370648N  802159W
+73060:  Oak Grove School (historical)  VA  370646N  802151W
+9732:  Long Hollow Ridge  VA  371035N  801652W
+40319:  Middle Piece Mountain  VA  371104N  801600W
+13393:  Ryan Hollow  VA  371020N  801601W
+3249:  Calfhill Hollow  VA  371017N  801646W
+90418:  District C-01  VA  371017N  801616W
+9286:  Kirk Hollow  VA  370957N  801515W
+40704:  Shawsville  VA  371006N  801519W
+81170:  Shawsville Historic District  VA  371005N  801522W
+525:  Alleghany Church  VA  370925N  801518W
+104789:  Lavery's Sod Farm  VA  370926N  801515W
+13704:  River Ridge  VA  370846N  801518W
+784:  Allen Hollow  VA  370849N  801613W
+15210:  Sweet Spring Hollow  VA  370829N  801556W
+85369:  Sweet Spring Run  VA  370829N  801557W
+7564:  Georges Run  VA  370819N  801617W
+401:  Alleghany Church  VA  370726N  801609W
+650:  Alleghany Springs  VA  370741N  801554W
+3409:  Calhoun Run  VA  370744N  801557W
+5995:  Elliott Creek  VA  370737N  801557W
+45436:  Alleghany Spring School (historical)  VA  370706N  801601W
+45156:  Alleghany School (historical)  VA  370812N  801518W
+79216:  Rose Run  VA  370630N  801528W
+40842:  Cabes Hill  VA  370622N  801642W
+14739:  Sowders Chapel Baptist Church  VA  370648N  801544W
+15685:  Texas Hollow  VA  370625N  801532W
+70985:  Mudhole Hollow  VA  370611N  801607W
+85664:  Texas Hollow School (historical)  VA  370614N  801557W
+15841:  Texas Hollow Church  VA  370554N  801642W
+12009:  Pilot Mountain  VA  370410N  802128W
+7197:  Fishers View Mountain  VA  370525N  801744W
+40960:  Craig Mountain  VA  370501N  801940W
+45580:  Altoona School (historical)  VA  370425N  801804W
+58821:  Fishers View School (historical)  VA  370451N  801732W
+33561:  Wake Forest Cemetery  VA  371254N  803441W
+33699:  Wake Forest School  VA  371254N  803407W
+43790:  Wake Forest  VA  371317N  803419W
+32900:  Toms Creek  VA  371159N  803350W
+44057:  Whitethorne  VA  371159N  803352W
+76509:  Preston Forest  VA  371717N  802409W
+31855:  Stevers Gap  VA  371851N  802602W
+27258:  Mountain Mission  VA  371657N  802627W
+91509:  Shawsville Volunteer Rescue Squad  VA  371704N  802632W
+28542:  Pandapas Pond  VA  371653N  802805W
+29361:  Pleasant View Cemetery  VA  371711N  802754W
+64732:  Laurel Ridge  VA  371606N  802654W
+70572:  Mountain View  VA  371535N  802652W
+90813:  District F-01  VA  371551N  802638W
+86593:  Toms Creek Park  VA  371508N  802610W
+81709:  Shenandoah  VA  371454N  802527W
+85095:  Sundance Ridge  VA  371442N  802545W
+85231:  Sundance Village  VA  371433N  802545W
+84548:  Stonegate  VA  371425N  802534W
+24844:  Gilbert Linkous Elementary School  VA  371413N  802532W
+65779:  Longview Estates  VA  371421N  802559W
+67133:  McBryde Village  VA  371408N  802548W
+37898:  Swanee Hollow Country Club  VA  371437N  802615W
+63796:  Karr Heights  VA  371405N  802630W
+86857:  Tremont Estates  VA  371412N  802601W
+87418:  University Place  VA  371408N  802614W
+27383:  Mountain View Church  VA  371526N  802650W
+28073:  New Saint Peters Church  VA  371410N  802659W
+59652:  Glade School (historical)  VA  371410N  802701W
+71955:  Nicholas Manor  VA  371418N  802704W
+88653:  Westover Hills  VA  371413N  802649W
+59512:  Glade Road Heights  VA  371407N  802723W
+21107:  Coal Bank Hollow  VA  371632N  802510W
+35213:  Blacksburg Ranger Station  VA  371634N  802516W
+26857:  Mount Tabor  VA  371559N  802400W
+66739:  Meadow Run  VA  371550N  802400W
+70029:  Mount Tabor School (historical)  VA  371556N  802403W
+89726:  Woodbine  VA  371538N  802429W
+67270:  Meadow Brook  VA  371557N  802450W
+101404:  Blacksburg New School  VA  371601N  802502W
+22994:  Hale Cemetery  VA  371633N  802346W
+31569:  Slussers Chapel  VA  371612N  802336W
+70170:  Mount Tabor Village  VA  371550N  802347W
+21558:  Davis Chapel  VA  371441N  802248W
+51118:  Cedar Orchard  VA  371405N  802348W
+86072:  The Orchard  VA  371409N  802334W
+72794:  Northside Park  VA  371522N  802503W
+45020:  Alleghany Heights  VA  371509N  802446W
+54685:  Countryside Estates  VA  371523N  802444W
+54147:  Clover Valley  VA  371448N  802444W
+74282:  Patrick Henry Centre Shopping Center  VA  371450N  802454W
+90943:  District G-01  VA  371504N  802439W
+62484:  Hunters Ridge  VA  371451N  802500W
+75278:  Pheasant Run  VA  371454N  802505W
+71143:  Murphy  VA  371453N  802427W
+35807:  Blacksburg High School  VA  371436N  802424W
+45850:  Apperson Park  VA  371425N  802412W
+64068:  Kessler Park  VA  371415N  802356W
+73739:  Orchard View  VA  371413N  802414W
+86205:  The Vistas  VA  371418N  802410W
+56708:  Dundas Heights  VA  371424N  802434W
+82386:  Silver Leaf  VA  371416N  802427W
+74141:  Patrick Henry Place  VA  371445N  802458W
+87556:  University Terrace  VA  371438N  802515W
+35952:  Harding Avenue Elementary School  VA  371404N  802440W
+56152:  Dickerson  VA  371417N  802455W
+65394:  Linkous  VA  371420N  802439W
+83609:  Snidow Heights  VA  371423N  802517W
+68615:  Monteith Hall  VA  371355N  802513W
+81044:  Shanks Hall  VA  371354N  802512W
+97229:  Herbert J Thomas Hall  VA  371356N  802513W
+98147:  Jimmie Monteith Junior Hall  VA  371354N  802511W
+86337:  Thomas Hall  VA  371354N  802515W
+94710:  Art and Design Learning Center  VA  371354N  802515W
+99657:  Military Building  VA  371354N  802518W
+48012:  Blacksburg Historic District  VA  371355N  802459W
+66051:  Luther Memorial Church  VA  371358N  802507W
+82119:  Shultz Hall  VA  371354N  802507W
+97627:  J H Shultz Hall  VA  371354N  802507W
+60985:  Henderson Student Health Service Building  VA  371349N  802501W
+84421:  Squires Hall  VA  371346N  802506W
+98289:  John Houston Squires Student Center  VA  371346N  802506W
+94577:  Architecture Annex  VA  371343N  802459W
+99387:  Media Building  VA  371343N  802458W
+58561:  Femoyer Hall  VA  371352N  802517W
+92754:  Robert Femoyer Hall  VA  371352N  802517W
+66868:  Major Williams Dormitory  VA  371351N  802515W
+98990:  Major Lloyd W Williams Hall  VA  371352N  802516W
+100074:  Old Security Building  VA  371353N  802518W
+64863:  Lane Hall  VA  371351N  802511W
+94855:  Arts and Science Administration Building  VA  371352N  802513W
+98020:  James H Lane Hall  VA  371351N  802512W
+78022:  Rasche Hall  VA  371351N  802509W
+93907:  William H "Bosco" Rasche Hall  VA  371350N  802509W
+49514:  Brodie Hall  VA  371348N  802512W
+71827:  Newman Library  VA  371344N  802510W
+93317:  Torgersen Hall  VA  371347N  802514W
+93626:  War Memorial Chapel  VA  371343N  802515W
+63930:  Keister Addition  VA  371358N  802448W
+79642:  Saint Marys Roman Catholic Church  VA  371356N  802453W
+49103:  Blacksburg United Methodist Church  VA  371347N  802445W
+79788:  Saint Paul African Methodist Episcopal Church  VA  371351N  802446W
+47878:  Blacksburg City Hall  VA  371350N  802451W
+48298:  Blacksburg Post Office  VA  371348N  802452W
+52067:  Christ Episcopal Church  VA  371350N  802449W
+77347:  Progress Street Fire Station  VA  371352N  802449W
+41209:  Blacksburg  VA  371346N  802450W
+47733:  Blacksburg Area Branch Library  VA  371334N  802445W
+67934:  Miller Addition  VA  371326N  802438W
+57525:  Eggleston Hall  VA  371338N  802513W
+67401:  Memorial Gymnasium  VA  371334N  802515W
+94309:  Al Payne Hall  VA  371333N  802513W
+56411:  Donaldson Brown Continuing Education Center  VA  371342N  802504W
+94437:  Alumni Hall-Virginia Tech  VA  371342N  802505W
+95955:  Donaldson Brown Hotel and Conference Center  VA  371341N  802504W
+46525:  Barringer Hall  VA  371334N  802501W
+92093:  Paul Barringer Hall  VA  371334N  802502W
+71704:  Newman Hall  VA  371334N  802505W
+95266:  Charles Vawter Senior Hall  VA  371337N  802504W
+97757:  J J Owens Hall  VA  371335N  802508W
+63532:  Johnson Hall  VA  371332N  802504W
+65656:  Lee Hall  VA  371328N  802507W
+95548:  Claudius Lee Hall  VA  371328N  802507W
+72927:  O'Shaughnessy Hall  VA  371331N  802506W
+98851:  Louis O'Shaughnessy Hall  VA  371331N  802507W
+67809:  Miles Hall  VA  371331N  802502W
+95811:  Cranwell International Center  VA  371322N  802458W
+56283:  Dietrick Hall  VA  371328N  802516W
+82956:  Slusher Hall  VA  371331N  802518W
+98573:  Leander Dietrick Dining Hall  VA  371327N  802517W
+77218:  Pritchard Hall  VA  371327N  802511W
+92359:  Peddrew-Yates Residence Hall  VA  371330N  802513W
+99934:  New Residence Hall - East  VA  371332N  802509W
+45715:  Ambler Johnston Hall  VA  371323N  802516W
+97490:  J Ambler Johnston Hall  VA  371323N  802516W
+47070:  Berryfield  VA  371346N  802434W
+58688:  First Baptist Church  VA  371343N  802435W
+88789:  Westview Cemetery  VA  371402N  802429W
+102279:  Dayspring Christian Academy  VA  371350N  802425W
+64333:  Knob Hill  VA  371348N  802355W
+42429:  WUVT-FM (Blacksburg)  VA  371328N  802429W
+48438:  Blacksburg Presbyterian Church  VA  371331N  802427W
+68071:  Miller-Southside Historic District  VA  371323N  802434W
+70702:  Mountain View Estates  VA  371330N  802424W
+56843:  Dunton Addition  VA  371304N  802426W
+54546:  Country Club Park  VA  371315N  802409W
+57902:  Evergreen  VA  371320N  802414W
+99516:  Merryman Athletic Facility  VA  371317N  802358W
+59377:  Gables Shopping Center  VA  371258N  802409W
+62349:  Hubbard Haven  VA  371240N  802411W
+65917:  Lowes Shopping Center  VA  371256N  802358W
+101833:  Blacksburg Christian School  VA  371252N  802358W
+18754:  Margaret Beeks Elementary School  VA  371250N  802421W
+37626:  Lane Stadium  VA  371312N  802505W
+50988:  Cassel Coliseum  VA  371321N  802509W
+95138:  Cassell Coliseum  VA  371321N  802509W
+63393:  Jamerson Athletic Center  VA  371318N  802507W
+99789:  Miller-Johnson Track/Soccer Complex  VA  371303N  802518W
+84151:  Southgate  VA  371306N  802449W
+88516:  Wesleyan Methodist Church  VA  371317N  802451W
+78281:  Rector Tennis Pavillion  VA  371253N  802509W
+61814:  Highland Park  VA  371325N  802330W
+48581:  Blackwood  VA  371309N  802351W
+77488:  Rainbow Ridge  VA  371304N  802329W
+54957:  Crestwood Gardens  VA  371240N  802328W
+58961:  Forest Hills (historical)  VA  371254N  802327W
+75412:  Piedmont  VA  371244N  802342W
+36430:  Hilltop Plaza  VA  371232N  802345W
+50854:  Carriage Hill  VA  371238N  802341W
+81575:  Shelor Acres  VA  371236N  802321W
+84026:  Southeast Park  VA  371236N  802332W
+27676:  New Hope Church  VA  371204N  802346W
+23119:  High Knob  VA  371207N  802258W
+35641:  Virginia Tech/Montgomery Executive Airport  VA  371222N  802428W
+41497:  Virginia Tech Airport  VA  371227N  802428W
+44745:  Airport Acres  VA  371238N  802426W
+58431:  Farmview  VA  371145N  802431W
+77761:  Ramble Ridge  VA  371147N  802412W
+102866:  Saint John Neumann Academy  VA  371148N  802415W
+23241:  Hightop Mission Church  VA  371120N  802415W
+81304:  Myers Acres  VA  371129N  802436W
+49250:  Brightwood Manor  VA  371327N  802644W
+59790:  Gladewood  VA  371400N  802644W
+73197:  Oak Manor  VA  371323N  802650W
+61403:  Hethwood Square Shopping Center  VA  371302N  802717W
+76922:  Prices Fork Road Fire Station  VA  371306N  802715W
+68347:  Mission Hills  VA  371315N  802659W
+75839:  Pilgrims Pointe  VA  371308N  802659W
+51931:  Chowning Place  VA  371300N  802644W
+61275:  Hethwood  VA  371255N  802714W
+101545:  Kipps Elementary School  VA  371257N  802724W
+48151:  Blacksburg Middle School  VA  371253N  802739W
+41769:  WKEX-AM (Blacksburg)  VA  371357N  802639W
+42161:  WKEX-AM (Blacksburg)  VA  371357N  802639W
+87274:  University Mall Shopping Center  VA  371402N  802604W
+87832:  Virginia Tech Golf Course  VA  371344N  802554W
+100672:  Town of Blacksburg  VA  371348N  802540W
+60723:  Hancock Hall  VA  371349N  802526W
+89195:  Whittemore Hall  VA  371351N  802527W
+96671:  Fred Durham Hall  VA  371353N  802526W
+97886:  J W Whittemore Hall  VA  371351N  802529W
+77895:  Randolph Hall  VA  371351N  802524W
+92498:  Price House  VA  371352N  802521W
+67006:  McBryde Hall  VA  371349N  802519W
+72224:  Norris Hall  VA  371348N  802521W
+98716:  Lingan Randolph Hall  VA  371350N  802524W
+60465:  Holden Hall  VA  371347N  802524W
+74430:  Patton Hall  VA  371345N  802520W
+94051:  William Patton Hall  VA  371345N  802521W
+55241:  Cowgil Hall  VA  371347N  802529W
+95010:  Burchard Hall  VA  371346N  802529W
+33387:  Virginia Polytechnic Institute and State University  VA  371345N  802526W
+49919:  Burruss Administration Building  VA  371343N  802526W
+98439:  Julian Burruss Hall  VA  371344N  802526W
+49777:  Burke Johnson Student Center  VA  371344N  802529W
+96802:  G Burke Johnston Student Center  VA  371344N  802529W
+73873:  Pamplin Hall  VA  371343N  802528W
+92888:  Robert Pamplin Senior and Robert Pamplin Junior Hall  VA  371343N  802529W
+55891:  Derring Hall  VA  371344N  802532W
+92227:  Paul Derring Hall  VA  371344N  802533W
+95680:  Clinton Cowgill Hall  VA  371347N  802530W
+55501:  Davidson Hall  VA  371337N  802531W
+60341:  Hahn Hall  VA  371340N  802531W
+78948:  Robeson Hall  VA  371341N  802530W
+94182:  Wright House  VA  371336N  802535W
+50465:  Campbell Hall  VA  371334N  802519W
+93182:  Thomas Campbell Hall  VA  371334N  802519W
+89324:  Williams Hall  VA  371340N  802528W
+93055:  Roy Holden Hall  VA  371340N  802521W
+97097:  Harvey Price Hall  VA  371333N  802527W
+76384:  Price Hall  VA  371332N  802527W
+80386:  Sandy Hall  VA  371332N  802525W
+80784:  Seitz Hall  VA  371328N  802525W
+44621:  Agnew Hall  VA  371329N  802527W
+80511:  Saunders Hall  VA  371329N  802528W
+96113:  Ella Agnew Hall  VA  371329N  802528W
+93758:  William "Buttermilk" Saunders Hall  VA  371329N  802529W
+62619:  Hutcheson Hall  VA  371332N  802523W
+83217:  Smyth Hall  VA  371330N  802523W
+95407:  Clarice Slusher Pritchard Hall  VA  371330N  802520W
+51525:  Cheatham Hall  VA  371326N  802521W
+54282:  Cochrane Hall  VA  371322N  802520W
+57777:  Engel Hall  VA  371325N  802525W
+96529:  Fralin Biotechnology Center  VA  371326N  802526W
+99132:  Maude Wallace Hall  VA  371322N  802528W
+62081:  Hillcrest Dormitory  VA  371326N  802531W
+85804:  The Grove  VA  371327N  802539W
+97365:  Hillcrest Hall  VA  371326N  802530W
+83083:  Smithfield Plantation  VA  371304N  802556W
+93446:  Virginia Maryland Regional College of Veterinary Medicine  VA  371304N  802543W
+65523:  Litton Reaves Hall  VA  371317N  802526W
+69754:  Mosely Practice Field  VA  371312N  802519W
+96948:  George Litton and Paul Reaves Hall  VA  371317N  802527W
+99265:  McComas Hall  VA  371312N  802522W
+57653:  English Field  VA  371303N  802522W
+78148:  Rector Field House  VA  371308N  802519W
+92621:  Rechor Field House  VA  371308N  802519W
+96243:  English Baseball Field  VA  371305N  802526W
+96378:  Food Science and Technology Building  VA  371311N  802532W
+102129:  Tall Oaks Montessori School  VA  371252N  802638W
+38037:  Merrimac  VA  371122N  802532W
+100385:  Merrimac Census Designated Place  VA  371127N  802528W
+24390:  Kipps Cemetery  VA  371221N  802737W
+84678:  Stroubles Mill  VA  371235N  802719W
+22253:  Fork Lick Hollow  VA  371404N  803232W
+31973:  Straley Branch  VA  371457N  803138W
+72350:  Norris Run School (historical)  VA  371501N  803303W
+22872:  Gap Mountain  VA  371638N  802949W
+36835:  Poverty Creek Horse Trail  VA  371544N  802936W
+24256:  Kanodes Mill  VA  371417N  802824W
+25467:  McDonald Hollow  VA  371417N  802824W
+25626:  Meadow Hollow  VA  371430N  802820W
+36969:  Brush Mountain Horse Trail  VA  371528N  802836W
+41901:  WKEX-AM (Blacksburg)  VA  371416N  802839W
+44193:  WYDD-TV (Blacksburg)  VA  371504N  803042W
+22421:  Fox Hollow  VA  371353N  803042W
+27122:  Mount Zion Cemetery  VA  371339N  803050W
+21838:  Fairview Church  VA  371349N  802943W
+58290:  Fairview School (historical)  VA  371349N  802943W
+29656:  Poff Hollow  VA  371349N  803003W
+30939:  Shaffer Hollow  VA  371345N  802957W
+104915:  Crow's Nest Greenhouse  VA  371253N  802935W
+23376:  Hoge Pond  VA  371323N  802905W
+76782:  Prices Fork Research Center  VA  371244N  802919W
+38304:  Prices Fork  VA  371235N  802924W
+76642:  Prices Fork Historic District  VA  371232N  802930W
+77066:  Prices Fork Elementary School  VA  371231N  802929W
+104216:  Prices Fork Census Designated Place  VA  371225N  802918W
+69152:  Montgomery Farms  VA  371210N  802909W
+26267:  Moon Hollow  VA  371146N  802834W
+33833:  Walls Branch  VA  371145N  802859W
+74993:  Pepper Station (historical)  VA  371143N  803035W
+83342:  Snider Cemetery  VA  371237N  803018W
+34722:  Whittaker Hollow  VA  371240N  803223W
+81977:  Shiloh Church (historical)  VA  371241N  803239W
+24684:  Lick Run  VA  371339N  803152W
+32643:  Sunnyside Church  VA  371338N  803159W
+27804:  New Mount Zion Church  VA  371346N  803120W
+84950:  Sunnyside School (historical)  VA  371346N  803120W
+29818:  Poverty Creek  VA  371354N  803128W
+90676:  District E-01  VA  371251N  803059W
+19908:  Big Run  VA  371305N  803142W
+32139:  Stroubles Creek  VA  371128N  803132W
+25170:  Longshop  VA  371236N  803310W
+103460:  Radford Army Ammunition Plant  VA  371102N  803241W
+27941:  New River Church  VA  371015N  803126W
+41632:  Radford AAP Heliport  VA  371105N  803133W
+42825:  Centerville  VA  371011N  803218W
+21268:  Crab Creek  VA  370913N  803143W
+28801:  Pepper  VA  370949N  803255W
+75135:  Peppers Ferry (historical)  VA  370942N  803308W
+31406:  Slate Branch  VA  371049N  803015W
+68216:  Milletts Tunnel  VA  371113N  803053W
+26596:  Mount Hope Church  VA  371020N  802939W
+29095:  Pine View Church  VA  371012N  803000W
+105052:  Willow Springs Tree Farms  VA  371017N  803009W
+19165:  Belview Elementary School  VA  371013N  803040W
+103607:  Belview Census Designated Place  VA  371000N  803035W
+38855:  Vicker Heights  VA  370954N  802839W
+38727:  Vicker  VA  370949N  802916W
+43926:  Walton  VA  370912N  803049W
+88229:  Walton School Number 1 (historical)  VA  370942N  803055W
+104058:  Plum Creek Census Designated Place  VA  370719N  803014W
+104509:  Plum Creek  VA  370747N  803002W
+18623:  Barringer Mountain  VA  370817N  802808W
+26726:  Mount Taber Church  VA  370824N  802930W
+79075:  Rock Road School (historical)  VA  370800N  802926W
+5872:  Edgemont Church  VA  370627N  802842W
+1190:  Bethel Elementary School  VA  370605N  803054W
+47202:  Bethel Church (historical)  VA  370601N  803044W
+62881:  Interchange 109  VA  370546N  803027W
+82519:  Simpkins School (historical)  VA  370603N  803019W
+11191:  Old Brick Church  VA  370707N  803224W
+37102:  East Radford  VA  370813N  803311W
+29494:  Plum Creek  VA  370759N  803145W
+74556:  Pentecost Church (historical)  VA  370557N  803211W
+12978:  Rock Road Cemetery  VA  370652N  803340W
+43097:  Ingles Mountain  VA  370618N  803343W
+19038:  Belmont Church  VA  370953N  802727W
+36565:  Rolling Hills  VA  370955N  802730W
+38177:  Price Mountain  VA  371113N  802741W
+46652:  Belmont Community Cemetery  VA  370954N  802729W
+30311:  Roselawn Memorial Cemetery  VA  371007N  802526W
+46793:  Belmont Estates  VA  371007N  802629W
+50719:  Carma Heights  VA  370955N  802613W
+71407:  New River Valley Mall Shopping Center  VA  370952N  802529W
+64464:  La Plateau  VA  370938N  802604W
+70845:  Mountain View Park  VA  370943N  802532W
+89591:  Windmill Hills  VA  370913N  802548W
+61141:  Henley Place  VA  370907N  802532W
+82821:  Sleepy Hollow  VA  370905N  802541W
+87970:  Vista Via  VA  370840N  802524W
+37760:  Round Meadow Country Club  VA  370829N  802621W
+56018:  Diamond Pointe  VA  370855N  802610W
+18909:  Belmont  VA  370946N  802649W
+36700:  Belmont Farms  VA  370922N  802649W
+46930:  Belmont School (historical)  VA  370947N  802714W
+51394:  Charlton Cemetery  VA  370857N  802654W
+26109:  Montgomery Primitive Baptist Church  VA  371100N  802438W
+69438:  Montgomery Regional Hospital  VA  371114N  802440W
+23830:  Jennelle Cemetery  VA  371110N  802411W
+36107:  Montgomery County Park  VA  371022N  802442W
+36239:  Virginia Polytechnic Institute and State University Horticultural Research Area  VA  370958N  802505W
+67673:  Midway Heights  VA  371020N  802506W
+85928:  The Marketplace Shopping Center  VA  371002N  802517W
+38583:  Yellow Sulphur Springs  VA  371042N  802350W
+89981:  Yellow Sulphur Springs Post Office (historical)  VA  371042N  802350W
+90284:  District B-01  VA  371034N  802345W
+105190:  Blacksburg Quarry  VA  371045N  802332W
+68743:  Montgomery County  VA  371000N  802259W
+38447:  Yellow Sulphur  VA  371017N  802348W
+50065:  Cambria  VA  370835N  802345W
+18030:  Alleghany Church  VA  370930N  802506W
+42293:  WJJJ-AM (Christiansburg)  VA  370911N  802456W
+42561:  WVVV-FM (Blacksburg)  VA  370911N  802456W
+44482:  WJJJ Radio Tower (Tazewell)  VA  370910N  802456W
+45985:  Apple Acres  VA  370923N  802507W
+45294:  Alleghany School (historical)  VA  370921N  802429W
+71567:  Newcomb Heights  VA  370900N  802429W
+88921:  Wheeler Baker School (historical)  VA  370851N  802421W
+79501:  Saint Johns Methodist Church  VA  370837N  802412W
+49640:  Brumfield Acres  VA  370834N  802359W
+74701:  Pentecostal Holiness Church  VA  370832N  802358W
+46385:  Bangs (historical)  VA  370828N  802406W
+100800:  Town of Christiansburg  VA  370830N  802409W
+34155:  Weller Baker School  VA  370841N  802421W
+50194:  Cambria Baptist Church  VA  370834N  802418W
+50329:  Cambria Historic District  VA  370829N  802418W
+72648:  Northgate Village Shopping Center  VA  370904N  802445W
+22583:  Friends School  VA  370840N  802455W
+84814:  Suburban Hills  VA  370844N  802447W
+52645:  Christiansburg High School  VA  370844N  802503W
+52794:  Christiansburg Industrial School (historical)  VA  370834N  802502W
+33062:  Town Branch  VA  370823N  802452W
+57393:  Echo Hills  VA  370815N  802457W
+103165:  Tekoa Community School  VA  370821N  802438W
+53242:  Christiansburg Primary School  VA  370757N  802455W
+53868:  Christiansburg Recreation Center  VA  370746N  802442W
+69290:  Montgomery-Floyd Regional Library  VA  370747N  802452W
+31101:  Shaffer Memorial Cemetery  VA  370747N  802515W
+52490:  Christiansburg Elementary School  VA  370805N  802500W
+87695:  Victory Heights  VA  370747N  802509W
+20960:  Christiansburg Institute  VA  370822N  802430W
+73598:  Old Hill School (historical)  VA  370820N  802416W
+80638:  Schaeffer Memorial Baptist Church  VA  370821N  802418W
+54011:  Church of God in Christ  VA  370812N  802426W
+63659:  Johnson Heights  VA  370813N  802419W
+74000:  Park United Methodist Church  VA  370808N  802400W
+53394:  Christiansburg Primary School Number 1 (historical)  VA  370754N  802415W
+65260:  Lester Place  VA  370755N  802402W
+75695:  Pilgrim Tabernacle (historical)  VA  370805N  802359W
+46118:  Asbury Methodist Church  VA  370800N  802435W
+53558:  Christiansburg Primary School Number 2 (historical)  VA  370804N  802416W
+56980:  East Main Street Historic District  VA  370758N  802419W
+80244:  Saint Thomas Episcopal Church  VA  370752N  802424W
+52353:  Christiansburg City Hall  VA  370752N  802427W
+68872:  Montgomery County Courthouse  VA  370747N  802430W
+69015:  Montgomery County Jail  VA  370747N  802428W
+79946:  Saint Pauls United Methodist Church  VA  370748N  802429W
+41351:  Christiansburg  VA  370747N  802432W
+53098:  Christiansburg Post Office  VA  370748N  802432W
+66457:  Main Street Baptist Church  VA  370741N  802436W
+74840:  Pentecostal Holiness Church (historical)  VA  370735N  802436W
+80094:  Saint Peters Anglican Catholic Church  VA  370735N  802436W
+52203:  Christiansburg Church of the Brethren  VA  370738N  802418W
+83745:  South Franklin Street Historic District  VA  370740N  802422W
+66186:  Lynwood Terrace  VA  370727N  802429W
+32775:  Sunset Cemetery  VA  370726N  802414W
+47344:  Beverly Hills  VA  370735N  802408W
+59108:  Franklin Park  VA  370714N  802402W
+64202:  Kingston Court  VA  370705N  802359W
+46254:  Atkinson Acres  VA  370712N  802435W
+86716:  Town and Country Estates  VA  370707N  802418W
+65126:  Lee-Hi Court  VA  370737N  802505W
+53721:  Christiansburg Presbyterian Church  VA  370742N  802439W
+61948:  Highview Terrace  VA  370724N  802448W
+71271:  New Altamont Hospital  VA  370736N  802455W
+101101:  Independence Secondary School  VA  370743N  802451W
+61684:  Highland Park  VA  370716N  802452W
+68482:  Mockingbird Hill  VA  370707N  802457W
+80909:  Shadeland Addition  VA  370719N  802456W
+83894:  South Hill Park  VA  370706N  802511W
+33993:  Walnut Branch  VA  370812N  802324W
+21966:  Flag Cemetery  VA  370802N  802331W
+57125:  East Park Addition  VA  370758N  802351W
+83474:  Snidow Heights  VA  370757N  802339W
+103015:  New River Community College  VA  370748N  802352W
+60590:  Hans Meadow  VA  370813N  802309W
+62215:  Hills Shopping Center  VA  370806N  802239W
+77623:  Raintree Village  VA  370822N  802239W
+81437:  Old Farm Village  VA  370808N  802233W
+73460:  Old Hecks Shopping Center  VA  370757N  802233W
+54823:  Craig Mountain  VA  370748N  802310W
+84282:  Spradlin Addition  VA  370804N  802254W
+48965:  Blue Ridge Court  VA  370737N  802249W
+44880:  Alleghany Addition  VA  370744N  802349W
+73327:  Oakwood Park  VA  370738N  802335W
+81840:  Sherwood Forest  VA  370742N  802330W
+89852:  Woodlyn  VA  370740N  802314W
+70307:  Huff Acres  VA  370717N  802345W
+60216:  Edgewood  VA  370653N  802327W
+12131:  Poorhouse Knob  VA  370630N  802501W
+43497:  Rose Hill  VA  370620N  802420W
+50593:  Canterbury  VA  370648N  802415W
+79367:  Rosehill Addition  VA  370700N  802355W
+88100:  Walnut Grove  VA  370652N  802400W
+20803:  Christian Fellowship Evangelistic Tabernacle  VA  370748N  802712W
+52952:  Christiansburg Middle School  VA  370722N  802531W
+60850:  Harmon Forest  VA  370731N  802609W
+82245:  Silver Lake Heights  VA  370735N  802558W
+9130:  Kingston Hollow  VA  370546N  802529W
+63014:  Interchange 114  VA  370658N  802521W
+72091:  Nixon School (historical)  VA  370538N  802535W
+37509:  Bennetts Dam  VA  370500N  802559W
+12722:  Riner  VA  370359N  802626W
+78682:  Auburn Middle School  VA  370347N  802632W
+78819:  Riner Historic District  VA  370350N  802625W
+90547:  District D-01  VA  370411N  802710W
+13270:  Rogers  VA  370530N  802324W
+14413:  Smith Creek  VA  370525N  802316W
+16214:  Union Valley Church  VA  370400N  802337W
+87134:  Union Valley School (historical)  VA  370401N  802338W
+15968:  Union Valley  VA  370348N  802505W
+941:  Bain Chapel  VA  370536N  803149W
+56569:  Dry School (historical)  VA  370537N  803147W
+9440:  Laurel Hill Church  VA  370354N  803227W
+51253:  Center Mills (historical)  VA  370350N  803226W
+10264:  Mill Creek  VA  370415N  803030W
+43614:  Carilion Saint Albans Hospital of Christiansburg  VA  370528N  803018W
+100933:  Carilion New River Valley Medical Center  VA  370521N  803020W
+13823:  Zion Hill Baptist Church  VA  370646N  803408W
+17697:  Little River  VA  370453N  803437W
+37239:  Little River Dam  VA  370442N  803417W
+37368:  Little River Reservoir  VA  370442N  803417W
+44323:  Strouds Creek  VA  370523N  803444W
+62748:  Interchange 105  VA  370529N  803433W
+--------------------------------------------------------------------------------
+;
+; And a few that extend outside the region (that IS fair):
+Command 5:  what_is_in	370157N	0802908W	240	60
+
+   The following 8 features were found in (802908W +/- 60, 370157N +/- 240)
+6462:  Fairview Church  VA  370300N  802953W
+51795:  Childress School (historical)  VA  370342N  802954W
+58165:  Fairview  VA  370302N  802951W
+3130:  Calfee Knob  VA  370157N  802908W
+13973:  Sidney Church  VA  370144N  802815W
+1068:  Bethany Church  VA  370048N  802843W
+10805:  Mount Jackson Church  VA  370037N  802851W
+51653:  Chestnut Ridge School (historical)  VA  370047N  802844W
+--------------------------------------------------------------------------------
+;
+; And one really small one:
+Command 6:  what_is_in	371347N	0802514W	1	1
+
+   The following 1 features were found in (802514W +/- 1, 371347N +/- 1)
+93317:  Torgersen Hall  VA  371347N  802514W
+--------------------------------------------------------------------------------
+;
+; And two really skinny ones, one East-West and one North-South:
+Command 7:  what_is_in	371347N	0802514W	2	360
+
+   The following 25 features were found in (802514W +/- 360, 371347N +/- 2)
+60985:  Henderson Student Health Service Building  VA  371349N  802501W
+84421:  Squires Hall  VA  371346N  802506W
+98289:  John Houston Squires Student Center  VA  371346N  802506W
+49514:  Brodie Hall  VA  371348N  802512W
+93317:  Torgersen Hall  VA  371347N  802514W
+49103:  Blacksburg United Methodist Church  VA  371347N  802445W
+48298:  Blacksburg Post Office  VA  371348N  802452W
+41209:  Blacksburg  VA  371346N  802450W
+47070:  Berryfield  VA  371346N  802434W
+64333:  Knob Hill  VA  371348N  802355W
+100672:  Town of Blacksburg  VA  371348N  802540W
+60723:  Hancock Hall  VA  371349N  802526W
+67006:  McBryde Hall  VA  371349N  802519W
+72224:  Norris Hall  VA  371348N  802521W
+60465:  Holden Hall  VA  371347N  802524W
+74430:  Patton Hall  VA  371345N  802520W
+94051:  William Patton Hall  VA  371345N  802521W
+55241:  Cowgil Hall  VA  371347N  802529W
+95010:  Burchard Hall  VA  371346N  802529W
+33387:  Virginia Polytechnic Institute and State University  VA  371345N  802526W
+95680:  Clinton Cowgill Hall  VA  371347N  802530W
+21838:  Fairview Church  VA  371349N  802943W
+58290:  Fairview School (historical)  VA  371349N  802943W
+29656:  Poff Hollow  VA  371349N  803003W
+30939:  Shaffer Hollow  VA  371345N  802957W
+--------------------------------------------------------------------------------
+Command 8:  what_is_in	371347N	0802514W	360	2
+
+   The following 22 features were found in (802514W +/- 2, 371347N +/- 360)
+35213:  Blacksburg Ranger Station  VA  371634N  802516W
+87556:  University Terrace  VA  371438N  802515W
+68615:  Monteith Hall  VA  371355N  802513W
+81044:  Shanks Hall  VA  371354N  802512W
+97229:  Herbert J Thomas Hall  VA  371356N  802513W
+86337:  Thomas Hall  VA  371354N  802515W
+94710:  Art and Design Learning Center  VA  371354N  802515W
+66868:  Major Williams Dormitory  VA  371351N  802515W
+98990:  Major Lloyd W Williams Hall  VA  371352N  802516W
+94855:  Arts and Science Administration Building  VA  371352N  802513W
+98020:  James H Lane Hall  VA  371351N  802512W
+49514:  Brodie Hall  VA  371348N  802512W
+93317:  Torgersen Hall  VA  371347N  802514W
+93626:  War Memorial Chapel  VA  371343N  802515W
+57525:  Eggleston Hall  VA  371338N  802513W
+67401:  Memorial Gymnasium  VA  371334N  802515W
+94309:  Al Payne Hall  VA  371333N  802513W
+56283:  Dietrick Hall  VA  371328N  802516W
+92359:  Peddrew-Yates Residence Hall  VA  371330N  802513W
+45715:  Ambler Johnston Hall  VA  371323N  802516W
+97490:  J Ambler Johnston Hall  VA  371323N  802516W
+31101:  Shaffer Memorial Cemetery  VA  370747N  802515W
+--------------------------------------------------------------------------------
+;
+; And just to push the limits:
+Command 9:  what_is_in	371002N	0802042W	10	60000
+
+   The following 23 features were found in (802042W +/- 60000, 371002N +/- 10)
+8687:  Iron Mine Hollow  VA  371002N  802042W
+14253:  Slaughterpen Hollow  VA  371010N  802035W
+39663:  Dee Cee Hill  VA  371003N  801909W
+14094:  Skillet Hollow  VA  371007N  801703W
+16656:  Wheeling Hollow  VA  370957N  801741W
+14885:  Spring Branch  VA  370959N  801415W
+9286:  Kirk Hollow  VA  370957N  801515W
+40704:  Shawsville  VA  371006N  801519W
+81170:  Shawsville Historic District  VA  371005N  801522W
+42825:  Centerville  VA  371011N  803218W
+29095:  Pine View Church  VA  371012N  803000W
+103607:  Belview Census Designated Place  VA  371000N  803035W
+38855:  Vicker Heights  VA  370954N  802839W
+19038:  Belmont Church  VA  370953N  802727W
+36565:  Rolling Hills  VA  370955N  802730W
+46652:  Belmont Community Cemetery  VA  370954N  802729W
+30311:  Roselawn Memorial Cemetery  VA  371007N  802526W
+46793:  Belmont Estates  VA  371007N  802629W
+50719:  Carma Heights  VA  370955N  802613W
+71407:  New River Valley Mall Shopping Center  VA  370952N  802529W
+36239:  Virginia Polytechnic Institute and State University Horticultural Research Area  VA  370958N  802505W
+85928:  The Marketplace Shopping Center  VA  371002N  802517W
+68743:  Montgomery County  VA  371000N  802259W
+--------------------------------------------------------------------------------
+;
+; Exit
+Command 10:  quit	
+
+Terminating execution of commands.
+End time: Tue Mar 26 18:04:19 EDT 2013
+--------------------------------------------------------------------------------

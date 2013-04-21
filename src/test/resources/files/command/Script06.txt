@@ -1,0 +1,32 @@
+; Script 6
+;
+; Test of searches with a large database file.
+;
+; Specify boundaries of coordinate space:
+world	0860000W	0750000W	320000N	430000N
+;
+; Import a large DB file:
+import	VA_All.txt
+;
+; Check the location and name/state indices if you dare:
+;debug	quad
+;debug	hash
+;
+; Try a few name/state searches:
+what_is	Blacksburg	VA
+what_is	Mount Pleasant	VA
+what_is	Dry Run	VA
+what_is	Grundy	VA
+;
+; Try a few location searches:
+what_is_at	383341N	0793423W
+what_is_at	363801N	0814701W
+what_is_at	371321N	0802509W
+;
+; And a few region searches:
+what_is_in	363202N	0804759W	60	60
+what_is_in	382622N	0785220W	15	15
+what_is_in	382453N	0785619W	30	30
+;
+; Exit
+quit	

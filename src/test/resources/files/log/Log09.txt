@@ -1,0 +1,68 @@
+; Script 9
+;
+; Test of search failures with a large database file.
+;
+; Specify boundaries of coordinate space:
+world	0860000W	0750000W	320000N	430000N
+
+GIS Program
+
+dbFile:     db09.txt
+script:     Script09.txt
+log:        Log09.txt
+Start time: Tue Mar 26 18:25:59 EDT 2013
+Quadtree children are printed in the order SW  SE  NE  NW
+--------------------------------------------------------------------------------
+
+Latitude/longitude values in index entries are shown as signed integers, in total seconds.
+
+World boundaries are set to:
+              154800
+   -309600                -270000
+              115200
+--------------------------------------------------------------------------------
+;
+; Import a large DB file:
+Command 1:  import	VA_All.txt
+
+Imported Features by name: 59546
+Longest probe sequence:    30
+Imported Locations:        59546
+--------------------------------------------------------------------------------
+;
+; Check the location and name/state indices if you dare:
+;debug	quad
+;debug	hash
+;
+; Try a few name/state searches for nonexistent features:
+Command 2:  what_is	Bleaksburg	VA
+
+No records match Bleaksburg and VA
+--------------------------------------------------------------------------------
+Command 3:  what_is	Nova	VA
+
+No records match Nova and VA
+--------------------------------------------------------------------------------
+Command 4:  what_is	Wet Run	VA
+
+No records match Wet Run and VA
+--------------------------------------------------------------------------------
+;
+; Try a location search for an empty location:
+Command 5:  what_is_at	383340N	0793423W
+
+   Nothing was found at 793423W   383340N
+--------------------------------------------------------------------------------
+;
+; And a search for an empty region:
+Command 6:  what_is_in	363206N	0804752W	6	6
+
+   Nothing was found in (804752W +/- 6, 363206N +/- 6)
+--------------------------------------------------------------------------------
+;
+; Exit
+Command 7:  quit	
+
+Terminating execution of commands.
+End time: Tue Mar 26 18:26:23 EDT 2013
+--------------------------------------------------------------------------------

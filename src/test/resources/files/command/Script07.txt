@@ -1,0 +1,47 @@
+; Script 7
+;
+; Test of searches and the buffer pool with another large database file.
+;
+; Specify boundaries of coordinate space:
+world	1100000W	1020000W	303000N	383000N
+;
+; Import a large DB file:
+import	NM_All.txt
+;
+; Check the location and name/state indices if you dare:
+;debug	quad
+;debug	hash
+;
+; Try a few name/state searches:
+what_is	Clines Corners	NM
+what_is	11476 Water Well	NM
+what_is	Trinity Site	NM
+what_is	Brazos Cliffs	NM
+what_is	Tierra Amarilla	NM
+what_is	Truth or Consequences	NM
+;
+; Let's see what the buffer pool looks like now:
+debug	pool
+;
+; Try a few location searches:
+what_is_at	364201N	1063259W
+;
+; And let's check the pool again; at this point, you might have some records
+; in a different order than I'm showing:
+debug	pool
+;
+what_is_at	351018N	1034330W
+what_is_at	354929N	1055845W
+what_is_at	360337N	1075801W
+;
+; And a few region searches:
+what_is_in	364201N	1063259W	60	60
+what_is_in	351018N	1034330W	15	15
+what_is_in	354929N	1055845W	30	30
+;
+; Let's check the pool again; we should agree on the top four, although they
+; could be in a different order:
+debug	pool
+;
+; Exit
+quit	

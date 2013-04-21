@@ -1,0 +1,37 @@
+; Script 2
+;
+; Very basic testing of the region search commands with a tiny DB.
+;
+; Specify boundaries of coordinate space:
+world	0794130W	0792630W	381500N	383000N
+;
+; Import some data:
+import	VA_Monterey.txt
+;
+; Check the location indices:
+debug	quad
+debug	hash
+;
+; Let's try some variations of a single-match region search with a square region:
+what_is_in	-c	382148N	0793109W	15	15
+what_is_in	382148N	0793109W	15	15
+what_is_in	-l	382148N	0793109W	15	15
+;
+; Let's check the buffer pool:
+debug	pool
+;
+; Let's try increasing the size of the region:
+what_is_in	382148N	0793109W	60	60
+what_is_in	382148N	0793109W	120	120
+what_is_in	382148N	0793109W	180	180
+;
+; Let's check the buffer pool:
+debug	pool
+; Now let's try a non-square region:
+what_is_in	382957N	0793303W	240	60
+;
+; And another one:
+what_is_in	382957N	0793303W	60	240
+;
+; Exit
+quit	
