@@ -144,16 +144,23 @@ public class GISCommandInvoker {
 	public void run() {
 		int count = 0;
 		for (String cmd : this.commands) {
-			String section = "\n\nCommand " + count++ + ":\t" + cmd + "\n";
-			section += GIS.repeatText('-', section.length() + 1);
-			section += "\n";
+			String title = "Command " + count++ + ":\t" + cmd;
+			StringBuilder section = new StringBuilder();
+			section.append("\n")
+			       .append("\n")
+			       .append(GIS.repeatText('=', title.length() + 3))
+			       .append("\n")
+			       .append(title)
+			       .append("\n")
+			       .append(GIS.repeatText('-', title.length() + 3))
+			       .append("\n")
+			       ;
+			this.logfile.log(section.toString());
 			try {
-				this.logfile.log(section);
 				this.invoke();
 			}
 			catch (Exception e) {
 				System.err.println("Unable to invoke command:\t" + cmd);
-				// System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
 		}

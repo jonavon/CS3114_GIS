@@ -700,7 +700,8 @@ public class prQuadtree<T extends Compare2D<? super T>> {
 	 *          true if last item.
 	 * @return a String containing the printed tree.
 	 */
-	private String print(String descriptor, prQuadNode node, String prefix,
+	@SuppressWarnings("unused")
+  private String print(String descriptor, prQuadNode node, String prefix,
 	    boolean isLast) {
 		return this.print(descriptor, node, prefix, isLast, false);
 	}
