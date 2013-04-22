@@ -63,7 +63,6 @@ public class GISCommandInvoker {
 		 * @throws NoSuchMethodException
 		 * @throws SecurityException
 		 */
-		@SuppressWarnings("unused")
 		public ICommand createCommandObject() throws InstantiationException,
 		    IllegalAccessException, IllegalArgumentException,
 		    InvocationTargetException, NoSuchMethodException, SecurityException {
@@ -152,8 +151,15 @@ public class GISCommandInvoker {
 	    InvocationTargetException {
 		String current = this.commands.poll();
 		String[] tokens = current.split("\\s", 2);
-		ICommand command = Command.valueOf(tokens[0].toUpperCase())
-		    .createCommandObject(tokens[1]);
+		ICommand command;
+		if(tokens.length > 1) {
+			command = Command.valueOf(tokens[0].toUpperCase())
+				.createCommandObject(tokens[1]);
+		}
+		else {
+			command = Command.valueOf(tokens[0].toUpperCase())
+				.createCommandObject();
+		}
 		command.setDatabase(this.database);
 		command.setLogfile(this.logfile);
 		command.execute();
@@ -175,7 +181,7 @@ public class GISCommandInvoker {
 			       .append("\n")
 			       .append(GIS.repeatText('-', title.length() + 3))
 			       .append("\n")
-			       ;
+			;
 			this.logfile.log(section.toString());
 			try {
 				this.invoke();
