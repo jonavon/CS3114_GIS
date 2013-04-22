@@ -13,6 +13,12 @@ public class QuitCommand extends AbstractCommand {
 	//
 	// Constructors
 	//
+
+	/**
+	 * Constructor.
+	 */
+	public QuitCommand() { }
+
 	/**
 	 * Constructor.
 	 * 
