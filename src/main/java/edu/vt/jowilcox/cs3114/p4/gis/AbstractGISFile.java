@@ -37,7 +37,7 @@ public abstract class AbstractGISFile {
 			byte[] b = new byte[(int) (eol - current) - 1];
 			this.file.read(b);
 			this.file.seek(eol);
-			String output = new String(b, "UTF-8");
+			String output = new String(b, "UTF-8").trim();
 			return output;
 		}
 		else {
