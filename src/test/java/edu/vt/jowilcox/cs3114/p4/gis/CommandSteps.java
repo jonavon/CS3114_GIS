@@ -28,7 +28,6 @@ public class CommandSteps {
 	@Given("^a database file$")
 	public void a_database_file() throws Throwable {
 		this.db = new GISDatabaseFile(DB_FILE_PATH);
-		System.out.println(this.db.getFile().getFD().toString());
 	}
 
 	@Given("^the database file exists$")
